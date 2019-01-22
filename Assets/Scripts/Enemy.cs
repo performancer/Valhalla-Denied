@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; //For HealthBar UI
 
 
 //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
@@ -12,6 +13,8 @@ public class Enemy : MovingObject
 
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
     private Transform target;                           //Transform to attempt to move toward each turn.
+
+    public Image hpBar; //Green HpBar
 
     //Start overrides the virtual Start function of the base class.
     protected override void Start()
@@ -56,6 +59,8 @@ public class Enemy : MovingObject
     public override void LoseHits(int dmg)
     {
         base.LoseHits(dmg);
+
+        hpBar.fillAmount = Hits / 100f; //Reduces the green "fill" on the red HpBackground
 
         if (Hits <= 0)
         {
