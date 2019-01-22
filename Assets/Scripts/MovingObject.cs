@@ -5,17 +5,19 @@ using System.Collections;
 //The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
 public abstract class MovingObject : MonoBehaviour
 {
-    public LayerMask blockingLayer;         //Layer on which collision will be checked.
-
     #region Private Fields
     private BoxCollider2D boxCollider;      //The BoxCollider2D component attached to this object.
     private Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
+    private LayerMask blockingLayer;
 
-    private float moveTime = 0.1f; //Time it will take object to move, in seconds.
+    private readonly float moveTime = 0.1f; //Time it will take object to move, in seconds.
     private float inverseMoveTime;          //Used to make movement more efficient.
 
     private DateTime lastMove;
-    private TimeSpan moveDelay; //Delay between movements
+    private TimeSpan moveDelay;             //Delay between movements
+
+    private int hits;
+    private int damage;
     #endregion
 
     #region Properties
@@ -30,32 +32,38 @@ public abstract class MovingObject : MonoBehaviour
         get { return moveDelay; }
         set { moveDelay = value; }
     }
+
+    public int Hits
+    {
+        get { return hits; }
+        set { hits = value; }
+    }
+
+    public int Damage
+    {
+        get { return damage; }
+        set { damage = value; }
+    }
     #endregion
 
-    //Protected, virtual functions can be overridden by inheriting classes.
     protected virtual void Start()
     {
-        //Get a component reference to this object's BoxCollider2D
         boxCollider = GetComponent<BoxCollider2D>();
-
-        //Get a component reference to this object's Rigidbody2D
         rb2D = GetComponent<Rigidbody2D>();
+
+        blockingLayer = LayerMask.GetMask("BlockingLayer");
 
         //By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
         inverseMoveTime = 1f / moveTime;
 
         moveDelay = TimeSpan.FromSeconds(0.8);
+
+        hits = 100;
     }
 
-
-    //Move returns true if it is able to move and false if not. 
-    //Move takes parameters for x direction, y direction and a RaycastHit2D to check collision.
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
     {
-        //Store start position to move from, based on objects current transform position.
         Vector2 start = transform.position;
-
-        // Calculate end position based on the direction parameters passed in when calling Move.
         Vector2 end = start + new Vector2(xDir, yDir);
 
         //Disable the boxCollider so that linecast doesn't hit this object's own collider.
@@ -64,20 +72,15 @@ public abstract class MovingObject : MonoBehaviour
         //Cast a line from start point to end point checking collision on blockingLayer.
         hit = Physics2D.Linecast(start, end, blockingLayer);
 
-        //Re-enable boxCollider after linecast
         boxCollider.enabled = true;
 
-        //Check if anything was hit
         if (hit.transform == null)
         {
             //If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
             StartCoroutine(SmoothMovement(end));
-
-            //Return true to say that Move was successful
             return true;
         }
 
-        //If something was hit, return false, Move was unsuccesful.
         return false;
     }
 
@@ -137,5 +140,10 @@ public abstract class MovingObject : MonoBehaviour
     //OnCantMove will be overriden by functions in the inheriting classes.
     protected abstract void OnCantMove<T>(T component)
         where T : Component;
+
+    public virtual void LoseHits(int dmg)
+    {
+        Hits -= dmg;
+    }
 }
 

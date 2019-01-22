@@ -23,15 +23,15 @@ public class Inventory
     {
         if (Input.GetKeyUp(KeyCode.I))
         {
-            if (!manager.menuIsOpen)
+            if (!manager.paused)
                 Open();
             else
                 Close();
 
             index = 0;
-            manager.menuIsOpen = !manager.menuIsOpen;
+            manager.paused = !manager.paused;
         }
-        else if (manager.menuIsOpen)
+        else if (manager.paused)
         {
             if (Input.GetKeyUp(KeyCode.DownArrow))
             {

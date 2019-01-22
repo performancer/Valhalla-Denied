@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public List<Item> playerItems;
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
-    [HideInInspector] public bool menuIsOpen;
+    [HideInInspector] public bool paused;
 
     private Text levelText;                                 //Text to display current level number.
     private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         //Get a component reference to the attached BoardManager script
         boardScript = GetComponent<BoardManager>();
 
-        menuIsOpen = false;
+        paused = false;
 
         //Call the InitGame function to initialize the first level 
         InitGame();
@@ -108,19 +108,21 @@ public class GameManager : MonoBehaviour
     //Update is called every frame.
     void Update()
     {
-        if (doingSetup)
+        if (doingSetup || paused)
             return;
 
         MoveEnemies();
     }
 
-    //Call this to add the passed in Enemy to the List of Enemy objects.
     public void AddEnemyToList(Enemy script)
     {
-        //Add Enemy to List enemies.
         enemies.Add(script);
     }
 
+    public void RemoveEnemyFromlist(Enemy script)
+    {
+        enemies.Remove(script);
+    }
 
     //GameOver is called when the player reaches 0 food points
     public void GameOver()
