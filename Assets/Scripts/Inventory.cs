@@ -79,7 +79,9 @@ public class Inventory
         Text inventoryText = GameObject.Find("InventoryText").GetComponent<Text>();
         inventoryText.text = "Inventory (" + manager.playerItems.Count + ")";
 
-        Sprite sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+        //Sprite sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+
+        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/menu.png");
         Font font = AssetDatabase.LoadAssetAtPath<Font>("Assets/Fonts/PressStart2P-Regular.ttf");
 
         int width = 300;
