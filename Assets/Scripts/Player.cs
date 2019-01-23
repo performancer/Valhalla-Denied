@@ -17,6 +17,8 @@ public class Player : MovingObject
     public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
     public AudioClip gameOverSound;             //Audio clip to play when player dies.
 
+    public Image playerHpBar; //Player green health bar
+
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
@@ -69,6 +71,9 @@ public class Player : MovingObject
 
         MaxHits = 100;
         Damage = 10;
+
+        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //ensures hp stays the same in the UI between scenes
+        foodText.text = "HP: " + state.Hits;
 
         animator = GetComponent<Animator>();
         inventory = new Inventory(this);
@@ -187,6 +192,8 @@ public class Player : MovingObject
             absorb = (int)(dmg * Armor.Defense / 100.0f);
 
         Hits -= dmg - absorb;
+
+        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 
         animator.SetTrigger("playerHit");
 

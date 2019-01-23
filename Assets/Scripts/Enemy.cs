@@ -61,7 +61,8 @@ public class Enemy : MovingObject
     {
         base.LoseHits(dmg);
 
-        hpBar.fillAmount = Hits / 100f; //Reduces the green "fill" on the red HpBackground
+        hpBar.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+
 
         if (Hits <= 0)
         {
