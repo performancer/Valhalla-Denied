@@ -16,7 +16,7 @@ public abstract class MovingObject : MonoBehaviour
     private DateTime lastMove;
     private TimeSpan moveDelay;             //Delay between movements
 
-    private int hits;
+    private int maxHits, hits;
     private int damage;
     #endregion
 
@@ -33,7 +33,13 @@ public abstract class MovingObject : MonoBehaviour
         set { moveDelay = value; }
     }
 
-    public int Hits
+    public virtual int MaxHits
+    {
+        get { return maxHits; }
+        set { maxHits = value; }
+    }
+
+    public virtual int Hits
     {
         get { return hits; }
         set { hits = value; }
@@ -57,8 +63,6 @@ public abstract class MovingObject : MonoBehaviour
         inverseMoveTime = 1f / moveTime;
 
         moveDelay = TimeSpan.FromSeconds(0.8);
-
-        hits = 100;
     }
 
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)

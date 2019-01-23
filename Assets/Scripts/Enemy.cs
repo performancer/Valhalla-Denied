@@ -19,8 +19,7 @@ public class Enemy : MovingObject
     //Start overrides the virtual Start function of the base class.
     protected override void Start()
     {
-        base.Start();
-
+        MaxHits = Hits = 100;
         Damage = PlayerDamage;
 
         GameManager.instance.AddEnemyToList(this);
@@ -28,6 +27,8 @@ public class Enemy : MovingObject
         animator = GetComponent<Animator>();
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        base.Start();
     }
 
     public void MoveEnemy()

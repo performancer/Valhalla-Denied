@@ -11,6 +11,11 @@ public class Item
         this.name = name;
     }
 
+    public virtual bool Use(Player player)
+    {
+        return false;
+    }
+
     public override string ToString()
     {
         return name;

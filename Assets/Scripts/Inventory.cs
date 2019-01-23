@@ -6,12 +6,16 @@ using UnityEditor;
 
 public class Inventory
 {
+    private Player player;
+
     private GameManager manager;
     private GameObject ui;
     private int index;
 
-    public Inventory()
+    public Inventory(Player player)
     {
+        this.player = player;
+
         manager = GameManager.instance;
 
         this.ui = GameObject.Find("Inventory");
@@ -35,7 +39,7 @@ public class Inventory
         {
             if (Input.GetKeyUp(KeyCode.DownArrow))
             {
-                if (++index > manager.playerItems.Count - 1)
+                if (++index > player.Items.Count - 1)
                     index = 0;
 
                 Refresh();
@@ -43,25 +47,26 @@ public class Inventory
             else if (Input.GetKeyUp(KeyCode.UpArrow))
             {
                 if (--index < 0)
-                    index = manager.playerItems.Count - 1;
+                    index = player.Items.Count - 1;
 
                 Refresh();
             }
             else if (Input.GetKeyUp(KeyCode.U))
             {
-                //TODO: use item
+                if (index < player.Items.Count)
+                {
+                    Item item = player.Items[index];
+
+                    if (item.Use(player))
+                        RemoveItem(item);
+                    else
+                        Refresh();
+                }
             }
             else if (Input.GetKeyUp(KeyCode.D))
             {
-                if (index < manager.playerItems.Count)
-                {
-                    manager.playerItems.Remove(manager.playerItems[index]);
-
-                    if (--index < 0)
-                        index = 0;
-                    
-                    Refresh();
-                }
+                if (index < player.Items.Count)
+                    RemoveItem(player.Items[index]);
             }
         }
     }
@@ -72,12 +77,27 @@ public class Inventory
         Open();
     }
 
+    private void RemoveItem(Item item)
+    {
+        if (item == player.Armor)
+            player.Armor = null;
+        else if (item == player.Weapon)
+            player.Weapon = null;
+
+        player.Items.Remove(item);
+
+        if (--index < 0)
+            index = 0;
+
+        Refresh();
+    }
+
     private void Open()
     {
         ui.SetActive(true);
 
         Text inventoryText = GameObject.Find("InventoryText").GetComponent<Text>();
-        inventoryText.text = "Inventory (" + manager.playerItems.Count + ")";
+        inventoryText.text = "Inventory (" + player.Items.Count + ")";
 
         //Sprite sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
 
@@ -87,8 +107,10 @@ public class Inventory
         int width = 300;
         int height = 50;
 
-        for (int i = 0; i < manager.playerItems.Count; i++)
+        for (int i = 0; i < player.Items.Count; i++)
         {
+            Item item = player.Items[i];
+
             int x = index == i ? 0 : -25;
             int y = -(60 + i * 50);
 
@@ -108,7 +130,13 @@ public class Inventory
 
             Text text = textGO.GetComponent<Text>();
             text.font = font;
-            text.text = manager.playerItems[i].ToString();
+
+            string name = item.ToString();
+
+            if (item == player.Armor || item == player.Weapon)
+                name += " (E)";
+
+            text.text = name;
             text.fontSize = 24;
             text.alignment = TextAnchor.MiddleCenter;
             text.color = Color.black;
@@ -130,8 +158,6 @@ public class Inventory
         int childs = ui.transform.childCount;
 
         for (int i = childs - 1; i > 0; i--)
-        {
             GameObject.Destroy(ui.transform.GetChild(i).gameObject);
-        }
     }
 }

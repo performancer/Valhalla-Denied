@@ -1,15 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;	//Allows us to use UI.
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-//Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 public class Player : MovingObject
 {
     public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
-    public int pointsPerFood = 10;              //Number of points to add to player food points when picking up a food object.
-    public int pointsPerSoda = 20;              //Number of points to add to player food points when picking up a soda object.
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
     public Text foodText;                       //UI Text to display current player food total.
     public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
@@ -20,35 +17,65 @@ public class Player : MovingObject
     public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
     public AudioClip gameOverSound;             //Audio clip to play when player dies.
 
-    private Animator animator;                  //Used to store a reference to the Player's animator component.
-    private int food;                           //Used to store player food points total during level.
-
-    //new variables
+    #region Private Fields
+    private Animator animator;                  //Used to store a reference to the Player's animator component. 
+    private PlayerState state;
     private Inventory inventory;
+    #endregion
+
+    #region Properties
+    public override int Hits
+    {
+        get { return state.Hits; }
+        set
+        {
+            state.Hits = value;
+
+            if (state.Hits > MaxHits)
+                state.Hits = MaxHits;
+
+            foodText.text = "HP: " + Hits;
+        }
+    }
+
+    public int Gold
+    {
+        get { return state.Gold; }
+        set { state.Gold = value; }
+    }
+
+    public List<Item> Items
+    {
+        get { return state.Items; }
+    }
+
+    public Armor Armor
+    {
+        get { return state.Armor; }
+        set { state.Armor = value; }
+    }
+
+    public Weapon Weapon
+    {
+        get { return state.Weapon; }
+        set { state.Weapon = value; }
+    }
+    #endregion
 
     //Start overrides the Start function of MovingObject
     protected override void Start()
     {
-        base.Start();
+        state = GameManager.instance.PlayerState;
 
-        Damage = 50;
+        MaxHits = 100;
+        Damage = 10;
 
         animator = GetComponent<Animator>();
+        inventory = new Inventory(this);
 
-        food = GameManager.instance.playerFoodPoints;
-        foodText.text = "HP: " + Hits;
-
-        inventory = new Inventory();
+        base.Start();
 
         MoveDelay = TimeSpan.FromSeconds(0.3);
-    }
-
-
-    //This function is called when the behaviour becomes disabled or inactive.
-    private void OnDisable()
-    {
-        //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-        GameManager.instance.playerFoodPoints = food;
     }
 
     private void Update()
@@ -114,7 +141,12 @@ public class Player : MovingObject
         {
             Enemy enemy = component as Enemy;
 
-            enemy.LoseHits(Damage);
+            int damage = Damage;
+
+            if (Weapon != null)
+                damage += Weapon.Damage;
+
+            enemy.LoseHits(damage);
 
             animator.SetTrigger("playerChop");
         }
@@ -131,16 +163,15 @@ public class Player : MovingObject
         else if (other.tag == "Food")
         {
             other.gameObject.SetActive(false);
-            GameManager.instance.playerItems.Add(new Item("Apple"));
+            state.Items.Add(new Food("Apple", 10));
         }
         else if (other.tag == "Soda")
         {
             other.gameObject.SetActive(false);
-            GameManager.instance.playerItems.Add(new Item("Soda"));
+            state.Items.Add(new Food("Soda", 10));
         }
     }
 
-    //Restart reloads the scene when called.
     private void Restart()
     {
         //Load the last scene loaded, in this case Main, the only scene in the game. And we load it in "Single" mode so it replace the existing one
@@ -150,10 +181,14 @@ public class Player : MovingObject
 
     public override void LoseHits(int dmg)
     {
-        base.LoseHits(dmg);
+        int absorb = 0;
+
+        if (Armor != null)
+            absorb = (int)(dmg * Armor.Defense / 100.0f);
+
+        Hits -= dmg - absorb;
 
         animator.SetTrigger("playerHit");
-        foodText.text = "HP: " + Hits;
 
         CheckIfGameOver();
     }

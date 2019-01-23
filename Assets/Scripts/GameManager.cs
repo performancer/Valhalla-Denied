@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
 {
     public float levelStartDelay = 2f;                      //Time to wait before starting level, in seconds.
     public float turnDelay = 0.1f;                          //Delay between each Player turn.
-    public int playerFoodPoints = 100;                      //Starting value for Player food points.
-    public List<Item> playerItems;
+
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
     [HideInInspector] public bool paused;
+
+    private PlayerState playerState;
 
     private Text levelText;                                 //Text to display current level number.
     private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     private int level = 1;                                  //Current level number, expressed in game as "Day 1".
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
+
+    public PlayerState PlayerState { get { return playerState; } }
 
     //Awake is always called before any Start functions
     void Awake()
@@ -34,9 +37,7 @@ public class GameManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        playerItems = new List<Item>();
-
-        //Assign enemies to a new List of Enemy objects.
+        playerState = new PlayerState();
         enemies = new List<Enemy>();
 
         //Get a component reference to the attached BoardManager script
