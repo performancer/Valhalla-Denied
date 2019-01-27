@@ -19,6 +19,11 @@ public class Player : MovingObject
 
     public Image playerHpBar; //Player green health bar
 
+    public GameObject floatingDamageNumber; //Player floating damage number
+
+    //testataan
+    //public Transform testi = MovingObject;
+
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
@@ -154,6 +159,7 @@ public class Player : MovingObject
             enemy.LoseHits(damage);
 
             animator.SetTrigger("playerChop");
+
         }
     }
 
@@ -194,6 +200,9 @@ public class Player : MovingObject
         Hits -= dmg - absorb;
 
         playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+
+        var clone = (GameObject)Instantiate(floatingDamageNumber, transform.position, Quaternion.Euler(Vector3.zero)); // Floating damage stuff
+        clone.GetComponent<FloatingDamageNumbers>().damageNumber = dmg - absorb;
 
         animator.SetTrigger("playerHit");
 
