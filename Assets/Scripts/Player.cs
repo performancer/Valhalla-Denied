@@ -36,7 +36,7 @@ public class Player : MovingObject
             if (state.Hits > MaxHits)
                 state.Hits = MaxHits;
 
-            foodText.text = "HP: " + Hits;
+            foodText.text = Hits + "/" + MaxHits;
         }
     }
 
@@ -73,7 +73,7 @@ public class Player : MovingObject
         Damage = 10;
 
         playerHpBar.fillAmount = state.Hits / (float)MaxHits; //ensures hp stays the same in the UI between scenes
-        foodText.text = "HP: " + state.Hits;
+        foodText.text = Hits + "/" + MaxHits;
 
         animator = GetComponent<Animator>();
         inventory = new Inventory(this);

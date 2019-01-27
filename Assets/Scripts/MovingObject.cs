@@ -133,10 +133,7 @@ public abstract class MovingObject : MonoBehaviour
 
         //If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
         if (!canMove && hitComponent != null)
-        {
-            Debug.Log(hit.transform);
             OnCantMove(hitComponent);
-        }
     }
 
 
