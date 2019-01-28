@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Item
 {
+    private int id;
     private string name;
 
-    public Item(string name)
+    public int ID { get { return id; } }
+
+    public Item(int id, string name)
     {
+        this.id = id;
         this.name = name;
     }
 

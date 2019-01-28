@@ -8,7 +8,7 @@ public class Armor : Item
 
     public int Defense { get { return defense; } }
 
-    public Armor(string name, int defense) : base(name)
+    public Armor(int id, string name, int defense) : base(id, name)
     {
         this.defense = defense;
     }

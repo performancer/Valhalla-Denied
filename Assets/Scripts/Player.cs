@@ -21,6 +21,8 @@ public class Player : MovingObject
 
     public GameObject floatingDamageNumber; //Player floating damage number
 
+    public const int MaxInventory = 20;
+
     //testataan
     //public Transform testi = MovingObject;
 
@@ -174,12 +176,12 @@ public class Player : MovingObject
         else if (other.tag == "Food")
         {
             other.gameObject.SetActive(false);
-            state.Items.Add(new Food("Apple", 10));
+            state.Items.Add(new Food(1, "Apple", 10));
         }
         else if (other.tag == "Soda")
         {
             other.gameObject.SetActive(false);
-            state.Items.Add(new Food("Soda", 10));
+            state.Items.Add(new Food( 0, "Soda", 10));
         }
     }
 

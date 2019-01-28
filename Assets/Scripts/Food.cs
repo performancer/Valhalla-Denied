@@ -6,7 +6,7 @@ public class Food : Item
 {
     int health;
 
-    public Food (string name, int health) : base(name)
+    public Food (int id, string name, int health) : base(id, name)
     {
         this.health = health;
     }

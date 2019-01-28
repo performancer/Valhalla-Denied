@@ -8,7 +8,7 @@ public class Weapon : Item
 
     public int Damage { get { return damage; } }
 
-    public Weapon(string name, int damage) : base(name)
+    public Weapon(int id, string name, int damage) : base(id, name)
     {
         this.damage = damage;
     }

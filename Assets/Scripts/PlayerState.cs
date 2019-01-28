@@ -47,7 +47,8 @@ public class PlayerState
 
         items = new List<Item>();
 
-        items.Add(new Armor("Iron Helmet", 10));
-        items.Add(new Weapon("Bastard Sword", 20));
+        items.Add(new Armor(1, "Iron Helmet", 10));
+        items.Add(new Weapon(1, "Bastard Sword", 20));
+
     }
 }
