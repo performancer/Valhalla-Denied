@@ -21,11 +21,6 @@ public class Player : MovingObject
 
     public GameObject floatingDamageNumber; //Player floating damage number
 
-    public const int MaxInventory = 20;
-
-    //testataan
-    //public Transform testi = MovingObject;
-
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
@@ -169,12 +164,12 @@ public class Player : MovingObject
         else if (other.tag == "Food")
         {
             other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food(1, "Apple", 10));
+            state.Inventory.AddItem(new Food(20, "Apple", 10));
         }
         else if (other.tag == "Soda")
         {
             other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food( 0, "Soda", 10));
+            state.Inventory.AddItem(new Food( 19, "Soda", 10));
         }
     }
 

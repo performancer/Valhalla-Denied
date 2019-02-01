@@ -63,7 +63,6 @@ public class Enemy : MovingObject
 
         hpBar.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 
-
         if (Hits <= 0)
         {
             GameManager.instance.RemoveEnemyFromlist(this);

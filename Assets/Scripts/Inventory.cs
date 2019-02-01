@@ -13,11 +13,9 @@ public class Inventory
     private PlayerState state;
     private List<Item> items;
     private List<GameObject> imageObjects;
-    private Text selectedText;
+    private Text inventoryText, selectedText;
     private int selected;
-
-    private Sprite blockSprite;
-    private Sprite[] itemSprites;
+    private const int capacity = 20;
     #endregion
 
     public Inventory(PlayerState ps)
@@ -29,14 +27,6 @@ public class Inventory
 
         ui = GameObject.Find("Inventory");
         ui.SetActive(false);
-
-        UnityEngine.Object[] spriteSheet = AssetDatabase.LoadAllAssetsAtPath("Assets/Sprites/Scavengers_SpriteSheet.png");
-
-        itemSprites = new Sprite[2];
-        itemSprites[0] = (Sprite)spriteSheet[19];
-        itemSprites[1] = (Sprite)spriteSheet[20];
-
-        blockSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/woodenmenu.png");
     }
 
     public void Update(Player player)
@@ -55,7 +45,7 @@ public class Inventory
         {
             if (Input.GetKeyUp(KeyCode.DownArrow))
             {
-                if (++selected > Player.MaxInventory - 1)
+                if (++selected > capacity - 1)
                     selected = 0;
 
                 RefreshText();
@@ -65,7 +55,7 @@ public class Inventory
             else if (Input.GetKeyUp(KeyCode.UpArrow))
             {
                 if (--selected < 0)
-                    selected = Player.MaxInventory - 1;
+                    selected = capacity - 1;
 
                 RefreshText();
 
@@ -74,7 +64,11 @@ public class Inventory
             else if (Input.GetKeyUp(KeyCode.U))
             {
                 if (selected < items.Count)
+                {
                     items[selected].Use(player);
+                    RefreshText();
+                }
+
             }
             else if (Input.GetKeyUp(KeyCode.D))
             {
@@ -88,7 +82,7 @@ public class Inventory
 
     public bool AddItem(Item item)
     {
-        if (items.Count >= 20)
+        if (items.Count >= capacity)
             return false;
 
         items.Add(item);
@@ -176,7 +170,7 @@ public class Inventory
     private Vector3 GetPosition(int i, int offset)
     {
         int slot = i - selected;
-        float points = Player.MaxInventory;
+        float points = capacity;
 
         double angle = ( slot - (offset / 10f))/ points * 2 * Math.PI;
         angle += Math.PI / 2; //The currently selected item should be in the center of right side
@@ -186,7 +180,7 @@ public class Inventory
         int x = (int)(Math.Sin(angle) * radius);
         int y = (int)(Math.Cos(angle) * radius);
 
-        return new Vector3(x - 50, y - (300 + radius), 0);
+        return new Vector3(x, y - (250 + radius), 0);
     }
 
     private void Open()
@@ -197,37 +191,22 @@ public class Inventory
         ui.SetActive(true);
         imageObjects = new List<GameObject>();
 
-        Text inventoryText = GameObject.Find("InventoryText").GetComponent<Text>();
-        inventoryText.text = "Inventory " + items.Count + "/" + Player.MaxInventory;
-
-        Font font = AssetDatabase.LoadAssetAtPath<Font>("Assets/Fonts/PressStart2P-Regular.ttf");
-
-        for (int i = 0; i < Player.MaxInventory; i++)
+        for (int i = 0; i < capacity; i++)
             AddBlock();
 
-        //This is the text for the selected item
-        GameObject textGO = new GameObject();
-        textGO.transform.SetParent(ui.transform);
-        textGO.AddComponent<Text>();
-
-        Text text = textGO.GetComponent<Text>();
-        text.font = font;
-        text.fontSize = 22;
-        text.alignment = TextAnchor.MiddleLeft;
-        text.color = Color.white;
-        text.horizontalOverflow = HorizontalWrapMode.Overflow;
-        text.verticalOverflow = VerticalWrapMode.Overflow;
-        selectedText = text;
+        inventoryText = SpriteManager.CreateText(ui.transform, 22, new Vector3(70, -200, 0), false);
+        inventoryText.text = "INVENTORY " + items.Count + "/" + capacity;
 
         Vector3 position = GetPosition(0);
-        RectTransform textTransform = text.GetComponent<RectTransform>();
-        textTransform.localPosition = new Vector3(position.x + 140, position.y + 30, 0);
+        selectedText = SpriteManager.CreateText(ui.transform, 22, new Vector3(position.x + 100, position.y, 0), false);
 
         RefreshText();
     }
 
     private void AddBlock()
     {
+        SpriteManager sprites = GameManager.instance.SpriteManager;
+
         GameObject go = new GameObject();
         go.transform.SetParent(ui.transform);
         go.AddComponent<Image>();
@@ -236,43 +215,21 @@ public class Inventory
         int i = imageObjects.IndexOf(go);
 
         Image image = go.GetComponent<Image>();
-        image.sprite = blockSprite;
+        image.sprite = sprites.GetBlockSprite();
 
         RectTransform rectTransform = image.GetComponent<RectTransform>();
-        rectTransform.anchorMin = new Vector2(0, 1);
-        rectTransform.anchorMax = new Vector2(0, 1);
-        rectTransform.pivot = new Vector2(0, 0);
         rectTransform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
         rectTransform.localPosition = GetPosition(i);
 
         if (i < items.Count)
-        {
-            Item item = items[i];
-
-            GameObject child = new GameObject();
-            child.transform.SetParent(go.transform);
-            child.AddComponent<Image>();
-
-            Image thumbnail = child.GetComponent<Image>();
-            thumbnail.sprite = itemSprites[item.ID];
-
-            RectTransform thumbform = thumbnail.GetComponent<RectTransform>();
-            thumbform.localPosition = new Vector3(50, 50, 0);
-            thumbform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-        }
+            SpriteManager.CreateImage(go.transform, sprites.GetSprite(items[i].ID));
         else
-        {
             image.color = Color.grey;
-        }
     }
 
     private void Close()
     {
         ui.SetActive(false);
-
-        int childs = ui.transform.childCount;
-
-        for (int i = childs - 1; i > 0; i--)
-            GameObject.Destroy(ui.transform.GetChild(i).gameObject);
+        ui.transform.DestroyChildren();
     }
 }

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
     [HideInInspector] public bool paused;
 
+    private SpriteManager spriteManager;
     private PlayerState playerState;
 
     private Text levelText;                                 //Text to display current level number.
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
 
+    public SpriteManager SpriteManager { get { return spriteManager; } }
     public PlayerState PlayerState { get { return playerState; } }
 
     //Awake is always called before any Start functions
@@ -42,12 +44,13 @@ public class GameManager : MonoBehaviour
         //Get a component reference to the attached BoardManager script
         boardScript = GetComponent<BoardManager>();
 
-        paused = false;
-
+        spriteManager = new SpriteManager();
         playerState = new PlayerState();
 
-        playerState.Inventory.AddItem(new Armor(1, "Iron Helmet", 10));
-        playerState.Inventory.AddItem(new Weapon(1, "Bastard Sword", 20));
+        playerState.Inventory.AddItem(new Armor(1, "Iron Helmet", 5));
+        playerState.Inventory.AddItem(new Weapon(1, "Bastard Sword", 5));
+
+        paused = false;
 
         //Call the InitGame function to initialize the first level 
         InitGame();
