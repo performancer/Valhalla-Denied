@@ -13,9 +13,12 @@ public class Armor : Item
         this.defense = defense;
     }
 
-    public override bool Use(Player player)
+    public override void Use(MovingObject from)
     {
-        player.Armor = this;
-        return false;
+        if (from is Player)
+        {
+            Player player = from as Player;
+            player.Armor = this;
+        }
     }
 }

@@ -37,13 +37,17 @@ public class GameManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        playerState = new PlayerState();
         enemies = new List<Enemy>();
 
         //Get a component reference to the attached BoardManager script
         boardScript = GetComponent<BoardManager>();
 
         paused = false;
+
+        playerState = new PlayerState();
+
+        playerState.Inventory.AddItem(new Armor(1, "Iron Helmet", 10));
+        playerState.Inventory.AddItem(new Weapon(1, "Bastard Sword", 20));
 
         //Call the InitGame function to initialize the first level 
         InitGame();

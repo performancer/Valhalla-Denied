@@ -11,13 +11,14 @@ public class Food : Item
         this.health = health;
     }
 
-    public override bool Use(Player player)
+    public override void Use(MovingObject from)
     {
         //Cannot eat food if HP is full
-        if (player.Hits >= player.MaxHits)
-            return false;
+        if (from.Hits >= from.MaxHits)
+            return;
 
-        player.Hits += health;
-        return true;
+        from.Hits += health;
+
+        Remove();
     }
 }

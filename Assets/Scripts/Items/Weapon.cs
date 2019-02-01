@@ -13,9 +13,12 @@ public class Weapon : Item
         this.damage = damage;
     }
 
-    public override bool Use(Player player)
+    public override void Use(MovingObject from)
     {
-        player.Weapon = this;
-        return false;
+        if (from is Player)
+        {
+            Player player = from as Player;
+            player.Weapon = this;
+        }
     }
 }

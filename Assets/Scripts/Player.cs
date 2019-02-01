@@ -29,7 +29,6 @@ public class Player : MovingObject
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
-    private Inventory inventory;
     #endregion
 
     #region Properties
@@ -51,11 +50,6 @@ public class Player : MovingObject
     {
         get { return state.Gold; }
         set { state.Gold = value; }
-    }
-
-    public List<Item> Items
-    {
-        get { return state.Items; }
     }
 
     public Armor Armor
@@ -83,7 +77,6 @@ public class Player : MovingObject
         foodText.text = Hits + "/" + MaxHits;
 
         animator = GetComponent<Animator>();
-        inventory = new Inventory(this);
 
         base.Start();
 
@@ -95,7 +88,7 @@ public class Player : MovingObject
         if (LastMove + MoveDelay > DateTime.Now)
             return;
 
-        inventory.Update();
+        state.Inventory.Update(this);
 
         if (GameManager.instance.paused)
             return;
@@ -176,12 +169,12 @@ public class Player : MovingObject
         else if (other.tag == "Food")
         {
             other.gameObject.SetActive(false);
-            state.Items.Add(new Food(1, "Apple", 10));
+            state.Inventory.AddItem(new Food(1, "Apple", 10));
         }
         else if (other.tag == "Soda")
         {
             other.gameObject.SetActive(false);
-            state.Items.Add(new Food( 0, "Soda", 10));
+            state.Inventory.AddItem(new Food( 0, "Soda", 10));
         }
     }
 

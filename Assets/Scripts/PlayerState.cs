@@ -7,7 +7,7 @@ public class PlayerState
     private int hits;
     private int gold;
 
-    private List<Item> items;
+    private Inventory inventory;
     private Armor armor;
     private Weapon weapon;
 
@@ -22,10 +22,9 @@ public class PlayerState
         set { gold = value; }
     }
 
-    public List<Item> Items
+    public Inventory Inventory
     {
-        get { return items; }
-        set { items = value; }
+        get { return inventory; }
     }
 
     public Armor Armor
@@ -45,10 +44,6 @@ public class PlayerState
         hits = 100;
         gold = 0;
 
-        items = new List<Item>();
-
-        items.Add(new Armor(1, "Iron Helmet", 10));
-        items.Add(new Weapon(1, "Bastard Sword", 20));
-
+        inventory = new Inventory(this);
     }
 }

@@ -15,13 +15,19 @@ public class Item
         this.name = name;
     }
 
-    public virtual bool Use(Player player)
+    public virtual void Use(MovingObject from)
     {
-        return false;
+    }
+
+    public virtual void Remove()
+    {
+        Inventory inventory = GameManager.instance.PlayerState.Inventory;
+
+        inventory.RemoveItem(this);
     }
 
     public override string ToString()
     {
         return name;
-    }
+    } 
 }
