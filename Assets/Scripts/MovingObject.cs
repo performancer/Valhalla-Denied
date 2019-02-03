@@ -105,13 +105,19 @@ public abstract class MovingObject : MonoBehaviour
             boxCollider.offset = end - newPosition;
             //Call MovePosition on attached Rigidbody2D and move it to the calculated position.
             rb2D.MovePosition(newPosition);
-           
+
+            OnMovement();
+
             //Recalculate the remaining distance after moving.
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
             //Return and loop until sqrRemainingDistance is close enough to zero to end the function
             yield return null;
         }
+    }
+
+    protected virtual void OnMovement()
+    {
     }
 
     //The virtual keyword means AttemptMove can be overridden by inheriting classes using the override keyword.

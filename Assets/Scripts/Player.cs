@@ -76,6 +76,8 @@ public class Player : MovingObject
         base.Start();
 
         MoveDelay = TimeSpan.FromSeconds(0.3);
+
+        UpdateCamera();
     }
 
     private void Update()
@@ -207,6 +209,20 @@ public class Player : MovingObject
             SoundManager.instance.musicSource.Stop();
             GameManager.instance.GameOver();
         }
+    }
+
+    protected override void OnMovement()
+    {
+        UpdateCamera();
+    }
+
+    public void UpdateCamera()
+    {
+        GameObject camera = GameObject.Find("Main Camera");
+        Transform transform = camera.transform;
+
+        Vector3 position = this.transform.position;
+        transform.position = new Vector3(position.x, position.y, -10);
     }
 }
 
