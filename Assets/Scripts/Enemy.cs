@@ -14,7 +14,7 @@ public class Enemy : MovingObject
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
     private Transform target;                           //Transform to attempt to move toward each turn.
 
-    public Image hpBar; //Green HpBar
+    public HpBar hpBar2; //public koska EnemyPrefab
 
     //Start overrides the virtual Start function of the base class.
     protected override void Start()
@@ -61,10 +61,11 @@ public class Enemy : MovingObject
     {
         base.LoseHits(dmg);
 
-        hpBar.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+        hpBar2.HpBarFilled.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 
         if (Hits <= 0)
         {
+            hpBar2.DestroyBar();
             GameManager.instance.RemoveEnemyFromlist(this);
             Destroy(gameObject);
         }
