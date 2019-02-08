@@ -19,10 +19,7 @@ public class Player : MovingObject
 
     public Image playerHpBar; //Player green health bar
 
-    public GameObject floatingDamageNumber; //Player floating damage number
-
-    public GameObject floatingNumberPreFab; //Player floating damage number 2.0
-
+    private Food food;
 
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
@@ -71,9 +68,7 @@ public class Player : MovingObject
         MaxHits = 100;
         Damage = 10;
 
-
-        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //ensures hp stays the same in the UI between scenes
-        foodText.text = Hits + "/" + MaxHits;
+        UpdatePlayerHealthBar();
 
         animator = GetComponent<Animator>();
 
@@ -195,21 +190,10 @@ public class Player : MovingObject
 
         Hits -= dmg - absorb;
 
-        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
-
-        //var clone = (GameObject)Instantiate(floatingDamageNumber, transform.localPosition, Quaternion.Euler(Vector3.zero)); // Floating damage stuff
-        //clone.GetComponent<FloatingDamageNumbers>().damageNumber = dmg - absorb;
-
+        UpdatePlayerHealthBar();
+   
+        CreateFloatingText(dmg - absorb, Color.yellow);
         
-        var playerNumberInstance = Instantiate(floatingNumberPreFab, transform.localPosition, Quaternion.Euler(Vector3.zero));
-        playerNumberInstance.transform.SetParent(GameObject.Find("TheCanvas").transform);
-
-        playerNumberInstance.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-        playerNumberInstance.GetComponent<FloatingNumbers>().numberToDisplay = dmg - absorb;
-        playerNumberInstance.GetComponent<FloatingNumbers>().setColor(0, 0, 255);
-        
-        
-
         animator.SetTrigger("playerHit");
 
         CheckIfGameOver();
@@ -238,6 +222,14 @@ public class Player : MovingObject
         Vector3 position = this.transform.position;
         transform.position = new Vector3(position.x, position.y, -10);
     }
+
+    private void UpdatePlayerHealthBar()
+    {
+        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+        foodText.text = Hits + "/" + MaxHits;
+    }
+
+
 }
 
 

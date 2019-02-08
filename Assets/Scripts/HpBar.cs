@@ -10,7 +10,6 @@ public class HpBar : MonoBehaviour
     public Image HpBarBackground; //Private?
     public Image HpBarFilled; //Private?
 
-    //Muutoksia
 
     // Start is called before the first frame update
     void Start()

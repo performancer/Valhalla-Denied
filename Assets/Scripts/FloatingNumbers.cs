@@ -15,26 +15,20 @@ public class FloatingNumbers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
- 
+        FloatingNumberPreFab = (GameObject)Resources.Load("FloatingNumbers");
     }
 
-    
-    public void setColor(int red, int green, int blue)
+    public void setColor(Color color)
     {
-        FloatingNumberText.color = new Color(red, green, blue);
+        FloatingNumberText.color = color;
     }
     
-
     // Update is called once per frame
     void Update()
     {
-
-
         FloatingNumberText.text = "" + numberToDisplay;
 
         transform.position = new Vector3(transform.position.x, transform.position.y + TextSpeed * Time.deltaTime, transform.position.z); //teksti menee ylös textSpeedin mukaan
-
-        // FloatingNumberText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(transform.position.x, transform.position.y + TextSpeed * Time.deltaTime, transform.position.z));
 
         timeToDestroy -= Time.deltaTime;
 
@@ -42,7 +36,6 @@ public class FloatingNumbers : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-
     }
+
 }

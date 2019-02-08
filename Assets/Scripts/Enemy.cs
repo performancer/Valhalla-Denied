@@ -16,7 +16,6 @@ public class Enemy : MovingObject
 
     public HpBar hpBar2; //public koska EnemyPrefab
 
-    public GameObject enemyFloatingNumberPreFab;
     //Start overrides the virtual Start function of the base class.
     protected override void Start()
     {
@@ -67,7 +66,7 @@ public class Enemy : MovingObject
 
         hpBar2.HpBarFilled.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 
-        CreateFloatingText(dmg);
+        CreateFloatingText(dmg, Color.red);
 
         if (Hits <= 0)
         {
@@ -76,19 +75,7 @@ public class Enemy : MovingObject
             Destroy(gameObject);
         }
     }
-
-    void CreateFloatingText(int damageTaken)
-    {
-        var klooni2 = Instantiate(enemyFloatingNumberPreFab, transform.position, Quaternion.Euler(Vector3.zero));
-        klooni2.transform.SetParent(GameObject.Find("TheCanvas").transform);
-
-        Debug.Log(this.transform.position);
-
-        klooni2.transform.localPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        klooni2.GetComponent<FloatingNumbers>().numberToDisplay = damageTaken;
-        klooni2.GetComponent<FloatingNumbers>().setColor(255, 0, 0);
-    }
-
+ 
 }
 
 

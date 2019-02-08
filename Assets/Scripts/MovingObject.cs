@@ -18,6 +18,9 @@ public abstract class MovingObject : MonoBehaviour
 
     private int maxHits, hits;
     private int damage;
+
+    private GameObject FloatingNumberPreFab;
+
     #endregion
 
     #region Properties
@@ -54,6 +57,8 @@ public abstract class MovingObject : MonoBehaviour
 
     protected virtual void Start()
     {
+        FloatingNumberPreFab = (GameObject)Resources.Load("FloatingNumbers");
+
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
 
@@ -152,5 +157,18 @@ public abstract class MovingObject : MonoBehaviour
     {
         Hits -= dmg;
     }
+    
+   public void CreateFloatingText(int damageTaken, Color color)
+    {
+        var clone = Instantiate(FloatingNumberPreFab, transform.position, Quaternion.Euler(Vector3.zero));
+        clone.transform.SetParent(GameObject.Find("TheCanvas").transform);
+
+        clone.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0, 0));
+
+        clone.GetComponent<FloatingNumbers>().numberToDisplay = damageTaken;
+        clone.GetComponent<FloatingNumbers>().setColor(color);
+    }
+    
+
 }
 
