@@ -21,6 +21,9 @@ public class Player : MovingObject
 
     public GameObject floatingDamageNumber; //Player floating damage number
 
+    public GameObject floatingNumberPreFab; //Player floating damage number 2.0
+
+
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
@@ -67,6 +70,7 @@ public class Player : MovingObject
 
         MaxHits = 100;
         Damage = 10;
+
 
         playerHpBar.fillAmount = state.Hits / (float)MaxHits; //ensures hp stays the same in the UI between scenes
         foodText.text = Hits + "/" + MaxHits;
@@ -121,7 +125,7 @@ public class Player : MovingObject
         }
 
         //Since the player has moved and lost food points, check if the game has ended.
-        CheckIfGameOver();   
+        CheckIfGameOver();
     }
 
     //OnCantMove overrides the abstract function OnCantMove in MovingObject.
@@ -171,7 +175,7 @@ public class Player : MovingObject
         else if (other.tag == "Soda")
         {
             other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food( 19, "Soda", 10));
+            state.Inventory.AddItem(new Food(19, "Soda", 10));
         }
     }
 
@@ -193,8 +197,18 @@ public class Player : MovingObject
 
         playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 
-        var clone = (GameObject)Instantiate(floatingDamageNumber, transform.position, Quaternion.Euler(Vector3.zero)); // Floating damage stuff
-        clone.GetComponent<FloatingDamageNumbers>().damageNumber = dmg - absorb;
+        //var clone = (GameObject)Instantiate(floatingDamageNumber, transform.localPosition, Quaternion.Euler(Vector3.zero)); // Floating damage stuff
+        //clone.GetComponent<FloatingDamageNumbers>().damageNumber = dmg - absorb;
+
+        
+        var playerNumberInstance = Instantiate(floatingNumberPreFab, transform.localPosition, Quaternion.Euler(Vector3.zero));
+        playerNumberInstance.transform.SetParent(GameObject.Find("TheCanvas").transform);
+
+        playerNumberInstance.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+        playerNumberInstance.GetComponent<FloatingNumbers>().numberToDisplay = dmg - absorb;
+        playerNumberInstance.GetComponent<FloatingNumbers>().setColor(0, 0, 255);
+        
+        
 
         animator.SetTrigger("playerHit");
 

@@ -166,6 +166,8 @@ MonoBehaviour:
   AttackSound1: {fileID: 8300000, guid: 0db8cac2749584a009540aa5671ee80d, type: 3}
   AttackSound2: {fileID: 8300000, guid: 114514a3b3697484ebaa08f7fbf842d3, type: 3}
   hpBar2: {fileID: 9018423148920154901}
+  enemyFloatingNumberPreFab: {fileID: 6450766987168765088, guid: 76bce0bf2cb47764fa39710468766846,
+    type: 3}
 --- !u!114 &9018423148920154901
 MonoBehaviour:
   m_ObjectHideFlags: 0

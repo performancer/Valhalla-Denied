@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Food : Item
 {
+
+
     int health;
 
     public Food (int id, string name, int health) : base(id, name)
