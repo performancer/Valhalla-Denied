@@ -8,8 +8,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public float levelStartDelay = 2f;                      //Time to wait before starting level, in seconds.
-    public float turnDelay = 0.1f;                          //Delay between each Player turn.
+    public float levelStartDelay = 1f;                      //Time to wait before starting level, in seconds.
 
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
@@ -73,6 +72,34 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private string[] thoughts = new string[]
+    {
+        "Death awaits...",
+        "What lies ahead..?",
+        "Deeper and deeper...",
+        "To the darkest void...",
+        "There are only monsters...",
+        "Is this before time?",
+        "Stop the voices..!",
+        "Rest...",
+        "Guide me home...",
+        "Odin.. allfather",
+        "Do you see me now?",
+        "I don't want to stay anylonger",
+        "When does this end?",
+        "Am I the only one?",
+        "I miss raiding...",
+        "No defeat...",
+        "I am Death..!",
+        "By gods...",
+        "It never ends...",
+        "Die die die!",
+        "Where is my money..!",
+        "I hate stairs...",
+        "Bottomless..."
+    };
+
+
     //Initializes the game for each level.
     void InitGame()
     {
@@ -86,7 +113,7 @@ public class GameManager : MonoBehaviour
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
         //Set the text of levelText to the string "Day" and append the current level number.
-        levelText.text = "Day " + level;
+        levelText.text = thoughts[Random.Range(0, thoughts.Length)];
 
         //Set levelImage to active blocking player's view of the game board during setup.
         levelImage.SetActive(true);
