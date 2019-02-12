@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Food : Item
 {
-
-
+    public MovingObject testi;
     int health;
 
     public Food (int id, string name, int health) : base(id, name)
@@ -15,7 +14,6 @@ public class Food : Item
 
     public override void Use(MovingObject from)
     {
-        //Cannot eat food if HP is full
         if (from.Hits >= from.MaxHits)
             return;
 

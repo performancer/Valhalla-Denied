@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         instance.InitGame();
     }
 
-
+/*
     private string[] thoughts = new string[]
     {
         "Death awaits...",
@@ -98,6 +98,42 @@ public class GameManager : MonoBehaviour
         "I hate stairs...",
         "Bottomless..."
     };
+*/
+
+    private string[] beginningThoughts = new string[]
+    {
+        "B1: Where is my money..!",
+        "B2: I miss raiding...",
+        "B3: Am I the only one?",
+        "B4: What lies ahead..?",
+        "B5: Stop the voices..!",
+        "B6: By gods...",
+        "B7: To the darkest void...",
+        "B8: Is this before time?",
+        "B9: There are only monsters..."
+    };
+
+    private string[] middleThoughts = new string[]
+    {
+        "M1: It never ends...",
+        "M2: I don't want to stay anylonger",
+        "M3: Guide me home...",
+        "M4: I hate stairs...",
+        "M5: Death awaits...",
+        "M6: Deeper and deeper...",
+        "M7: Rest...",
+        "M8: Bottomless...",
+        "M9: When does this end?"
+    };
+
+    private string[] endThoughts = new string[]
+    {
+        "E1: Die die die!",
+        "E2: I am Death..!",
+        "E3: No defeat...",
+        "E4: Odin.. allfather",
+        "E5: Do you see me now?"
+    };
 
 
     //Initializes the game for each level.
@@ -113,7 +149,19 @@ public class GameManager : MonoBehaviour
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
         //Set the text of levelText to the string "Day" and append the current level number.
-        levelText.text = thoughts[Random.Range(0, thoughts.Length)];
+
+        //levelText.text = thoughts[Random.Range(0, thoughts.Length)];
+
+        if(level <= 5)
+        {
+            levelText.text = beginningThoughts[Random.Range(0, beginningThoughts.Length)];
+        } else if (level > 5 && level < 10)
+        {
+            levelText.text = middleThoughts[Random.Range(0, middleThoughts.Length)];
+        } else
+        {
+            levelText.text = endThoughts[Random.Range(0, endThoughts.Length)];
+        }
 
         //Set levelImage to active blocking player's view of the game board during setup.
         levelImage.SetActive(true);

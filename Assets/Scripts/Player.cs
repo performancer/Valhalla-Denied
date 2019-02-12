@@ -19,8 +19,6 @@ public class Player : MovingObject
 
     public Image playerHpBar; //Player green health bar
 
-    private Food food;
-
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
