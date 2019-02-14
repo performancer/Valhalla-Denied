@@ -17,9 +17,10 @@ public class Inventory
     private int selected;
     private const int capacity = 20;
 
-    private bool dpad_neutral = true;
-    private bool dpad_up = false;
-    private bool dpad_down = false;
+    //Controller variables
+    private bool controller_neutral = true;
+    private bool controller_up = false;
+    private bool controller_down = false;
     #endregion
 
     public Inventory(PlayerState ps)
@@ -47,32 +48,30 @@ public class Inventory
         }
         else if (manager.paused)
         {
-            if (Input.GetKeyUp(KeyCode.DownArrow) || ( (int)(Input.GetAxis("InventoryDpadVertical")) < 0 ) )
+            if (Input.GetKeyUp(KeyCode.DownArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controller_down) || ((int)(Input.GetAxis("InventoryStickVertical")) < 0) && !controller_down)
             {
-                dpad_neutral = false;
-                dpad_down = true;
+                controller_neutral = false;
+                controller_down = true;
 
                 if (++selected > capacity - 1)
                     selected = 0;
 
                 RefreshText();
 
-                //offset -= 10;
-                offset -= 10;   
+                offset -= 10;
             }
-            else if (Input.GetKeyUp(KeyCode.UpArrow) || ((int)(Input.GetAxis("InventoryDpadVertical")) > 0) )
+            else if (Input.GetKeyUp(KeyCode.UpArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) > 0) && !controller_up) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controller_up)
             {
-                //Debug.Log("DpadVertical Up: " + (int)(Input.GetAxis("InventoryDpadVertical")));
+                controller_neutral = false;
+                controller_up = true;
 
                 if (--selected < 0)
                     selected = capacity - 1;
 
                 RefreshText();
-
-                //offset += 10;
                 offset += 10;
             }
-            else if (Input.GetKeyUp(KeyCode.U) || Input.GetKeyUp(KeyCode.JoystickButton0) )
+            else if (Input.GetKeyUp(KeyCode.U) || Input.GetKeyUp(KeyCode.JoystickButton0))
             {
                 if (selected < items.Count)
                 {
@@ -81,10 +80,17 @@ public class Inventory
                 }
 
             }
-            else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton1) )
+            else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton1))
             {
                 if (selected < items.Count)
                     items[selected].Remove();
+            }
+
+            else if ((int)(Input.GetAxis("InventoryDpadVertical")) == 0)
+            {
+                controller_neutral = true;
+                controller_up = false;
+                controller_down = false;
             }
 
             UpdatePositions();
@@ -118,7 +124,7 @@ public class Inventory
             GameObject.Destroy(go);
 
             //Adds an empty block at the last slot to replace the old one
-            AddBlock(); 
+            AddBlock();
             //Refreshes the text for selected item
             RefreshText();
             return true;
@@ -184,7 +190,7 @@ public class Inventory
         int slot = i - selected;
         float points = capacity;
 
-        double angle = ( slot - (offset / 10f))/ points * 2 * Math.PI;
+        double angle = (slot - (offset / 10f)) / points * 2 * Math.PI;
         angle += Math.PI / 2; //The currently selected item should be in the center of right side
 
         int radius = 200;
