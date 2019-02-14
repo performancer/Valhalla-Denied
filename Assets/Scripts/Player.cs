@@ -90,14 +90,27 @@ public class Player : MovingObject
         int horizontal = 0;     //Used to store the horizontal move direction.
         int vertical = 0;       //Used to store the vertical move direction.
 
+        int dpadhorizontal = 0;
+        int dpadvertical = 0;
+
         horizontal = (int)(Input.GetAxisRaw("Horizontal"));
         vertical = (int)(Input.GetAxisRaw("Vertical"));
 
+        dpadhorizontal = (int)(Input.GetAxisRaw("DpadHorizontal")); //DpadHorizontal
+        dpadvertical = (int)(Input.GetAxisRaw("DpadVertical")); //DpadVertical
+
+        
         if (horizontal != 0)
             vertical = 0;
 
+        if (dpadhorizontal != 0)
+            dpadvertical = 0;
+
         if (horizontal != 0 || vertical != 0)
             AttemptMove<MonoBehaviour>(horizontal, vertical);
+
+        if (dpadhorizontal != 0 || dpadvertical != 0)
+            AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
     }
 
     //AttemptMove overrides the AttemptMove function in the base class MovingObject

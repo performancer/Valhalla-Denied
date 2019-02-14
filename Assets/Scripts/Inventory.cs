@@ -16,6 +16,10 @@ public class Inventory
     private Text inventoryText, selectedText;
     private int selected;
     private const int capacity = 20;
+
+    private bool dpad_neutral = true;
+    private bool dpad_up = false;
+    private bool dpad_down = false;
     #endregion
 
     public Inventory(PlayerState ps)
@@ -31,7 +35,7 @@ public class Inventory
 
     public void Update(Player player)
     {
-        if (Input.GetKeyUp(KeyCode.I))
+        if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7))
         {
             if (!manager.paused)
                 Open();
@@ -43,25 +47,32 @@ public class Inventory
         }
         else if (manager.paused)
         {
-            if (Input.GetKeyUp(KeyCode.DownArrow))
+            if (Input.GetKeyUp(KeyCode.DownArrow) || ( (int)(Input.GetAxis("InventoryDpadVertical")) < 0 ) )
             {
+                dpad_neutral = false;
+                dpad_down = true;
+
                 if (++selected > capacity - 1)
                     selected = 0;
 
                 RefreshText();
 
-                offset -= 10;
+                //offset -= 10;
+                offset -= 10;   
             }
-            else if (Input.GetKeyUp(KeyCode.UpArrow))
+            else if (Input.GetKeyUp(KeyCode.UpArrow) || ((int)(Input.GetAxis("InventoryDpadVertical")) > 0) )
             {
+                //Debug.Log("DpadVertical Up: " + (int)(Input.GetAxis("InventoryDpadVertical")));
+
                 if (--selected < 0)
                     selected = capacity - 1;
 
                 RefreshText();
 
+                //offset += 10;
                 offset += 10;
             }
-            else if (Input.GetKeyUp(KeyCode.U))
+            else if (Input.GetKeyUp(KeyCode.U) || Input.GetKeyUp(KeyCode.JoystickButton0) )
             {
                 if (selected < items.Count)
                 {
@@ -70,7 +81,7 @@ public class Inventory
                 }
 
             }
-            else if (Input.GetKeyUp(KeyCode.D))
+            else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton1) )
             {
                 if (selected < items.Count)
                     items[selected].Remove();
@@ -156,6 +167,7 @@ public class Inventory
 
                 if (distance > 10)
                     speed *= 2;
+
 
                 offset += speed;
             }
