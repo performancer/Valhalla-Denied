@@ -252,6 +252,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3580822592404272417, guid: 7787662caf4a8d0429017721402abb39,
         type: 3}
+    - target: {fileID: 21246652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 21246652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9546652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 531e4ddcb86939545bcc8b16cfe83edb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
 --- !u!1 &640480130
