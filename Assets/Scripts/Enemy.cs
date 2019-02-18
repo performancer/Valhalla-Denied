@@ -48,8 +48,21 @@ public class Enemy : MovingObject
         AttemptMove<Player>(xDir, yDir);
     }
 
-    
-   
+    private void FixedUpdate() // turning the enemy face to the direction it's moving.
+    {
+        if (target.position.x > transform.position.x)
+        {
+            //face right
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (target.position.x < transform.position.x)
+        {
+            //face left
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+
 
     protected override void OnCantMove<T>(T component)
     {
