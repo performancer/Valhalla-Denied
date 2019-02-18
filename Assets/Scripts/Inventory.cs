@@ -36,7 +36,7 @@ public class Inventory
 
     public void Update(Player player)
     {
-        if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7))
+        if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7) )
         {
             if (!manager.paused)
                 Open();
@@ -45,10 +45,16 @@ public class Inventory
 
             selected = 0;
             manager.paused = !manager.paused;
+        } else if (Input.GetKeyUp(KeyCode.JoystickButton1) && manager.paused)
+        {
+            Close();
+
+            selected = 0;
+            manager.paused = !manager.paused;
         }
         else if (manager.paused)
         {
-            if (Input.GetKeyUp(KeyCode.DownArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controller_down) || ((int)(Input.GetAxis("InventoryStickVertical")) < 0) && !controller_down)
+            if (Input.GetKeyUp(KeyCode.DownArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controller_down) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controller_down)
             {
                 controller_neutral = false;
                 controller_down = true;
@@ -60,7 +66,7 @@ public class Inventory
 
                 offset -= 10;
             }
-            else if (Input.GetKeyUp(KeyCode.UpArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) > 0) && !controller_up) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controller_up)
+            else if (Input.GetKeyUp(KeyCode.UpArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) > 0) && !controller_up) || ((int)(Input.GetAxis("InventoryStickVertical")) < 0) && !controller_up)
             {
                 controller_neutral = false;
                 controller_up = true;
@@ -80,7 +86,7 @@ public class Inventory
                 }
 
             }
-            else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton1))
+            else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton3))
             {
                 if (selected < items.Count)
                     items[selected].Remove();
