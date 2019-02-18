@@ -173,8 +173,3 @@ MonoBehaviour:
   gameOverSound: {fileID: 8300000, guid: e2beefeb2273f4efe992adf5b8d67c29, type: 3}
   playerHpBar: {fileID: 2756794818144195675, guid: d9e307ecc9b771f419ce19ab1664e4b9,
     type: 3}
-  hpBar1: {fileID: 0}
-  enemyFloatingNumberPreFab: {fileID: 0}
-  floatingDamageNumber: {fileID: 0}
-  floatingNumberPreFab: {fileID: 6450766987168765088, guid: 76bce0bf2cb47764fa39710468766846,
-    type: 3}

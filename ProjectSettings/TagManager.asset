@@ -8,6 +8,7 @@ TagManager:
   - Exit
   - Enemy
   - Soda
+  - Equipment
   layers:
   - Default
   - TransparentFX
