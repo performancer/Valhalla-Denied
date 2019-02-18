@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MovingObject
 {
+    public bool facingRight = true;             //Getting the player animations starting turn.
     public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
     public Text foodText;                       //UI Text to display current player food total.
@@ -113,6 +114,21 @@ public class Player : MovingObject
             AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
     }
 
+    void FixedUpdate() //Turning the player using Flip function.
+    {
+        float h = Input.GetAxis("Horizontal");
+        if (h > 0 && !facingRight)
+            Flip();
+        else if (h < 0 && facingRight)
+            Flip();
+    }
+    void Flip() //Mirror function for the player animation.
+    {
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
     //AttemptMove overrides the AttemptMove function in the base class MovingObject
     //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
     protected override void AttemptMove<T>(int xDir, int yDir)

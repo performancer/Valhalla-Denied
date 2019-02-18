@@ -7,6 +7,7 @@ using UnityEngine.UI; //For HealthBar UI
 //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
 public class Enemy : MovingObject
 {
+                    
     public int PlayerDamage;                            //The amount of food points to subtract from the player when attacking.
     public AudioClip AttackSound1;                      //First of two audio clips to play when attacking the player.
     public AudioClip AttackSound2;                      //Second of two audio clips to play when attacking the player.
@@ -46,6 +47,9 @@ public class Enemy : MovingObject
 
         AttemptMove<Player>(xDir, yDir);
     }
+
+    
+   
 
     protected override void OnCantMove<T>(T component)
     {
