@@ -8,6 +8,11 @@ public class PlayerState
     private int hits;
     private int gold;
 
+    private float currentxp;
+    private float maxxp = 100;
+    private float overflowxp;
+    private int playerLevel = 1;
+
     private Inventory inventory;
     private Armor armor;
     private Weapon weapon;
@@ -21,6 +26,30 @@ public class PlayerState
     {
         get { return gold; }
         set { gold = value; }
+    }
+
+    public float CurrentXp
+    {
+        get { return currentxp; }
+        set { currentxp = value; }
+    }
+
+    public float MaxXp
+    {
+        get { return maxxp; }
+        set { maxxp = value; }
+    }
+
+    public float OverflowXp
+    {
+        get { return overflowxp; }
+        set { overflowxp = value; }
+    }
+
+    public int PlayerLevel
+    {
+        get { return playerLevel; }
+        set { playerLevel = value; }
     }
 
     public Inventory Inventory
@@ -53,6 +82,8 @@ public class PlayerState
             RefreshEquipment(GameObject.Find("WeaponSlot"), weapon);
         }
     }
+
+
 
     public PlayerState()
     {

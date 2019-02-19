@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -93,7 +93,7 @@ Animator:
   m_GameObject: {fileID: 146652}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ed88edb0ae145440684f0bf998629c0c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 531e4ddcb86939545bcc8b16cfe83edb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e3f930239ae4562865b7c0918b8677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  facingRight: 1
   restartLevelDelay: 1
   wallDamage: 1
   foodText: {fileID: 0}
@@ -171,5 +172,7 @@ MonoBehaviour:
   drinkSound1: {fileID: 8300000, guid: b6b608537288246c9a464915db27bf52, type: 3}
   drinkSound2: {fileID: 8300000, guid: bcb9dda73ee914d3e8f252895f73f461, type: 3}
   gameOverSound: {fileID: 8300000, guid: e2beefeb2273f4efe992adf5b8d67c29, type: 3}
-  playerHpBar: {fileID: 2756794818144195675, guid: d9e307ecc9b771f419ce19ab1664e4b9,
-    type: 3}
+  playerHpBar: {fileID: 0}
+  playerManaBar: {fileID: 0}
+  manaText: {fileID: 0}
+  playerLevelText: {fileID: 0}

@@ -17,6 +17,10 @@ public class Enemy : MovingObject
 
     public HpBar hpBar2; //public koska EnemyPrefab
 
+    private int experienceValue = 100;
+
+    private Player playerRefence;
+
     //Start overrides the virtual Start function of the base class.
     protected override void Start()
     {
@@ -28,6 +32,8 @@ public class Enemy : MovingObject
         animator = GetComponent<Animator>();
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        playerRefence = FindObjectOfType<Player>();
 
         base.Start();
     }
@@ -87,6 +93,7 @@ public class Enemy : MovingObject
 
         if (Hits <= 0)
         {
+            playerRefence.GainXP(experienceValue);
             hpBar2.DestroyBar();
             GameManager.instance.RemoveEnemyFromlist(this);
             Destroy(gameObject);

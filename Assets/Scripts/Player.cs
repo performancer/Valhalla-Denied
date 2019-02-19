@@ -18,7 +18,11 @@ public class Player : MovingObject
     public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
     public AudioClip gameOverSound;             //Audio clip to play when player dies.
 
+
     public Image playerHpBar; //Player green health bar
+    public Image playerManaBar;
+    public Text manaText;
+    public Text playerLevelText;
 
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
@@ -68,6 +72,8 @@ public class Player : MovingObject
         Damage = 10;
 
         UpdatePlayerHealthBar();
+        UpdatePlayerManaBar();
+        UpdatePlayerLevel();
 
         animator = GetComponent<Animator>();
 
@@ -112,6 +118,11 @@ public class Player : MovingObject
 
         if (dpadhorizontal != 0 || dpadvertical != 0)
             AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
+
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            GainXP(50);
+        }
     }
 
     void FixedUpdate() //Turning the player using Flip function.
@@ -254,6 +265,47 @@ public class Player : MovingObject
     {
         playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
         foodText.text = Hits + "/" + MaxHits;
+    }
+
+    
+    public void UpdatePlayerManaBar()
+    {
+        playerManaBar.fillAmount = state.CurrentXp / (float)state.MaxXp; //Increases the blue "fill"
+        manaText.text = state.CurrentXp + "/" + state.MaxXp;
+    }
+    
+
+    public void UpdatePlayerLevel()
+    {
+        playerLevelText.text = "" + state.PlayerLevel;
+    }
+
+
+    public void GainXP(int xp)
+    {
+        state.CurrentXp += xp;
+        if (state.CurrentXp < state.MaxXp)
+        {
+            CreateFloatingText(xp, Color.white);
+            Debug.Log("Current XP: " + state.CurrentXp + "XP Required: " + state.MaxXp);
+        }
+        else
+        {
+            LevelUp();
+            UpdatePlayerManaBar();
+            UpdatePlayerLevel();
+        }
+        UpdatePlayerManaBar();
+    }
+
+    public void LevelUp()
+    {
+        state.OverflowXp = state.CurrentXp - state.MaxXp;
+        state.PlayerLevel++;
+        CreateFloatingText(state.PlayerLevel, Color.blue);
+        state.MaxXp = 100 * state.PlayerLevel * Mathf.Pow(state.PlayerLevel, 0.5f);
+        state.MaxXp = Mathf.Floor(state.MaxXp);
+        state.CurrentXp = 0 + state.OverflowXp;
     }
 
 
