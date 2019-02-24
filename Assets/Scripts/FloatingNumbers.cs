@@ -9,7 +9,7 @@ public class FloatingNumbers : MonoBehaviour
     public Text FloatingNumberText;
 
     public float TextSpeed;
-    public int  numberToDisplay;
+    public string  textToDisplay;
     public float timeToDestroy;
 
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class FloatingNumbers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FloatingNumberText.text = "" + numberToDisplay;
+        FloatingNumberText.text = "" + textToDisplay;
 
         transform.position = new Vector3(transform.position.x, transform.position.y + TextSpeed * Time.deltaTime, transform.position.z); //teksti menee ylös textSpeedin mukaan
 

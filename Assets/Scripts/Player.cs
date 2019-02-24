@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine random number generator.
 
 public class Player : MovingObject
 {
@@ -17,6 +18,7 @@ public class Player : MovingObject
     public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
     public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
     public AudioClip gameOverSound;             //Audio clip to play when player dies.
+
 
 
     public Image playerHpBar; //Player green health bar
@@ -68,8 +70,8 @@ public class Player : MovingObject
     {
         state = GameManager.instance.PlayerState;
 
-        MaxHits = 100;
-        Damage = 10;
+        MaxHits = 100 + (state.PlayerLevel -1) * 10;
+        Damage = 10 + (state.PlayerLevel -1) * 5;
 
         UpdatePlayerHealthBar();
         UpdatePlayerManaBar();
@@ -119,9 +121,9 @@ public class Player : MovingObject
         if (dpadhorizontal != 0 || dpadvertical != 0)
             AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
 
-        if (Input.GetKeyUp(KeyCode.X))
+        if (Input.GetKeyUp(KeyCode.X)) //Gain XP button for testing purposes
         {
-            GainXP(50);
+            GainXP(100);
         }
     }
 
@@ -180,12 +182,24 @@ public class Player : MovingObject
         {
             Enemy enemy = component as Enemy;
 
-            int damage = Damage;
+            int crit = Random.Range(1, 100);
+            int critDmgModifier = 1;
+            bool isCritical = false;
+
+            if(crit <= state.CritChance)
+            {
+                isCritical = true;
+                critDmgModifier = 2;
+            }
 
             if (Weapon != null)
-                damage += Weapon.Damage;
-
-            enemy.LoseHits(damage);
+            {
+                enemy.LoseHits( ( (Damage + Weapon.Damage) * critDmgModifier) , isCritical);
+            }
+            else
+            {
+                enemy.LoseHits( (Damage * critDmgModifier), isCritical);
+            }
 
             animator.SetTrigger("playerChop");
 
@@ -219,7 +233,7 @@ public class Player : MovingObject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
-    public override void LoseHits(int dmg)
+    public override void LoseHits(int dmg, bool isCrit)
     {
         int absorb = 0;
 
@@ -229,8 +243,9 @@ public class Player : MovingObject
         Hits -= dmg - absorb;
 
         UpdatePlayerHealthBar();
+
    
-        CreateFloatingText(dmg - absorb, Color.yellow);
+        CreateFloatingText(Convert.ToString(dmg - absorb), Color.yellow);
         
         animator.SetTrigger("playerHit");
 
@@ -277,7 +292,7 @@ public class Player : MovingObject
 
     public void UpdatePlayerLevel()
     {
-        playerLevelText.text = "" + state.PlayerLevel;
+        playerLevelText.text = "LVL:" + state.PlayerLevel;
     }
 
 
@@ -286,14 +301,11 @@ public class Player : MovingObject
         state.CurrentXp += xp;
         if (state.CurrentXp < state.MaxXp)
         {
-            CreateFloatingText(xp, Color.white);
-            Debug.Log("Current XP: " + state.CurrentXp + "XP Required: " + state.MaxXp);
+            CreateFloatingText(Convert.ToString(xp), Color.white);
         }
         else
         {
             LevelUp();
-            UpdatePlayerManaBar();
-            UpdatePlayerLevel();
         }
         UpdatePlayerManaBar();
     }
@@ -302,10 +314,19 @@ public class Player : MovingObject
     {
         state.OverflowXp = state.CurrentXp - state.MaxXp;
         state.PlayerLevel++;
-        CreateFloatingText(state.PlayerLevel, Color.blue);
+        CreateFloatingText("LVL UP!", Color.blue);
         state.MaxXp = 100 * state.PlayerLevel * Mathf.Pow(state.PlayerLevel, 0.5f);
         state.MaxXp = Mathf.Floor(state.MaxXp);
         state.CurrentXp = 0 + state.OverflowXp;
+
+        Damage += 5;
+        MaxHits += 10;
+        Hits += 10;
+        state.CritChance += 5;
+
+        UpdatePlayerHealthBar();
+        UpdatePlayerLevel();
+        UpdatePlayerManaBar();
     }
 
 

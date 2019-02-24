@@ -17,7 +17,7 @@ public class Enemy : MovingObject
 
     public HpBar hpBar2; //public koska EnemyPrefab
 
-    private int experienceValue = 100;
+    public int experienceValue;
 
     private Player playerRefence;
 
@@ -73,7 +73,8 @@ public class Enemy : MovingObject
     protected override void OnCantMove<T>(T component)
     {
         Player hitPlayer = component as Player;
-        hitPlayer.LoseHits(Damage);
+        bool crit = false;
+        hitPlayer.LoseHits(Damage, crit);
 
         animator.SetTrigger("enemyAttack");
 
@@ -83,13 +84,21 @@ public class Enemy : MovingObject
 
 
 
-    public override void LoseHits(int dmg)
+    public override void LoseHits(int dmg, bool isCrit)
     {
-        base.LoseHits(dmg);
+        base.LoseHits(dmg,isCrit);
 
         hpBar2.HpBarFilled.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 
-        CreateFloatingText(dmg, Color.red);
+        if(isCrit == true)
+        {
+            CreateFloatingText(Convert.ToString(dmg), Color.cyan);
+        }
+        else
+        {
+            CreateFloatingText(Convert.ToString(dmg), Color.red);
+        }
+        
 
         if (Hits <= 0)
         {

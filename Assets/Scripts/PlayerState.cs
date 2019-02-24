@@ -9,9 +9,10 @@ public class PlayerState
     private int gold;
 
     private float currentxp;
-    private float maxxp = 100;
+    private float maxxp;
     private float overflowxp;
-    private int playerLevel = 1;
+    private int playerLevel;
+    private float critchance;
 
     private Inventory inventory;
     private Armor armor;
@@ -44,6 +45,12 @@ public class PlayerState
     {
         get { return overflowxp; }
         set { overflowxp = value; }
+    }
+
+    public float CritChance
+    {
+        get { return critchance; }
+        set { critchance = value; }
     }
 
     public int PlayerLevel
@@ -90,7 +97,11 @@ public class PlayerState
         hits = 100;
         gold = 0;
 
-        inventory = new Inventory(this);
+        maxxp = 100;
+        playerLevel = 1;
+        critchance = 0;
+
+    inventory = new Inventory(this);
 
     }
 

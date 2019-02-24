@@ -71,68 +71,40 @@ public class GameManager : MonoBehaviour
         instance.InitGame();
     }
 
-/*
-    private string[] thoughts = new string[]
-    {
-        "Death awaits...",
-        "What lies ahead..?",
-        "Deeper and deeper...",
-        "To the darkest void...",
-        "There are only monsters...",
-        "Is this before time?",
-        "Stop the voices..!",
-        "Rest...",
-        "Guide me home...",
-        "Odin.. allfather",
-        "Do you see me now?",
-        "I don't want to stay anylonger",
-        "When does this end?",
-        "Am I the only one?",
-        "I miss raiding...",
-        "No defeat...",
-        "I am Death..!",
-        "By gods...",
-        "It never ends...",
-        "Die die die!",
-        "Where is my money..!",
-        "I hate stairs...",
-        "Bottomless..."
-    };
-*/
-
     private string[] beginningThoughts = new string[]
     {
-        "B1: Where is my money..!",
-        "B2: I miss raiding...",
-        "B3: Am I the only one?",
-        "B4: What lies ahead..?",
-        "B5: Stop the voices..!",
-        "B6: By gods...",
-        "B7: To the darkest void...",
-        "B8: Is this before time?",
-        "B9: There are only monsters..."
+        "Where is my money..!",
+        "I miss raiding...",
+        "Am I the only one?",
+        "What lies ahead..?",
+        "Stop the voices..!",
+        "By gods...",
+        "To the darkest void...",
+        "Is this before time?",
+        "There are only monsters...",
+        "Emil on Paras"
     };
 
     private string[] middleThoughts = new string[]
     {
-        "M1: It never ends...",
-        "M2: I don't want to stay anylonger",
-        "M3: Guide me home...",
-        "M4: I hate stairs...",
-        "M5: Death awaits...",
-        "M6: Deeper and deeper...",
-        "M7: Rest...",
-        "M8: Bottomless...",
-        "M9: When does this end?"
+        "It never ends...",
+        "I don't want to stay anylonger",
+        "Guide me home...",
+        "I hate stairs...",
+        "Death awaits...",
+        "Deeper and deeper...",
+        "Rest...",
+        "Bottomless...",
+        "When does this end?"
     };
 
     private string[] endThoughts = new string[]
     {
-        "E1: Die die die!",
-        "E2: I am Death..!",
-        "E3: No defeat...",
-        "E4: Odin.. allfather",
-        "E5: Do you see me now?"
+        "Die die die!",
+        "I am Death..!",
+        "No defeat...",
+        "Odin.. allfather",
+        "Do you see me now?",
     };
 
 

@@ -19,6 +19,8 @@ public abstract class MovingObject : MonoBehaviour
     private int maxHits, hits;
     private int damage;
 
+    private bool isCritical;
+
     private GameObject FloatingNumberPreFab;
 
     #endregion
@@ -153,19 +155,19 @@ public abstract class MovingObject : MonoBehaviour
     protected abstract void OnCantMove<T>(T component)
         where T : Component;
 
-    public virtual void LoseHits(int dmg)
+    public virtual void LoseHits(int dmg, bool isCrit)
     {
         Hits -= dmg;
     }
     
-   public void CreateFloatingText(int damageTaken, Color color)
+   public void CreateFloatingText(string text, Color color)
     {
         var clone = Instantiate(FloatingNumberPreFab, transform.position, Quaternion.Euler(Vector3.zero));
         clone.transform.SetParent(GameObject.Find("TheCanvas").transform);
 
         clone.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0, 0));
 
-        clone.GetComponent<FloatingNumbers>().numberToDisplay = damageTaken;
+        clone.GetComponent<FloatingNumbers>().textToDisplay = text;
         clone.GetComponent<FloatingNumbers>().setColor(color);
     }
     
