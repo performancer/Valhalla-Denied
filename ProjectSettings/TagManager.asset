@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Soda
   - Equipment
+  - Scroll
   layers:
   - Default
   - TransparentFX

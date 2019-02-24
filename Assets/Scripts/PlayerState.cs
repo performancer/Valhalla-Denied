@@ -13,6 +13,7 @@ public class PlayerState
     private float overflowxp;
     private int playerLevel;
     private float critchance;
+    private float xpmodifier;
 
     private Inventory inventory;
     private Armor armor;
@@ -59,6 +60,12 @@ public class PlayerState
         set { playerLevel = value; }
     }
 
+    public float XpModifier
+    {
+        get { return xpmodifier; }
+        set { xpmodifier = value; }
+    }
+
     public Inventory Inventory
     {
         get { return inventory; }
@@ -100,6 +107,7 @@ public class PlayerState
         maxxp = 100;
         playerLevel = 1;
         critchance = 0;
+        xpmodifier = 1;
 
     inventory = new Inventory(this);
 

@@ -19,8 +19,6 @@ public class Player : MovingObject
     public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
     public AudioClip gameOverSound;             //Audio clip to play when player dies.
 
-
-
     public Image playerHpBar; //Player green health bar
     public Image playerManaBar;
     public Text manaText;
@@ -29,6 +27,9 @@ public class Player : MovingObject
     #region Private Fields
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
+    private LoreScroll scroll;
+
+
     #endregion
 
     #region Properties
@@ -78,6 +79,8 @@ public class Player : MovingObject
         UpdatePlayerLevel();
 
         animator = GetComponent<Animator>();
+
+        scroll = FindObjectOfType<LoreScroll>();
 
         base.Start();
 
@@ -224,6 +227,13 @@ public class Player : MovingObject
             other.gameObject.SetActive(false);
             state.Inventory.AddItem(new Food(19, "Soda", 10));
         }
+        else if(other.tag == "Scroll")
+        {
+            other.gameObject.SetActive(false);
+            state.XpModifier += (float) 0.05;
+            CreateFloatingText("+XPMOD", Color.white);
+            scroll.ShowScroll();
+        }
     }
 
     private void Restart()
@@ -296,9 +306,12 @@ public class Player : MovingObject
     }
 
 
-    public void GainXP(int xp)
+    public void GainXP(float xp)
     {
-        state.CurrentXp += xp;
+        xp = xp * state.XpModifier;
+
+        state.CurrentXp += Mathf.Floor(xp);
+
         if (state.CurrentXp < state.MaxXp)
         {
             CreateFloatingText(Convert.ToString(xp), Color.white);
@@ -317,7 +330,8 @@ public class Player : MovingObject
         CreateFloatingText("LVL UP!", Color.blue);
         state.MaxXp = 100 * state.PlayerLevel * Mathf.Pow(state.PlayerLevel, 0.5f);
         state.MaxXp = Mathf.Floor(state.MaxXp);
-        state.CurrentXp = 0 + state.OverflowXp;
+        state.CurrentXp = Mathf.Floor(0 + state.OverflowXp);
+        
 
         Damage += 5;
         MaxHits += 10;

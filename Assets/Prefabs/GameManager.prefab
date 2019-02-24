@@ -45,10 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelStartDelay: 2
-  turnDelay: 0.1
-  playerFoodPoints: 100
   playersTurn: 1
-  menuIsOpen: 1
+  paused: 0
 --- !u!114 &11433658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,14 +59,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff182172d726402b9e9eacdb89c9724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 8
-  rows: 8
-  wallCount:
-    minimum: 5
-    maximum: 9
-  foodCount:
-    minimum: 1
-    maximum: 5
   exit: {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
   floorTiles:
   - {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
@@ -98,3 +88,5 @@ MonoBehaviour:
   - {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}
   - {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
   - {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
+  scrollTiles:
+  - {fileID: 8882578282854155092, guid: d7166c4d56c38134eaef489fafaf71aa, type: 3}

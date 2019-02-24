@@ -122,7 +122,6 @@ public class GameManager : MonoBehaviour
 
         //Set the text of levelText to the string "Day" and append the current level number.
 
-        //levelText.text = thoughts[Random.Range(0, thoughts.Length)];
 
         if(level <= 5)
         {
