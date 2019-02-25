@@ -70,6 +70,7 @@ public class Player : MovingObject
     protected override void Start()
     {
         state = GameManager.instance.PlayerState;
+        state.Refresh();
 
         MaxHits = 100 + (state.PlayerLevel -1) * 10;
         Damage = 10 + (state.PlayerLevel -1) * 5;

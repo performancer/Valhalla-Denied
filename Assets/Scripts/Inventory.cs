@@ -9,6 +9,7 @@ public class Inventory
     #region Private Fields
     private GameManager manager;
     private GameObject ui;
+    private bool open;
 
     private PlayerState state;
     private List<Item> items;
@@ -18,9 +19,9 @@ public class Inventory
     private const int capacity = 20;
 
     //Controller variables
-    private bool controller_neutral = true;
-    private bool controller_up = false;
-    private bool controller_down = false;
+    private bool controllerNeutral = true;
+    private bool controllerUp = false;
+    private bool controllerDown = false;
     #endregion
 
     public GameObject UI
@@ -47,32 +48,29 @@ public class Inventory
 
     public void Update(Player player)
     {
-        if (manager.paused && !UI.activeSelf)
+        if (manager.paused && !open)
             return;
 
-        if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7) )
+        if (Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7))
         {
             if (!manager.paused)
                 Open();
             else
                 Close();
 
-            selected = 0;
             manager.paused = !manager.paused;
         }
-        else if (Input.GetKeyUp(KeyCode.JoystickButton1) && manager.paused)
+        else if ((Input.GetKeyUp(KeyCode.Backspace) || Input.GetKeyUp(KeyCode.JoystickButton1)) && open)
         {
             Close();
-
-            selected = 0;
-            manager.paused = !manager.paused;
+            manager.paused = false;
         }
-        else if (manager.paused && UI.activeSelf)
+        else if (open)
         {
-            if (Input.GetKeyUp(KeyCode.DownArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controller_down) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controller_down)
+            if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controllerDown) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controllerDown)
             {
-                controller_neutral = false;
-                controller_down = true;
+                controllerNeutral = false;
+                controllerDown = true;
 
                 if (++selected > capacity - 1)
                     selected = 0;
@@ -81,10 +79,10 @@ public class Inventory
 
                 offset -= 10;
             }
-            else if (Input.GetKeyUp(KeyCode.UpArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) > 0) && !controller_up) || ((int)(Input.GetAxis("InventoryStickVertical")) < 0) && !controller_up)
+            else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W) || (((int)(Input.GetAxis("InventoryDpadVertical")) > 0) && !controllerUp) || ((int)(Input.GetAxis("InventoryStickVertical")) < 0) && !controllerUp)
             {
-                controller_neutral = false;
-                controller_up = true;
+                controllerNeutral = false;
+                controllerUp = true;
 
                 if (--selected < 0)
                     selected = capacity - 1;
@@ -92,26 +90,24 @@ public class Inventory
                 RefreshText();
                 offset += 10;
             }
-            else if (Input.GetKeyUp(KeyCode.U) || Input.GetKeyUp(KeyCode.JoystickButton0))
+            else if (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.JoystickButton0))
             {
                 if (selected < items.Count)
                 {
                     items[selected].Use(player);
                     RefreshText();
                 }
-
             }
             else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton3))
             {
                 if (selected < items.Count)
                     items[selected].Remove();
             }
-
             else if ((int)(Input.GetAxis("InventoryDpadVertical")) == 0)
             {
-                controller_neutral = true;
-                controller_up = false;
-                controller_down = false;
+                controllerNeutral = true;
+                controllerUp = false;
+                controllerDown = false;
             }
 
             UpdatePositions();
@@ -224,14 +220,19 @@ public class Inventory
 
     private void Open()
     {
+        open = true;
         UI.SetActive(true);
         imageObjects = new List<GameObject>();
+
+        selected = 0;
 
         for (int i = 0; i < capacity; i++)
             AddBlock();
 
         inventoryText = SpriteManager.CreateText(UI.transform, 22, new Vector3(70, -200, 0), false);
         inventoryText.text = "INVENTORY " + items.Count + "/" + capacity;
+
+        SpriteManager.CreateText(UI.transform, 14, new Vector3(300, -250, 0), false).text = "Press E to Use\nPress D to Drop\nPress Backspace to close";
 
         Vector3 position = GetPosition(0);
         selectedText = SpriteManager.CreateText(UI.transform, 22, new Vector3(position.x + 100, position.y, 0), false);
@@ -265,7 +266,10 @@ public class Inventory
 
     private void Close()
     {
+        open = false;
         UI.SetActive(false);
         UI.transform.DestroyChildren();
+
+        selected = 0;
     }
 }

@@ -113,6 +113,12 @@ public class PlayerState
 
     }
 
+    public void Refresh()
+    {
+        RefreshEquipment(GameObject.Find("ArmorSlot"), armor);
+        RefreshEquipment(GameObject.Find("WeaponSlot"), weapon);
+    }
+
     public void RefreshEquipment(GameObject slot, BaseEquipment equipment)
     {
         slot.transform.DestroyChildren();

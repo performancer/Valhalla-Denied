@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         "To the darkest void...",
         "Is this before time?",
         "There are only monsters...",
-        "Emil on Paras"
+        "Emil ei osaa koodata"
     };
 
     private string[] middleThoughts = new string[]
@@ -183,6 +183,7 @@ public class GameManager : MonoBehaviour
     {
         //Set levelText to display number of levels passed and game over message
         levelText.text = "After " + level + " levels, you died.";
+        paused = true;
 
         //Enable black background image gameObject.
         levelImage.SetActive(true);
