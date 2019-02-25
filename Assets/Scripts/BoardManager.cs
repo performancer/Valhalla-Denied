@@ -26,7 +26,7 @@ public class BoardManager : MonoBehaviour
     private int rows;                                               //Number of rows in our game board.
     private Count wallCount;                                        //Lower and upper limit for our random number of walls per level.
     private Count foodCount = new Count(1,5);                       //Lower and upper limit for our random number of food items per level.
-    private Count scrollCount = new Count(0,1);
+    private int scrollCount;
     public GameObject exit;                                         //Prefab to spawn for exit.
     public GameObject[] floorTiles;                                 //Array of floor prefabs.
     public GameObject[] wallTiles;                                  //Array of wall prefabs.
@@ -181,8 +181,17 @@ public class BoardManager : MonoBehaviour
         //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
         LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
+        int scrollCount;
+        int scrollRandom = Random.Range(1,1);
+        if(scrollRandom == 1)
+        {
+            scrollCount = 1;
+        } else
+        {
+            scrollCount = 0;
+        }
         //Instantiate scroll tiles, at randomized positions
-        LayoutObjectAtRandom(scrollTiles, scrollCount.minimum, scrollCount.maximum);
+        LayoutObjectAtRandom(scrollTiles, scrollCount, scrollCount);
 
         int enemyCount = (int)(Mathf.Log(level, 2f) * (area / 64f));
 

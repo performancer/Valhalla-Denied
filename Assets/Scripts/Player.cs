@@ -230,7 +230,7 @@ public class Player : MovingObject
         else if(other.tag == "Scroll")
         {
             other.gameObject.SetActive(false);
-            state.XpModifier += (float) 0.05;
+            state.XpModifier += (float) 0.1;
             CreateFloatingText("+XPMOD", Color.white);
             scroll.ShowScroll();
         }

@@ -9,7 +9,6 @@ public class LoreScroll : MonoBehaviour
     public GameObject scrollBox;
     public Text scrollText;
     private bool scrollActive;
-
     //private GameManager scrollManager;
 
 
@@ -24,7 +23,7 @@ public class LoreScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(scrollActive == true && Input.GetKeyUp(KeyCode.U))
+        if(scrollActive == true && Input.GetKeyUp(KeyCode.U) /*&& scrollManager.paused == true*/)
         {
             scrollBox.SetActive(false);
             scrollActive = false;
@@ -71,13 +70,6 @@ public class LoreScroll : MonoBehaviour
         "If all things in the world, alive or dead, weep for him, then he will be allowed to return to the Æsir. If anyone speaks against him or refuses to cry, then he will remain with Hel.",
 
         "Now my course is tough: Death, close sister of Odin's enemy stands on the ness: with resolution and without remorse I will gladly await my own." ,
-
-
-
-
-
-
-
 
     };
 }
