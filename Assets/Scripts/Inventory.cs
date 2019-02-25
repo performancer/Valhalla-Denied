@@ -23,6 +23,18 @@ public class Inventory
     private bool controller_down = false;
     #endregion
 
+    public GameObject UI
+    {
+        get
+        {
+            if(ui == null)
+                ui = GameObject.Find("Inventory");
+
+            return ui;
+        }
+    }
+
+
     public Inventory(PlayerState ps)
     {
         state = ps;
@@ -30,13 +42,12 @@ public class Inventory
 
         manager = GameManager.instance;
 
-        ui = GameObject.Find("Inventory");
-        ui.SetActive(false);
+        UI.SetActive(false);
     }
 
     public void Update(Player player)
     {
-        if (manager.paused && !ui.activeSelf)
+        if (manager.paused && !UI.activeSelf)
             return;
 
         if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7) )
@@ -56,7 +67,7 @@ public class Inventory
             selected = 0;
             manager.paused = !manager.paused;
         }
-        else if (manager.paused && ui.activeSelf)
+        else if (manager.paused && UI.activeSelf)
         {
             if (Input.GetKeyUp(KeyCode.DownArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controller_down) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controller_down)
             {
@@ -213,20 +224,17 @@ public class Inventory
 
     private void Open()
     {
-        if (ui == null)
-            ui = GameObject.Find("Inventory");
-
-        ui.SetActive(true);
+        UI.SetActive(true);
         imageObjects = new List<GameObject>();
 
         for (int i = 0; i < capacity; i++)
             AddBlock();
 
-        inventoryText = SpriteManager.CreateText(ui.transform, 22, new Vector3(70, -200, 0), false);
+        inventoryText = SpriteManager.CreateText(UI.transform, 22, new Vector3(70, -200, 0), false);
         inventoryText.text = "INVENTORY " + items.Count + "/" + capacity;
 
         Vector3 position = GetPosition(0);
-        selectedText = SpriteManager.CreateText(ui.transform, 22, new Vector3(position.x + 100, position.y, 0), false);
+        selectedText = SpriteManager.CreateText(UI.transform, 22, new Vector3(position.x + 100, position.y, 0), false);
 
         RefreshText();
     }
@@ -236,7 +244,7 @@ public class Inventory
         SpriteManager sprites = GameManager.instance.SpriteManager;
 
         GameObject go = new GameObject();
-        go.transform.SetParent(ui.transform);
+        go.transform.SetParent(UI.transform);
         go.AddComponent<Image>();
         imageObjects.Add(go);
 
@@ -257,7 +265,7 @@ public class Inventory
 
     private void Close()
     {
-        ui.SetActive(false);
-        ui.transform.DestroyChildren();
+        UI.SetActive(false);
+        UI.transform.DestroyChildren();
     }
 }
