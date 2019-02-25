@@ -125,12 +125,12 @@ public class Player : MovingObject
             AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
 
         if (Input.GetKeyUp(KeyCode.X)) //Gain XP button for testing purposes
-        {
             GainXP(100);
-        }
+
+        CheckFlip();
     }
 
-    void FixedUpdate() //Turning the player using Flip function.
+    void CheckFlip() //Turning the player using Flip function.
     {
         float h = Input.GetAxis("Horizontal");
         if (h > 0 && !facingRight)
