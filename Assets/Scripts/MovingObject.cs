@@ -151,6 +151,7 @@ public abstract class MovingObject : MonoBehaviour
 
 
     //The abstract modifier indicates that the thing being modified has a missing or incomplete implementation.
+    //The abstract modifier indicates that the thing being modified has a missing or incomplete implementation.
     //OnCantMove will be overriden by functions in the inheriting classes.
     protected abstract void OnCantMove<T>(T component)
         where T : Component;

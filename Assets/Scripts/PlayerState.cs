@@ -97,8 +97,6 @@ public class PlayerState
         }
     }
 
-
-
     public PlayerState()
     {
         hits = 100;

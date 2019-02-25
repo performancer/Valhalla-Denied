@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour
     private int columns;                                            //Number of columns in our game board.
     private int rows;                                               //Number of rows in our game board.
     private Count wallCount;                                        //Lower and upper limit for our random number of walls per level.
-    private Count foodCount = new Count(1,5);                       //Lower and upper limit for our random number of food items per level.
+    private Count foodCount = new Count(1, 5);                       //Lower and upper limit for our random number of food items per level.
     private int scrollCount;
     public GameObject exit;                                         //Prefab to spawn for exit.
     public GameObject[] floorTiles;                                 //Array of floor prefabs.
@@ -38,6 +38,7 @@ public class BoardManager : MonoBehaviour
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List<Vector3> gridPositions = new List<Vector3>();  //A list of possible locations to place tiles.
 
+    public bool IsBossRoom{ get; set; }
 
     //Clears our list gridPositions and prepares it to generate a new board.
     void InitialiseList()
@@ -61,8 +62,10 @@ public class BoardManager : MonoBehaviour
     }
 
     //Sets up the outer walls and floor (background) of the game board.
-    void BoardSetup()
+    void BoardSetup(bool isBoss)
     {
+        IsBossRoom = isBoss;
+
         int mode = Random.Range(0, 4);
 
         int horizontalWall = Random.Range(2, rows - 2);
@@ -78,7 +81,7 @@ public class BoardManager : MonoBehaviour
         int horizontalDoor = Random.Range(0, verticalWall - 1);
         int horizontalDoorAlt = Random.Range(verticalWall + 1, columns - 1);
 
-        if(verticalWall == -1)
+        if (verticalWall == -1)
         {
             horizontalDoor = Random.Range(0, columns - 1);
             horizontalDoorAlt = -1;
@@ -93,7 +96,8 @@ public class BoardManager : MonoBehaviour
             verticalDoorAlt = -1;
         }
 
-        gridPositions.RemoveAll(item => item.y == horizontalWall || item.x == verticalWall);
+        if(!isBoss)
+            gridPositions.RemoveAll(item => item.y == horizontalWall || item.x == verticalWall);
 
         //Instantiate Board and set boardHolder to its transform.
         boardHolder = new GameObject("Board").transform;
@@ -109,10 +113,14 @@ public class BoardManager : MonoBehaviour
 
                 //Check if we current position is at board edge, if so choose a random outer wall prefab from our array of outer wall tiles.
                 if (x == -1 || x == columns || y == -1 || y == rows)
+                {
                     toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
-                else if(x == verticalWall || y == horizontalWall)
-                    if(y != verticalDoor && y != verticalDoorAlt && x != horizontalDoor && x != horizontalDoorAlt)
+                }
+                else if (!isBoss && (x == verticalWall || y == horizontalWall))
+                {
+                    if (y != verticalDoor && y != verticalDoorAlt && x != horizontalDoor && x != horizontalDoorAlt)
                         toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
+                }
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
@@ -161,7 +169,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //SetupScene initializes our level and calls the previous functions to lay out the game board
-    public void SetupScene(int level)
+    public void SetupScene(int level, bool isBoss)
     {
         columns = Random.Range(8, 10 + level);
         rows = Random.Range(8, 10 + level);
@@ -173,32 +181,48 @@ public class BoardManager : MonoBehaviour
         InitialiseList();
 
         //Creates the outer walls and floor.
-        BoardSetup();
+        BoardSetup(isBoss);
 
         //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
         LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
 
-        //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
-        LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
+        if (isBoss)
+        {
+            GameObject boss = Instantiate(enemyTiles[Random.Range(0, enemyTiles.Length)], RandomPosition(), Quaternion.identity);
 
-        int scrollCount;
-        int scrollRandom = Random.Range(1,1);
-        if(scrollRandom == 1)
-        {
-            scrollCount = 1;
-        } else
-        {
-            scrollCount = 0;
+            SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
+            renderer.color = new Color(0.8f, 0.45f, 0.45f, Random.Range(0,1) == 1 ? 1 : 0.8f);
+            Transform tran = boss.GetComponent<Transform>();
+            tran.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         }
-        //Instantiate scroll tiles, at randomized positions
-        LayoutObjectAtRandom(scrollTiles, scrollCount, scrollCount);
+        else
+        {
+            //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
+            LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
-        int enemyCount = (int)(Mathf.Log(level, 2f) * (area / 64f));
+            int scrollCount;
+            int scrollRandom = Random.Range(1, 1);
 
-        //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
-        LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+            if (scrollRandom == 1)
+                scrollCount = 1;
+            else
+                scrollCount = 0;
 
-        //Instantiate the exit tile in the upper right hand corner of our game board
+            //Instantiate scroll tiles, at randomized positions
+            LayoutObjectAtRandom(scrollTiles, scrollCount, scrollCount);
+
+            int enemyCount = (int)(Mathf.Log(level, 2f) * (area / 64f));
+
+            //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
+            LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+
+            //Instantiate the exit tile in random position
+            CreateRandomExit();
+        }
+    }
+
+    public void CreateRandomExit()
+    {
         Instantiate(exit, RandomPosition(), Quaternion.identity);
     }
 }

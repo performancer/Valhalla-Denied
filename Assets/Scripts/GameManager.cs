@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public SpriteManager SpriteManager { get { return spriteManager; } }
     public PlayerState PlayerState { get { return playerState; } }
+    public BoardManager BoardManager { get { return boardScript; } }
 
     //Awake is always called before any Start functions
     void Awake()
@@ -122,14 +123,21 @@ public class GameManager : MonoBehaviour
 
         //Set the text of levelText to the string "Day" and append the current level number.
 
+        bool isBoss = Random.Range(1, 10) < 3 && level > 2;
 
-        if(level <= 5)
+        if(isBoss)
+        {
+            levelText.text = "What is that menacing noise?";
+        }
+        else if(level <= 5)
         {
             levelText.text = beginningThoughts[Random.Range(0, beginningThoughts.Length)];
-        } else if (level > 5 && level < 10)
+        }
+        else if (level > 5 && level < 10)
         {
             levelText.text = middleThoughts[Random.Range(0, middleThoughts.Length)];
-        } else
+        }
+        else
         {
             levelText.text = endThoughts[Random.Range(0, endThoughts.Length)];
         }
@@ -144,7 +152,7 @@ public class GameManager : MonoBehaviour
         enemies.Clear();
 
         //Call the SetupScene function of the BoardManager script, pass it current level number.
-        boardScript.SetupScene(level);
+        boardScript.SetupScene(level, isBoss);
 
     }
 

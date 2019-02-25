@@ -56,12 +56,12 @@ public class Enemy : MovingObject
         if (target.position.x > transform.position.x)
         {
             //face right
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-(Math.Abs(transform.localScale.x)), transform.localScale.y, transform.localScale.z);
         }
         else if (target.position.x < transform.position.x)
         {
             //face left
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
     }
 
@@ -99,6 +99,11 @@ public class Enemy : MovingObject
 
     public virtual void OnDeath()
     {
+        BoardManager board = GameManager.instance.BoardManager;
+
+        if (board.IsBossRoom)
+            board.CreateRandomExit();
+
         playerRefence.GainXP(experienceValue);
         hpBar2.DestroyBar();
         GameManager.instance.RemoveEnemyFromlist(this);
