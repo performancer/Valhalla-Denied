@@ -9,7 +9,7 @@ public class LoreScroll : MonoBehaviour
     public GameObject scrollBox;
     public Text scrollText;
     private bool scrollActive;
-    //private GameManager scrollManager;
+    private GameManager scrollManager;
 
 
     // Start is called before the first frame update
@@ -17,17 +17,17 @@ public class LoreScroll : MonoBehaviour
     {
         scrollBox.SetActive(false);
         scrollActive = false;
-        //scrollManager = GameManager.instance;
+        scrollManager = GameManager.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(scrollActive == true && Input.GetKeyUp(KeyCode.U) /*&& scrollManager.paused == true*/)
+        if(scrollActive == true && Input.GetKeyUp(KeyCode.U) && scrollManager.paused == true)
         {
             scrollBox.SetActive(false);
             scrollActive = false;
-            //scrollManager.paused = false;
+            scrollManager.paused = false;
         }
     }
 
@@ -36,7 +36,7 @@ public class LoreScroll : MonoBehaviour
         scrollBox.SetActive(true);
         scrollActive = true;
         scrollText.text = loreTexts[Random.Range(0, loreTexts.Length)];
-        //scrollManager.paused = true;
+        scrollManager.paused = true;
     }
 
     private string[] loreTexts = new string[]

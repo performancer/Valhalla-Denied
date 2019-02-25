@@ -36,6 +36,9 @@ public class Inventory
 
     public void Update(Player player)
     {
+        if (manager.paused && !ui.activeSelf)
+            return;
+
         if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7) )
         {
             if (!manager.paused)
@@ -45,14 +48,15 @@ public class Inventory
 
             selected = 0;
             manager.paused = !manager.paused;
-        } else if (Input.GetKeyUp(KeyCode.JoystickButton1) && manager.paused)
+        }
+        else if (Input.GetKeyUp(KeyCode.JoystickButton1) && manager.paused)
         {
             Close();
 
             selected = 0;
             manager.paused = !manager.paused;
         }
-        else if (manager.paused)
+        else if (manager.paused && ui.activeSelf)
         {
             if (Input.GetKeyUp(KeyCode.DownArrow) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controller_down) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controller_down)
             {
