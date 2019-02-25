@@ -118,10 +118,13 @@ public class Player : MovingObject
         if (dpadhorizontal != 0 || dpadvertical != 0)
             AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
 
+        
         if (Input.GetKeyUp(KeyCode.X)) //Gain XP button for testing purposes
             GainXP(100);
+        
 
         CheckFlip();
+        CheckIfGameOver();
     }
 
     void CheckFlip() //Turning the player using Flip function.
@@ -157,7 +160,7 @@ public class Player : MovingObject
         }
 
         //Since the player has moved and lost food points, check if the game has ended.
-        CheckIfGameOver();
+        //CheckIfGameOver();
     }
 
     //OnCantMove overrides the abstract function OnCantMove in MovingObject.
@@ -256,7 +259,7 @@ public class Player : MovingObject
         
         animator.SetTrigger("playerHit");
 
-        CheckIfGameOver();
+        //CheckIfGameOver();
     }
 
     private void CheckIfGameOver()
@@ -283,7 +286,7 @@ public class Player : MovingObject
         transform.position = new Vector3(position.x, position.y, -10);
     }
 
-    private void UpdatePlayerHealthBar()
+    public void UpdatePlayerHealthBar()
     {
         playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
         foodText.text = Hits + "/" + MaxHits;
@@ -332,7 +335,7 @@ public class Player : MovingObject
 
         Damage += 5;
         MaxHits += 10;
-        Hits += 10;
+        Hits = MaxHits;
         state.CritChance += (float)2.5;
 
         UpdatePlayerHealthBar();

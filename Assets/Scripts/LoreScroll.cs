@@ -23,7 +23,7 @@ public class LoreScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(scrollActive == true && Input.GetKeyUp(KeyCode.U) && scrollManager.paused == true)
+        if(scrollActive == true && scrollManager.paused == true && (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.JoystickButton0)))
         {
             scrollBox.SetActive(false);
             scrollActive = false;

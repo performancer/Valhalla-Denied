@@ -171,9 +171,10 @@ public abstract class MovingObject : MonoBehaviour
         {
             poisonEffect = true;
             Hits -= poisonDamage;
+            CreateFloatingText(Convert.ToString(poisonDamage), Color.magenta);
             yield return new WaitForSeconds(poisonTimer);
             PoisonCounter += poisonTimer / 3;
-
+            
         }
         poisonEffect = false;
     }

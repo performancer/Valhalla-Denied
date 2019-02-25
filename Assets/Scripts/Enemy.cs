@@ -16,13 +16,27 @@ public class Enemy : MovingObject
 
     public int experienceValue;
 
-    private Player playerRefence;
+    private Player playerReference;
+
+    private BoardManager board;
 
     //Start overrides the virtual Start function of the base class.
     protected override void Start()
     {
-        MaxHits = Hits = 100;
-        Damage = PlayerDamage;
+        board = GameManager.instance.BoardManager;
+        GameManager manager = GameManager.instance;
+
+        if (board.IsBossRoom)
+        {
+            MaxHits = Hits = 100 + 50 + manager.GetLevel() * 10;
+            Damage = PlayerDamage + manager.GetLevel() * 3;
+            experienceValue = experienceValue * 3 + manager.GetLevel() * 50;
+        }
+        else
+        {
+            MaxHits = Hits = 100;
+            Damage = PlayerDamage;
+        }
 
         GameManager.instance.AddEnemyToList(this);
 
@@ -30,7 +44,9 @@ public class Enemy : MovingObject
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        playerRefence = FindObjectOfType<Player>();
+        playerReference = FindObjectOfType<Player>();
+
+        
 
         base.Start();
     }
@@ -99,12 +115,12 @@ public class Enemy : MovingObject
 
     public virtual void OnDeath()
     {
-        BoardManager board = GameManager.instance.BoardManager;
+        //BoardManager board = GameManager.instance.BoardManager;
 
         if (board.IsBossRoom)
             board.CreateRandomExit();
 
-        playerRefence.GainXP(experienceValue);
+        playerReference.GainXP(experienceValue);
         hpBar2.DestroyBar();
         GameManager.instance.RemoveEnemyFromlist(this);
         Destroy(gameObject);

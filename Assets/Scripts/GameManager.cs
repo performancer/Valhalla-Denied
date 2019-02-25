@@ -129,11 +129,11 @@ public class GameManager : MonoBehaviour
         {
             levelText.text = "What is that menacing noise?";
         }
-        else if(level <= 5)
+        else if(level <= 10)
         {
             levelText.text = beginningThoughts[Random.Range(0, beginningThoughts.Length)];
         }
-        else if (level > 5 && level < 10)
+        else if (level > 10 && level < 20)
         {
             levelText.text = middleThoughts[Random.Range(0, middleThoughts.Length)];
         }
@@ -210,6 +210,11 @@ public class GameManager : MonoBehaviour
             //Call the MoveEnemy function of Enemy at index i in the enemies List.
             enemies[i].MoveEnemy();
         }
+    }
+
+    public int GetLevel()
+    {
+        return level;
     }
 }
 

@@ -164,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poisonTimer: 5
   poisonEffect: 0
-  PlayerDamage: 20
+  PlayerDamage: 15
   isPoison: 0
   hpBar2: {fileID: 2800797848854618351}
   experienceValue: 150

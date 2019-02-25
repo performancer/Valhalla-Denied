@@ -167,7 +167,7 @@ MonoBehaviour:
   PlayerDamage: 8
   isPoison: 1
   hpBar2: {fileID: 4181230933164459809}
-  experienceValue: 200
+  experienceValue: 300
 --- !u!114 &4181230933164459809
 MonoBehaviour:
   m_ObjectHideFlags: 0

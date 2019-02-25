@@ -201,7 +201,7 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             int scrollCount;
-            int scrollRandom = Random.Range(1, 1);
+            int scrollRandom = Random.Range(1, 5);
 
             if (scrollRandom == 1)
                 scrollCount = 1;
