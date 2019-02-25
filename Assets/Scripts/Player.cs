@@ -193,11 +193,11 @@ public class Player : MovingObject
 
             if (Weapon != null)
             {
-                enemy.LoseHits( ( (Damage + Weapon.Damage) * critDmgModifier) , isCritical);
+                enemy.LoseHits(((Damage + Weapon.Damage) * critDmgModifier), isCritical, false);
             }
             else
             {
-                enemy.LoseHits( (Damage * critDmgModifier), isCritical);
+                enemy.LoseHits((Damage * critDmgModifier), isCritical, false);
             }
 
             animator.SetTrigger("playerChop");
@@ -239,7 +239,7 @@ public class Player : MovingObject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
-    public override void LoseHits(int dmg, bool isCrit)
+    public override void LoseHits(int dmg, bool isCrit, bool isPoison)
     {
         int absorb = 0;
 
@@ -247,7 +247,8 @@ public class Player : MovingObject
             absorb = (int)(dmg * Armor.Defense / 100.0f);
 
         Hits -= dmg - absorb;
-
+        if (isPoison == true)
+            StartCoroutine("Poison");
         UpdatePlayerHealthBar();
 
    

@@ -8,7 +8,7 @@ using UnityEngine.UI; //For HealthBar UI
 public class Enemy : MovingObject
 {                
     public int PlayerDamage;                            //The amount of food points to subtract from the player when attacking.
-
+    public bool isPoison = false; 
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
     private Transform target;                           //Transform to attempt to move toward each turn.
 
@@ -71,16 +71,16 @@ public class Enemy : MovingObject
     {
         Player hitPlayer = component as Player;
         bool crit = false;
-        hitPlayer.LoseHits(Damage, crit);
+        hitPlayer.LoseHits(Damage, crit, isPoison);
 
         animator.SetTrigger("enemyAttack");
 
         SoundManager.instance.RandomizeSfx(7,8);
     }
 
-    public override void LoseHits(int dmg, bool isCrit)
+    public override void LoseHits(int dmg, bool isCrit, bool isPoison)
     {
-        base.LoseHits(dmg,isCrit);
+        base.LoseHits(dmg,isCrit,isPoison);
 
         hpBar2.HpBarFilled.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
 

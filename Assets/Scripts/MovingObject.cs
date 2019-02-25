@@ -55,6 +55,9 @@ public abstract class MovingObject : MonoBehaviour
         get { return damage; }
         set { damage = value; }
     }
+    public float poisonTimer = 5;
+    int poisonDamage = 10;
+    public bool poisonEffect;
     #endregion
 
     protected virtual void Start()
@@ -156,12 +159,25 @@ public abstract class MovingObject : MonoBehaviour
     protected abstract void OnCantMove<T>(T component)
         where T : Component;
 
-    public virtual void LoseHits(int dmg, bool isCrit)
+    public virtual void LoseHits(int dmg, bool isCrit, bool isPoison)
     {
         Hits -= dmg;
     }
-    
-   public void CreateFloatingText(string text, Color color)
+    public IEnumerator Poison()
+    {
+        float PoisonCounter = 0;
+
+        while (PoisonCounter < poisonTimer)
+        {
+            poisonEffect = true;
+            Hits -= poisonDamage;
+            yield return new WaitForSeconds(poisonTimer);
+            PoisonCounter += poisonTimer / 3;
+
+        }
+        poisonEffect = false;
+    }
+    public void CreateFloatingText(string text, Color color)
     {
         var clone = Instantiate(FloatingNumberPreFab, transform.position, Quaternion.Euler(Vector3.zero));
         clone.transform.SetParent(GameObject.Find("TheCanvas").transform);
