@@ -11,13 +11,6 @@ public class Player : MovingObject
     public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
     public Text foodText;                       //UI Text to display current player food total.
-    public AudioClip moveSound1;                //1 of 2 Audio clips to play when player moves.
-    public AudioClip moveSound2;                //2 of 2 Audio clips to play when player moves.
-    public AudioClip eatSound1;                 //1 of 2 Audio clips to play when player collects a food object.
-    public AudioClip eatSound2;                 //2 of 2 Audio clips to play when player collects a food object.
-    public AudioClip drinkSound1;               //1 of 2 Audio clips to play when player collects a soda object.
-    public AudioClip drinkSound2;               //2 of 2 Audio clips to play when player collects a soda object.
-    public AudioClip gameOverSound;             //Audio clip to play when player dies.
 
     public Image playerHpBar; //Player green health bar
     public Image playerManaBar;
@@ -160,7 +153,7 @@ public class Player : MovingObject
         if (Move(xDir, yDir, out hit))
         {
             //Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
-            SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+            SoundManager.instance.RandomizeSfx(0, 1);
         }
 
         //Since the player has moved and lost food points, check if the game has ended.
@@ -195,6 +188,8 @@ public class Player : MovingObject
                 isCritical = true;
                 critDmgModifier = 2;
             }
+
+            SoundManager.instance.RandomizeSfx(9, 10);
 
             if (Weapon != null)
             {
@@ -267,7 +262,7 @@ public class Player : MovingObject
     {
         if (Hits <= 0)
         {
-            SoundManager.instance.PlaySingle(gameOverSound);
+            SoundManager.instance.PlaySingle(6);
             SoundManager.instance.musicSource.Stop();
             GameManager.instance.GameOver();
         }

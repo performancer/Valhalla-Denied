@@ -9,6 +9,19 @@ public class SoundManager : MonoBehaviour
     public float lowPitchRange = .95f;              //The lowest a sound effect will be randomly pitched.
     public float highPitchRange = 1.05f;            //The highest a sound effect will be randomly pitched.
 
+    public AudioClip MoveSound1;
+    public AudioClip MoveSound2;
+    public AudioClip EatSound1;
+    public AudioClip EatSound2;
+    public AudioClip DrinkSound1;
+    public AudioClip DrinkSound2;
+    public AudioClip GameOverSound;
+    public AudioClip AttackSound1;
+    public AudioClip AttackSound2;
+    public AudioClip ChopSound1;
+    public AudioClip ChopSound2;
+
+    public AudioClip[] clips;
 
     void Awake()
     {
@@ -23,10 +36,37 @@ public class SoundManager : MonoBehaviour
 
         //Set SoundManager to DontDestroyOnLoad so that it won't be destroyed when reloading our scene.
         DontDestroyOnLoad(gameObject);
+
+        clips = new AudioClip[] {
+            MoveSound1,
+            MoveSound2,
+            EatSound1,
+            EatSound2,
+            DrinkSound1,
+            DrinkSound2,
+            GameOverSound,
+            AttackSound1,
+            AttackSound2,
+            ChopSound1,
+            ChopSound2
+        };
     }
 
+    public void PlaySingle(int index)
+    {
+        PlaySingle(clips[index]);
+    }
 
-    //Used to play single sound clips.
+    public void RandomizeSfx(params int[] indices)
+    {
+        AudioClip[] array = new AudioClip[indices.Length];
+
+        for (int i = 0; i < indices.Length; i++)
+            array[i] = clips[indices[i]];
+
+        RandomizeSfx(array);
+    }
+
     public void PlaySingle(AudioClip clip)
     {
         //Set the clip of our efxSource audio source to the clip passed in as a parameter.

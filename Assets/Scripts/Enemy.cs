@@ -6,11 +6,8 @@ using UnityEngine.UI; //For HealthBar UI
 
 //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
 public class Enemy : MovingObject
-{
-                    
+{                
     public int PlayerDamage;                            //The amount of food points to subtract from the player when attacking.
-    public AudioClip AttackSound1;                      //First of two audio clips to play when attacking the player.
-    public AudioClip AttackSound2;                      //Second of two audio clips to play when attacking the player.
 
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
     private Transform target;                           //Transform to attempt to move toward each turn.
@@ -78,11 +75,8 @@ public class Enemy : MovingObject
 
         animator.SetTrigger("enemyAttack");
 
-        SoundManager.instance.RandomizeSfx(AttackSound1, AttackSound2);
+        SoundManager.instance.RandomizeSfx(7,8);
     }
-
-
-
 
     public override void LoseHits(int dmg, bool isCrit)
     {
@@ -98,15 +92,17 @@ public class Enemy : MovingObject
         {
             CreateFloatingText(Convert.ToString(dmg), Color.red);
         }
-        
 
         if (Hits <= 0)
-        {
-            playerRefence.GainXP(experienceValue);
-            hpBar2.DestroyBar();
-            GameManager.instance.RemoveEnemyFromlist(this);
-            Destroy(gameObject);
-        }
+            OnDeath();
+    }
+
+    public virtual void OnDeath()
+    {
+        playerRefence.GainXP(experienceValue);
+        hpBar2.DestroyBar();
+        GameManager.instance.RemoveEnemyFromlist(this);
+        Destroy(gameObject);
     }
  
 }

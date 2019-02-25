@@ -19,6 +19,12 @@ public class Food : Item
 
         from.Hits += health;
 
+        if (ID == 20) //eat sounds
+            SoundManager.instance.RandomizeSfx(2, 3);
+        else if (ID == 19) //drink sounds
+            SoundManager.instance.RandomizeSfx(4, 5);
+
+
         Remove();
     }
 }
