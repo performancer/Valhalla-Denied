@@ -57,6 +57,7 @@ public class Player : MovingObject
         get { return state.Weapon; }
         set { state.Weapon = value; }
     }
+    
     #endregion
 
     //Start overrides the Start function of MovingObject
@@ -251,7 +252,12 @@ public class Player : MovingObject
 
         Hits -= dmg - absorb;
         if (isPoison == true)
+            poisonEffect = true;
+        if (poisonEffect == true) 
             StartCoroutine("Poison");
+        poisonEffect = false;
+           
+        
         UpdatePlayerHealthBar();
 
    

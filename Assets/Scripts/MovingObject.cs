@@ -56,8 +56,8 @@ public abstract class MovingObject : MonoBehaviour
         set { damage = value; }
     }
     public float poisonTimer = 5;
-    int poisonDamage = 10;
-    public bool poisonEffect;
+    int poisonDamage = 5;
+    public bool poisonEffect = false;
     #endregion
 
     protected virtual void Start()
@@ -167,14 +167,13 @@ public abstract class MovingObject : MonoBehaviour
     {
         float PoisonCounter = 0;
 
-        while (PoisonCounter < poisonTimer)
+        while (PoisonCounter < poisonTimer && poisonEffect == true)
         {
-            poisonEffect = true;
+            yield return new WaitForSeconds(poisonTimer / 2);
             Hits -= poisonDamage;
             CreateFloatingText(Convert.ToString(poisonDamage), Color.magenta);
             yield return new WaitForSeconds(poisonTimer);
-            PoisonCounter += poisonTimer / 3;
-            
+            PoisonCounter += poisonTimer / 3;  
         }
         poisonEffect = false;
     }
