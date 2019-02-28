@@ -342,7 +342,7 @@ public class Player : MovingObject
         Damage += 5;
         MaxHits += 10;
         Hits = MaxHits;
-        state.CritChance += (float)2.5;
+        state.CritChance += (float)1.5;
 
         UpdatePlayerHealthBar();
         UpdatePlayerLevel();

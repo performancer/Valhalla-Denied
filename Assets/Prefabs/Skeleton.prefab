@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poisonTimer: 5
+  poisonDamage: 5
   poisonEffect: 0
   PlayerDamage: 8
   isPoison: 1
