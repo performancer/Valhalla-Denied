@@ -219,13 +219,13 @@ public class Player : MovingObject
         }
         else if (other.tag == "Food")
         {
-            other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food((int)ItemSprite.Apple, "Apple", 10));
+            if (state.Inventory.AddItem(this, new Food((int)ItemSprite.Apple, "Apple", 10)))
+                other.gameObject.SetActive(false);
         }
         else if (other.tag == "Soda")
         {
-            other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food((int)ItemSprite.Soda, "Soda", 20));
+            if(state.Inventory.AddItem(this, new Food((int)ItemSprite.Soda, "Soda", 20)))
+                other.gameObject.SetActive(false);
         }
         else if(other.tag == "Scroll")
         {

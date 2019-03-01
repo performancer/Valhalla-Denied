@@ -114,10 +114,19 @@ public class Inventory
         }
     }
 
-    public bool AddItem(Item item)
+
+    private DateTime lastMessageTime;
+    public bool AddItem(MovingObject mo, Item item)
     {
         if (items.Count >= capacity)
+        {
+            if (DateTime.Now - lastMessageTime > TimeSpan.FromSeconds(2))
+            {
+                lastMessageTime = DateTime.Now;
+                mo.CreateFloatingText("Invetory Full", Color.grey);
+            }
             return false;
+        }
 
         items.Add(item);
         return true;
