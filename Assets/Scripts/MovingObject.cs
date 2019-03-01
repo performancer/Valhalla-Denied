@@ -5,6 +5,10 @@ using System.Collections;
 //The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
 public abstract class MovingObject : MonoBehaviour
 {
+    public float poisonInterval = 2;
+    public float poisonCount = 3;
+    public int poisonDamage = 5;
+
     #region Private Fields
     private BoxCollider2D boxCollider;      //The BoxCollider2D component attached to this object.
     private Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
@@ -22,6 +26,9 @@ public abstract class MovingObject : MonoBehaviour
     private bool isCritical;
 
     private GameObject FloatingNumberPreFab;
+
+    private bool isPoisoned = false;
+    private Color color;
 
     #endregion
 
@@ -55,9 +62,27 @@ public abstract class MovingObject : MonoBehaviour
         get { return damage; }
         set { damage = value; }
     }
-    public float poisonTimer = 5;
-    public int poisonDamage = 5;
-    public bool poisonEffect = false;
+
+    public bool IsPoisoned
+    {
+        get { return isPoisoned; }
+        set
+        {
+            isPoisoned = value;
+
+            SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+            if (isPoisoned)
+            {
+                color = renderer.color;
+                renderer.color = new Color(0f, 1f, 0f, 1f);
+            }
+            else
+            {
+                renderer.color = color;
+            }
+        }
+    }
     #endregion
 
     protected virtual void Start()
@@ -163,20 +188,28 @@ public abstract class MovingObject : MonoBehaviour
     {
         Hits -= dmg;
     }
+
     public IEnumerator Poison()
     {
-        float PoisonCounter = 0;
+        float poisonCounter = 0;
 
-        while (PoisonCounter < poisonTimer && poisonEffect == true)
+        IsPoisoned = true;
+
+        while (poisonCounter < poisonCount && IsPoisoned)
         {
-            yield return new WaitForSeconds(poisonTimer / 2);
+            yield return new WaitForSeconds(poisonInterval);
+
             Hits -= poisonDamage;
             CreateFloatingText(Convert.ToString(poisonDamage), Color.magenta);
-            yield return new WaitForSeconds(poisonTimer);
-            PoisonCounter += poisonTimer / 3;  
+
+            poisonCounter++;
         }
-        poisonEffect = false;
+
+        yield return new WaitForSeconds(poisonInterval);
+
+        IsPoisoned = false;
     }
+
     public void CreateFloatingText(string text, Color color)
     {
         var clone = Instantiate(FloatingNumberPreFab, transform.position, Quaternion.Euler(Vector3.zero));

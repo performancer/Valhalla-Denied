@@ -251,16 +251,12 @@ public class Player : MovingObject
             absorb = (int)(dmg * Armor.Defense / 100.0f);
 
         Hits -= dmg - absorb;
-        if (isPoison == true)
-            poisonEffect = true;
-        if (poisonEffect == true) 
-            StartCoroutine("Poison");
-        poisonEffect = false;
-           
-        
-        UpdatePlayerHealthBar();
 
-   
+        if (isPoison == true && !IsPoisoned) 
+            StartCoroutine("Poison");
+           
+        UpdatePlayerHealthBar();
+ 
         CreateFloatingText(Convert.ToString(dmg - absorb), Color.yellow);
         
         animator.SetTrigger("playerHit");
