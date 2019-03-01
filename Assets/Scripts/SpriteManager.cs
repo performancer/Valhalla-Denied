@@ -5,6 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 
+public enum ItemSprite
+{
+    Apple = 0,
+    Soda = 1,
+    IronArmor = 2,
+    IronSword = 3
+}
+
+
 public class SpriteManager
 {
     private Font font;
@@ -13,11 +22,11 @@ public class SpriteManager
 
     public Font Font { get { return font; } }
 
-    public SpriteManager()
+    public SpriteManager(Font font, Sprite block, Sprite[] itemSprites)
     {
-        font = AssetDatabase.LoadAssetAtPath<Font>("Assets/Fonts/PressStart2P-Regular.ttf");
-        sprites = Array.ConvertAll(AssetDatabase.LoadAllAssetsAtPath("Assets/Sprites/Scavengers_SpriteSheet.png"), item => item as Sprite);
-        block = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/woodenmenu.png");
+        this.font = font;
+        this.sprites = itemSprites;
+        this.block = block;
     }
 
     public Sprite GetSprite(int index)

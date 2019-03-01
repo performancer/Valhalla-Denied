@@ -220,12 +220,12 @@ public class Player : MovingObject
         else if (other.tag == "Food")
         {
             other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food(20, "Apple", 10));
+            state.Inventory.AddItem(new Food((int)ItemSprite.Apple, "Apple", 10));
         }
         else if (other.tag == "Soda")
         {
             other.gameObject.SetActive(false);
-            state.Inventory.AddItem(new Food(19, "Soda", 10));
+            state.Inventory.AddItem(new Food((int)ItemSprite.Soda, "Soda", 20));
         }
         else if(other.tag == "Scroll")
         {

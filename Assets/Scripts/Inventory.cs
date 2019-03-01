@@ -60,7 +60,7 @@ public class Inventory
 
             manager.paused = !manager.paused;
         }
-        else if ((Input.GetKeyUp(KeyCode.Backspace) || Input.GetKeyUp(KeyCode.JoystickButton1)) && open)
+        else if ((Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.Backspace) || Input.GetKeyUp(KeyCode.JoystickButton1)) && open)
         {
             Close();
             manager.paused = false;

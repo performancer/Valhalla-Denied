@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 {
     public float levelStartDelay = 1f;                      //Time to wait before starting level, in seconds.
 
+    public Font font;
+    public Sprite block;
+    public Sprite[] itemSprites;
+
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     [HideInInspector] public bool playersTurn = true;       //Boolean to check if it's players turn, hidden in inspector but public.
     [HideInInspector] public bool paused;
@@ -44,11 +48,11 @@ public class GameManager : MonoBehaviour
         //Get a component reference to the attached BoardManager script
         boardScript = GetComponent<BoardManager>();
 
-        spriteManager = new SpriteManager();
+        spriteManager = new SpriteManager(font, block, itemSprites);
         playerState = new PlayerState();
 
-        playerState.Inventory.AddItem(new Armor(1, "Iron Helmet", 5));
-        playerState.Inventory.AddItem(new Weapon(1, "Bastard Sword", 5));
+        playerState.Inventory.AddItem(new Armor((int)ItemSprite.IronArmor, "Iron Armor", 10));
+        playerState.Inventory.AddItem(new Weapon((int)ItemSprite.IronSword, "Bastard Sword", 8));
 
         paused = false;
 

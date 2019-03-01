@@ -29,9 +29,9 @@ public class Food : Item
         //player.UpdatePlayerHealthBar();
         //player.CreateFloatingText(Convert.ToString(health), Color.green);
 
-        if (ID == 20) //eat sounds
+        if (ID == 0) //eat sounds
             SoundManager.instance.RandomizeSfx(2, 3);
-        else if (ID == 19) //drink sounds
+        else if (ID == 1) //drink sounds
             SoundManager.instance.RandomizeSfx(4, 5);
 
 
