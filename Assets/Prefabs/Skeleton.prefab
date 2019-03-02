@@ -166,7 +166,9 @@ MonoBehaviour:
   poisonInterval: 2
   poisonCount: 3
   poisonDamage: 5
-  PlayerDamage: 13
+  moveTime: 0.075
+  moveDelayVar: 0.6
+  PlayerDamage: 10
   hpBar2: {fileID: 4181230933164459809}
   experienceValue: 300
 --- !u!114 &4181230933164459809

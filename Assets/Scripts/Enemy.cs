@@ -29,7 +29,7 @@ public class Enemy : MovingObject
         if (board.IsBossRoom)
         {
             MaxHits = Hits = 100 + 50 + manager.GetLevel() * 20;
-            Damage = PlayerDamage + manager.GetLevel() * 5;
+            Damage = PlayerDamage + manager.GetLevel() * 3;
             experienceValue = experienceValue * 4 + manager.GetLevel() * 50;
             PoisonDamage = PoisonDamage + manager.GetLevel();
         }
@@ -122,10 +122,12 @@ public class Enemy : MovingObject
 
     public virtual void OnDeath()
     {
-        //BoardManager board = GameManager.instance.BoardManager;
-
         if (board.IsBossRoom)
+        {
             board.CreateRandomExit();
+            board.CreateSword();
+            board.CreateArmor();
+        }
 
         playerReference.GainXP(experienceValue);
         hpBar2.DestroyBar();

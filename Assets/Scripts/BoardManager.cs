@@ -34,6 +34,8 @@ public class BoardManager : MonoBehaviour
     public GameObject[] enemyTiles;                                 //Array of enemy prefabs.
     public GameObject[] outerWallTiles;                             //Array of outer tile prefabs.
     public GameObject[] scrollTiles;
+    public GameObject[] swordTiles;
+    public GameObject[] armorTiles;
 
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List<Vector3> gridPositions = new List<Vector3>();  //A list of possible locations to place tiles.
@@ -217,6 +219,26 @@ public class BoardManager : MonoBehaviour
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
+            int swordCount;
+            int swordRandom = Random.Range(1, 10);
+
+            if (swordRandom == 1)
+                swordCount = 1;
+            else
+                swordCount = 0;
+
+            LayoutObjectAtRandom(swordTiles, swordCount, swordCount);
+
+            int armorCount;
+            int armorRandom = Random.Range(1, 10);
+
+            if (armorRandom == 1)
+                armorCount = 1;
+            else
+                armorCount = 0;
+
+            LayoutObjectAtRandom(armorTiles, armorCount, armorCount);
+
             //Instantiate the exit tile in random position
             CreateRandomExit();
         }
@@ -225,6 +247,26 @@ public class BoardManager : MonoBehaviour
     public void CreateRandomExit()
     {
         Instantiate(exit, RandomPosition(), Quaternion.identity);
+    }
+
+    public void CreateSword()
+    {
+        Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
+    }
+
+    public void LegendarySword()
+    {
+        //Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
+    }
+
+    public void CreateArmor()
+    {
+        Instantiate(armorTiles[0], RandomPosition(), Quaternion.identity);
+    }
+
+    public void CreateLegendaryArmor()
+    {
+        //Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
     }
 }
 

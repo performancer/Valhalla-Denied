@@ -123,7 +123,7 @@ public class Inventory
             if (DateTime.Now - lastMessageTime > TimeSpan.FromSeconds(2))
             {
                 lastMessageTime = DateTime.Now;
-                mo.CreateFloatingText("Invetory Full", Color.grey);
+                mo.CreateFloatingText("Inventory Full", Color.grey);
             }
             return false;
         }

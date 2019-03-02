@@ -104,3 +104,7 @@ MonoBehaviour:
   - {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
   scrollTiles:
   - {fileID: 8882578282854155092, guid: d7166c4d56c38134eaef489fafaf71aa, type: 3}
+  swordTiles:
+  - {fileID: 2103450978515801294, guid: e88adf794fe3ba746ada37a461575c70, type: 3}
+  armorTiles:
+  - {fileID: 3254439022853958280, guid: 08d6056d1bdd51a4e8391a6e0b5a3129, type: 3}

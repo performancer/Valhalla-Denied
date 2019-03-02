@@ -228,6 +228,22 @@ public class Player : MovingObject
             if(state.Inventory.AddItem(this, new Food((int)ItemSprite.Soda, "Soda", 20)))
                 other.gameObject.SetActive(false);
         }
+        else if (other.tag == "Sword")
+        {
+            GameManager manager = FindObjectOfType<GameManager>();
+            int sworddmg = 8 + Random.Range(1, 10) + manager.GetLevel();
+
+            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Iron Sword +" + (sworddmg -8) , sworddmg)))
+                other.gameObject.SetActive(false);
+        }
+        else if (other.tag == "Armor")
+        {
+            GameManager manager = FindObjectOfType<GameManager>();
+            int armorvalue = 10 + Random.Range(1, 10) + manager.GetLevel();
+
+            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Iron Armor +" + (armorvalue - 10), armorvalue)))
+            other.gameObject.SetActive(false);
+        }
         else if(other.tag == "Scroll")
         {
             other.gameObject.SetActive(false);

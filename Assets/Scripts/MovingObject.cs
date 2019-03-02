@@ -15,7 +15,10 @@ public abstract class MovingObject : MonoBehaviour
     private Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
     private LayerMask blockingLayer;
 
-    private readonly float moveTime = 0.1f; //0.1f default //Time it will take object to move, in seconds.
+    //private readonly float moveTime = 0.1f; //0.1f default //Time it will take object to move, in seconds.
+    public float moveTime = 0.1f; //Time it will take object to move, in seconds. //Set in PreFab editor
+    public float moveDelayVar; //Set in PreFab editor
+
     private float inverseMoveTime;          //Used to make movement more efficient.
 
     private DateTime lastMove;
@@ -104,7 +107,7 @@ public abstract class MovingObject : MonoBehaviour
         //By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
         inverseMoveTime = 1f / moveTime;
 
-        moveDelay = TimeSpan.FromSeconds(0.8); //0.8 default
+        moveDelay = TimeSpan.FromSeconds(moveDelayVar); //0.8 default
     }
 
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)

@@ -165,7 +165,7 @@ MonoBehaviour:
   poisonInterval: 2
   poisonCount: 3
   poisonDamage: 20
-  facingRight: 1
+  moveTime: 0.1
   restartLevelDelay: 1
   wallDamage: 1
   foodText: {fileID: 0}
