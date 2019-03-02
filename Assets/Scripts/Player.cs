@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine r
 
 public class Player : MovingObject
 {
-    public bool facingRight = true;             //Getting the player animations starting turn.
     public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
     public Text foodText;                       //UI Text to display current player food total.
@@ -18,6 +17,7 @@ public class Player : MovingObject
     public Text playerLevelText;
 
     #region Private Fields
+    private bool facingRight = true;             //Getting the player animations starting turn.
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
     private LoreScroll scroll;
@@ -69,7 +69,7 @@ public class Player : MovingObject
         MaxHits = 100 + (state.PlayerLevel -1) * 10;
         Damage = 10 + (state.PlayerLevel -1) * 5;
 
-        UpdatePlayerHealthBar();
+        UpdateHpBar();
         UpdatePlayerManaBar();
         UpdatePlayerLevel();
 
@@ -195,13 +195,14 @@ public class Player : MovingObject
 
             SoundManager.instance.RandomizeSfx(9, 10);
 
+
             if (Weapon != null)
             {
-                enemy.LoseHits(((Damage + Weapon.Damage) * critDmgModifier), isCritical, false);
+                enemy.LoseHits(((Damage + Weapon.Damage) * critDmgModifier), isCritical, isPoison, PoisonDamage);
             }
             else
             {
-                enemy.LoseHits((Damage * critDmgModifier), isCritical, false);
+                enemy.LoseHits((Damage * critDmgModifier), isCritical, isPoison, PoisonDamage);
             }
 
             animator.SetTrigger("playerChop");
@@ -243,7 +244,7 @@ public class Player : MovingObject
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
-    public override void LoseHits(int dmg, bool isCrit, bool isPoison)
+    public override void LoseHits(int dmg, bool isCrit, bool isPoison, int poisondmg)
     {
         int absorb = 0;
 
@@ -253,15 +254,13 @@ public class Player : MovingObject
         Hits -= dmg - absorb;
 
         if (isPoison == true && !IsPoisoned) 
-            StartCoroutine("Poison");
+            StartCoroutine("Poison",poisondmg);
            
-        UpdatePlayerHealthBar();
+        UpdateHpBar();
  
         CreateFloatingText(Convert.ToString(dmg - absorb), Color.yellow);
         
         animator.SetTrigger("playerHit");
-
-        //CheckIfGameOver();
     }
 
     private void CheckIfGameOver()
@@ -288,11 +287,6 @@ public class Player : MovingObject
         transform.position = new Vector3(position.x, position.y, -10);
     }
 
-    public void UpdatePlayerHealthBar()
-    {
-        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
-        foodText.text = Hits + "/" + MaxHits;
-    }
 
     
     public void UpdatePlayerManaBar()
@@ -334,15 +328,20 @@ public class Player : MovingObject
         state.MaxXp = Mathf.Floor(state.MaxXp);
         state.CurrentXp = Mathf.Floor(0 + state.OverflowXp);
         
-
         Damage += 5;
         MaxHits += 10;
         Hits = MaxHits;
         state.CritChance += (float)1.5;
 
-        UpdatePlayerHealthBar();
+        UpdateHpBar();
         UpdatePlayerLevel();
         UpdatePlayerManaBar();
+    }
+
+    public override void UpdateHpBar()
+    {
+        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+        foodText.text = Hits + "/" + MaxHits;
     }
 
 

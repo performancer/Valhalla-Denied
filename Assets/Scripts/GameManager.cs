@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         "To the darkest void...",
         "Is this before time?",
         "There are only monsters...",
-        "Emil ei osaa koodata"
+        "Emil osaa koodata"
     };
 
     private string[] middleThoughts = new string[]

@@ -5,9 +5,10 @@ using System.Collections;
 //The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
 public abstract class MovingObject : MonoBehaviour
 {
+    public bool isPoison; //set isPoison from prefab
     public float poisonInterval = 2;
     public float poisonCount = 3;
-    public int poisonDamage = 5;
+    public int poisonDamage; //set poisonDamage from prefab
 
     #region Private Fields
     private BoxCollider2D boxCollider;      //The BoxCollider2D component attached to this object.
@@ -61,6 +62,12 @@ public abstract class MovingObject : MonoBehaviour
     {
         get { return damage; }
         set { damage = value; }
+    }
+
+    public int PoisonDamage
+    {
+        get { return poisonDamage; }
+        set { poisonDamage = value; }
     }
 
     public bool IsPoisoned
@@ -184,12 +191,12 @@ public abstract class MovingObject : MonoBehaviour
     protected abstract void OnCantMove<T>(T component)
         where T : Component;
 
-    public virtual void LoseHits(int dmg, bool isCrit, bool isPoison)
+    public virtual void LoseHits(int dmg, bool isCrit, bool isPoison, int poisondmg)
     {
         Hits -= dmg;
     }
 
-    public IEnumerator Poison()
+    public IEnumerator Poison(int pDmg)
     {
         float poisonCounter = 0;
 
@@ -199,8 +206,10 @@ public abstract class MovingObject : MonoBehaviour
         {
             yield return new WaitForSeconds(poisonInterval);
 
-            Hits -= poisonDamage;
-            CreateFloatingText(Convert.ToString(poisonDamage), Color.magenta);
+            Hits -= pDmg;
+            CreateFloatingText(pDmg.ToString(), Color.magenta);
+
+            UpdateHpBar();
 
             poisonCounter++;
         }
@@ -220,6 +229,8 @@ public abstract class MovingObject : MonoBehaviour
         clone.GetComponent<FloatingNumbers>().textToDisplay = text;
         clone.GetComponent<FloatingNumbers>().setColor(color);
     }
+
+    public abstract void UpdateHpBar();
     
 
 }

@@ -194,6 +194,7 @@ public class BoardManager : MonoBehaviour
             renderer.color = new Color(0.8f, 0.45f, 0.45f, Random.Range(0,1) == 1 ? 1 : 0.8f);
             Transform tran = boss.GetComponent<Transform>();
             tran.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            
         }
         else
         {

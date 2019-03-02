@@ -7,15 +7,14 @@ using UnityEngine.UI; //For HealthBar UI
 //Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
 public class Enemy : MovingObject
 {                
-    public int PlayerDamage;                            //The amount of food points to subtract from the player when attacking.
-    public bool isPoison = false; 
+    public int PlayerDamage;                            //The amount of food points to subtract from the player when attacking. 
     private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
     private Transform target;                           //Transform to attempt to move toward each turn.
 
     public HpBar hpBar2; //public koska EnemyPrefab
 
     public int experienceValue;
-
+ 
     private Player playerReference;
 
     private BoardManager board;
@@ -32,12 +31,13 @@ public class Enemy : MovingObject
             MaxHits = Hits = 100 + 50 + manager.GetLevel() * 20;
             Damage = PlayerDamage + manager.GetLevel() * 5;
             experienceValue = experienceValue * 4 + manager.GetLevel() * 50;
-            //poisonDamage = poisonDamage + manager.GetLevel();
+            PoisonDamage = PoisonDamage + manager.GetLevel();
         }
         else
         {
             MaxHits = Hits = 100;
-            Damage = PlayerDamage;
+            Damage = PlayerDamage + manager.GetLevel();
+            MaxHits = Hits = 100 + manager.GetLevel() * 5;
         }
 
         GameManager.instance.AddEnemyToList(this);
@@ -89,26 +89,31 @@ public class Enemy : MovingObject
     {
         Player hitPlayer = component as Player;
         bool crit = false;
-        hitPlayer.LoseHits(Damage, crit, isPoison);
+        hitPlayer.LoseHits(Damage, crit, isPoison, PoisonDamage);
 
         animator.SetTrigger("enemyAttack");
 
         SoundManager.instance.RandomizeSfx(7,8);
     }
 
-    public override void LoseHits(int dmg, bool isCrit, bool isPoison)
+    public override void LoseHits(int dmg, bool isCrit, bool isPoison, int poisondmg)
     {
-        base.LoseHits(dmg,isCrit,isPoison);
+        base.LoseHits(dmg,isCrit,isPoison, poisondmg);
 
-        hpBar2.HpBarFilled.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+        //Hits -= dmg;
+
+        if (isPoison == true && !IsPoisoned)
+            StartCoroutine("Poison", poisondmg);
+
+        UpdateHpBar();
 
         if(isCrit == true)
         {
-            CreateFloatingText(Convert.ToString(dmg), Color.cyan);
+            CreateFloatingText(dmg.ToString(), Color.cyan);
         }
         else
         {
-            CreateFloatingText(Convert.ToString(dmg), Color.red);
+            CreateFloatingText(dmg.ToString(), Color.red);
         }
 
         if (Hits <= 0)
@@ -127,7 +132,12 @@ public class Enemy : MovingObject
         GameManager.instance.RemoveEnemyFromlist(this);
         Destroy(gameObject);
     }
- 
+
+    public override void UpdateHpBar()
+    {
+        hpBar2.HpBarFilled.fillAmount = Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
+    }
+
 }
 
 

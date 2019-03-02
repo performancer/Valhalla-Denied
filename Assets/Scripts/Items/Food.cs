@@ -1,18 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 
 public class Food : Item
 {
     int health;
-
-   //private Player player;
-
-    void Start()
-    {
-         //player = FindObjectOfType<Player>();
-    }
 
     public Food (int id, string name, int health) : base(id, name)
     {
@@ -26,8 +19,12 @@ public class Food : Item
             return;
 
         from.Hits += health;
-        //player.UpdatePlayerHealthBar();
-        //player.CreateFloatingText(Convert.ToString(health), Color.green);
+
+        
+        Player player = GameObject.FindObjectOfType<Player>();
+        player.UpdateHpBar();
+        player.CreateFloatingText("+"+health.ToString(), Color.green);
+        
 
         if (ID == 0) //eat sounds
             SoundManager.instance.RandomizeSfx(2, 3);

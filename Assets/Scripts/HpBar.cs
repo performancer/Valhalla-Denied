@@ -10,18 +10,34 @@ public class HpBar : MonoBehaviour
     public Image HpBarBackground; //Private?
     public Image HpBarFilled; //Private?
 
+    BoardManager board;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        HpBarBackground = Instantiate(HpBarPreFab, GameObject.Find("TheCanvas").transform).GetComponent<Image>();
-        HpBarFilled = new List<Image>(HpBarBackground.GetComponentsInChildren<Image>()).Find(img => img != HpBarBackground);
+        board = GameManager.instance.BoardManager;
+
+            HpBarBackground = Instantiate(HpBarPreFab, GameObject.Find("TheCanvas").transform).GetComponent<Image>();
+            HpBarFilled = new List<Image>(HpBarBackground.GetComponentsInChildren<Image>()).Find(img => img != HpBarBackground);
+
+        if (board.IsBossRoom)
+        {
+            HpBarBackground.rectTransform.localScale = new Vector3(1.5f, 1.0f, 1.0f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        HpBarBackground.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.45f, 0));
+        if (board.IsBossRoom)
+        {
+            HpBarBackground.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.675f, 0));
+        }
+        else
+        {
+            HpBarBackground.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.45f, 0));
+        }
     }
 
     public void DestroyBar()
@@ -30,4 +46,7 @@ public class HpBar : MonoBehaviour
         Destroy(HpBarBackground);
         Destroy(gameObject);
     }
+
 }
+
+

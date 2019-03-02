@@ -266,6 +266,14 @@ PrefabInstance:
       propertyPath: playerLevelText
       value: 
       objectReference: {fileID: 1687905102}
+    - target: {fileID: 11446652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: isPoison
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11446652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: poisonDamage
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
 --- !u!1 &640480130

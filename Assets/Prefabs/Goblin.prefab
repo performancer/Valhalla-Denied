@@ -162,10 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22f79ef0655a41bb9e62823f6e7a3f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poisonTimer: 5
-  poisonEffect: 0
-  PlayerDamage: 15
   isPoison: 0
+  poisonInterval: 2
+  poisonCount: 3
+  poisonDamage: 0
+  PlayerDamage: 20
   hpBar2: {fileID: 2800797848854618351}
   experienceValue: 150
 --- !u!114 &2800797848854618351
