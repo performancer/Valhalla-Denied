@@ -52,8 +52,8 @@ MonoBehaviour:
   - {fileID: 21300036, guid: fbe1e7b94bb1a4a099d5bcb15a00141c, type: 3}
   - {fileID: 21300044, guid: 7ab84343185e5714090d25b5ab7c9d36, type: 3}
   - {fileID: 21300046, guid: 7ab84343185e5714090d25b5ab7c9d36, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300082, guid: c552ad9995ea18646a06ea28d240a8e8, type: 3}
+  - {fileID: 21300084, guid: c552ad9995ea18646a06ea28d240a8e8, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -108,3 +108,7 @@ MonoBehaviour:
   - {fileID: 2103450978515801294, guid: e88adf794fe3ba746ada37a461575c70, type: 3}
   armorTiles:
   - {fileID: 3254439022853958280, guid: 08d6056d1bdd51a4e8391a6e0b5a3129, type: 3}
+  legendarySwordTiles:
+  - {fileID: 7585190457129662402, guid: 4dd0fcae4c434b04bbd582045ec8f227, type: 3}
+  legendaryArmorTiles:
+  - {fileID: 1042578871138529068, guid: f3a6e6bdbc0270444bbd50f3695a690f, type: 3}

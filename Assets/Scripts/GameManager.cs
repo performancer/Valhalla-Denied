@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
         spriteManager = new SpriteManager(font, block, itemSprites);
         playerState = new PlayerState();
 
-        playerState.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Iron Armor", 10));
-        playerState.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Bastard Sword", 8));
+        playerState.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Armor", 10));
+        playerState.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Sword", 10));
 
         paused = false;
 

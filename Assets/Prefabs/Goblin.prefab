@@ -170,7 +170,7 @@ MonoBehaviour:
   moveDelayVar: 0.4
   PlayerDamage: 5
   hpBar2: {fileID: 2800797848854618351}
-  experienceValue: 200
+  experienceValue: 250
 --- !u!114 &2800797848854618351
 MonoBehaviour:
   m_ObjectHideFlags: 0

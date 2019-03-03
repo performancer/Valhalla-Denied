@@ -231,9 +231,17 @@ public class Player : MovingObject
         else if (other.tag == "Sword")
         {
             GameManager manager = FindObjectOfType<GameManager>();
-            int sworddmg = 8 + Random.Range(1, 10) + manager.GetLevel();
+            int sworddmg = 10 + Random.Range(1, 10) + manager.GetLevel();
 
             if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Iron Sword +" + (sworddmg -8) , sworddmg)))
+                other.gameObject.SetActive(false);
+        }
+        else if (other.tag == "LegendarySword")
+        {
+            GameManager manager = FindObjectOfType<GameManager>();
+            int sworddmg = 10 + Random.Range(20, 30) + manager.GetLevel();
+
+            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.LegendaryVikingSword, "Legendary Viking Sword +" + (sworddmg - 10), sworddmg)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "Armor")
@@ -243,6 +251,14 @@ public class Player : MovingObject
 
             if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Iron Armor +" + (armorvalue - 10), armorvalue)))
             other.gameObject.SetActive(false);
+        }
+        else if (other.tag == "LegendaryArmor")
+        {
+            GameManager manager = FindObjectOfType<GameManager>();
+            int armorvalue = 10 + Random.Range(20, 30) + manager.GetLevel();
+
+            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.LegendaryVikingArmor, "Legendary Viking Armor +" + (armorvalue - 10), armorvalue)))
+                other.gameObject.SetActive(false);
         }
         else if(other.tag == "Scroll")
         {

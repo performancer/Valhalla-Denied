@@ -36,6 +36,8 @@ public class BoardManager : MonoBehaviour
     public GameObject[] scrollTiles;
     public GameObject[] swordTiles;
     public GameObject[] armorTiles;
+    public GameObject[] legendarySwordTiles;
+    public GameObject[] legendaryArmorTiles;
 
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List<Vector3> gridPositions = new List<Vector3>();  //A list of possible locations to place tiles.
@@ -204,9 +206,9 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             int scrollCount;
-            int scrollRandom = Random.Range(1, 5);
+            int scrollChance = Random.Range(1, 5);
 
-            if (scrollRandom == 1)
+            if (scrollChance == 1)
                 scrollCount = 1;
             else
                 scrollCount = 0;
@@ -220,9 +222,9 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             int swordCount;
-            int swordRandom = Random.Range(1, 10);
+            int swordChance = Random.Range(1, 10);
 
-            if (swordRandom == 1)
+            if (swordChance == 1)
                 swordCount = 1;
             else
                 swordCount = 0;
@@ -230,9 +232,9 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(swordTiles, swordCount, swordCount);
 
             int armorCount;
-            int armorRandom = Random.Range(1, 10);
+            int armorChance = Random.Range(1, 10);
 
-            if (armorRandom == 1)
+            if (armorChance == 1)
                 armorCount = 1;
             else
                 armorCount = 0;
@@ -251,22 +253,45 @@ public class BoardManager : MonoBehaviour
 
     public void CreateSword()
     {
-        Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
-    }
+        if (IsBossRoom)
+        {
+            GameManager manager = FindObjectOfType<GameManager>();
+            int legendaryChance = Random.Range(1, 100);
+            if (legendaryChance <= 10 + manager.GetLevel())
+            {
+                Instantiate(legendarySwordTiles[0], RandomPosition(), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
+            }
+        }
+        else
+        {
+            Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
+        }
 
-    public void LegendarySword()
-    {
-        //Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
     }
 
     public void CreateArmor()
     {
-        Instantiate(armorTiles[0], RandomPosition(), Quaternion.identity);
-    }
-
-    public void CreateLegendaryArmor()
-    {
-        //Instantiate(swordTiles[0], RandomPosition(), Quaternion.identity);
+        if (IsBossRoom)
+        {
+            GameManager manager = FindObjectOfType<GameManager>();
+            int legendaryChance = Random.Range(1, 100);
+            if (legendaryChance <= 10 + manager.GetLevel())
+            {
+                Instantiate(legendaryArmorTiles[0], RandomPosition(), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(armorTiles[0], RandomPosition(), Quaternion.identity);
+            }
+        }
+        else
+        {
+            Instantiate(armorTiles[0], RandomPosition(), Quaternion.identity);
+        }
     }
 }
 

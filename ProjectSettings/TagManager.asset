@@ -12,6 +12,8 @@ TagManager:
   - Scroll
   - Sword
   - Armor
+  - LegendaryArmor
+  - LegendarySword
   layers:
   - Default
   - TransparentFX

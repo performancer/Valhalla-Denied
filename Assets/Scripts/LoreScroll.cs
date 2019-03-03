@@ -8,26 +8,27 @@ public class LoreScroll : MonoBehaviour
 
     public GameObject scrollBox;
     public Text scrollText;
-    private bool scrollActive;
-    private GameManager scrollManager;
+    public Text scrollTextContinue;
 
+    private bool scrollActive;
+    private GameManager manager;
 
     // Start is called before the first frame update
     void Start()
     {
         scrollBox.SetActive(false);
         scrollActive = false;
-        scrollManager = GameManager.instance;
+        manager = GameManager.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(scrollActive == true && scrollManager.paused == true && (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.JoystickButton0)))
+        if(scrollActive == true && manager.paused == true && (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.JoystickButton0)))
         {
             scrollBox.SetActive(false);
             scrollActive = false;
-            scrollManager.paused = false;
+            manager.paused = false;
         }
     }
 
@@ -36,7 +37,16 @@ public class LoreScroll : MonoBehaviour
         scrollBox.SetActive(true);
         scrollActive = true;
         scrollText.text = loreTexts[Random.Range(0, loreTexts.Length)];
-        scrollManager.paused = true;
+
+        if (DetectXboxController() == true)
+        {
+            scrollTextContinue.text = "Press A to Continue";
+        } else
+        {
+            scrollTextContinue.text = "Press E to Continue";
+        }
+        
+        manager.paused = true;
     }
 
     private string[] loreTexts = new string[]
@@ -72,4 +82,32 @@ public class LoreScroll : MonoBehaviour
         "Now my course is tough: Death, close sister of Odin's enemy stands on the ness: with resolution and without remorse I will gladly await my own." ,
 
     };
+
+    private bool DetectXboxController()
+    {
+        string[] names = Input.GetJoystickNames();
+
+        bool isXboxController = false;
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (names[i] == "Controller (Xbox One For Windows)")
+            {
+                isXboxController = true;
+            }
+            else
+            {
+                isXboxController = false;
+            }
+        }
+
+        if (isXboxController == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

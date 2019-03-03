@@ -19,7 +19,6 @@ public class Inventory
     private const int capacity = 20;
 
     //Controller variables
-    private bool controllerNeutral = true;
     private bool controllerUp = false;
     private bool controllerDown = false;
     #endregion
@@ -69,7 +68,6 @@ public class Inventory
         {
             if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S) || (((int)(Input.GetAxis("InventoryDpadVertical")) < 0) && !controllerDown) || ((int)(Input.GetAxis("InventoryStickVertical")) > 0) && !controllerDown)
             {
-                controllerNeutral = false;
                 controllerDown = true;
 
                 if (++selected > capacity - 1)
@@ -81,7 +79,6 @@ public class Inventory
             }
             else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W) || (((int)(Input.GetAxis("InventoryDpadVertical")) > 0) && !controllerUp) || ((int)(Input.GetAxis("InventoryStickVertical")) < 0) && !controllerUp)
             {
-                controllerNeutral = false;
                 controllerUp = true;
 
                 if (--selected < 0)
@@ -105,7 +102,6 @@ public class Inventory
             }
             else if ((int)(Input.GetAxis("InventoryDpadVertical")) == 0)
             {
-                controllerNeutral = true;
                 controllerUp = false;
                 controllerDown = false;
             }
@@ -241,7 +237,18 @@ public class Inventory
         inventoryText = SpriteManager.CreateText(UI.transform, 22, new Vector3(70, -200, 0), false);
         inventoryText.text = "INVENTORY " + items.Count + "/" + capacity;
 
-        SpriteManager.CreateText(UI.transform, 14, new Vector3(300, -250, 0), false).text = "Press E to Use\nPress D to Drop\nPress Backspace to close";
+        string uitext;
+
+        if (DetectXboxController() == true)
+        {
+            uitext = "Press A to Use\nPress Y to Drop\nPress B to close";
+        }
+        else
+        {
+            uitext = "Press E to Use\nPress D to Drop\nPress Backspace to close";
+
+        }
+        SpriteManager.CreateText(UI.transform, 14, new Vector3(300, -250, 0), false).text = uitext;
 
         Vector3 position = GetPosition(0);
         selectedText = SpriteManager.CreateText(UI.transform, 22, new Vector3(position.x + 100, position.y, 0), false);
@@ -280,5 +287,33 @@ public class Inventory
         UI.transform.DestroyChildren();
 
         selected = 0;
+    }
+
+    private bool DetectXboxController()
+    {
+        string[] names = Input.GetJoystickNames();
+
+        bool isXboxController = false;
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (names[i] == "Controller (Xbox One For Windows)")
+            {
+                isXboxController = true;
+            }
+            else
+            {
+                isXboxController = false;
+            }
+        }
+
+        if (isXboxController == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
