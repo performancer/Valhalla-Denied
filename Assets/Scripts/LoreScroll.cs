@@ -46,6 +46,7 @@ public class LoreScroll : MonoBehaviour
             scrollTextContinue.text = "Press E to Continue";
         }
         
+        
         manager.paused = true;
     }
 

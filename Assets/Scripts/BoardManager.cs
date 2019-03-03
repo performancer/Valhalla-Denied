@@ -257,7 +257,7 @@ public class BoardManager : MonoBehaviour
         {
             GameManager manager = FindObjectOfType<GameManager>();
             int legendaryChance = Random.Range(1, 100);
-            if (legendaryChance <= 10 + manager.GetLevel())
+            if (legendaryChance <= 5 + manager.GetLevel())
             {
                 Instantiate(legendarySwordTiles[0], RandomPosition(), Quaternion.identity);
             }
@@ -279,7 +279,7 @@ public class BoardManager : MonoBehaviour
         {
             GameManager manager = FindObjectOfType<GameManager>();
             int legendaryChance = Random.Range(1, 100);
-            if (legendaryChance <= 10 + manager.GetLevel())
+            if (legendaryChance <= 5 + manager.GetLevel())
             {
                 Instantiate(legendaryArmorTiles[0], RandomPosition(), Quaternion.identity);
             }
