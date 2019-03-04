@@ -35,7 +35,6 @@ public class Enemy : MovingObject
         }
         else
         {
-            MaxHits = Hits = 100;
             Damage = PlayerDamage + manager.GetLevel();
             MaxHits = Hits = 100 + manager.GetLevel() * 5;
         }

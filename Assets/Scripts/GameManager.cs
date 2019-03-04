@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
 
         playerState.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Armor", 10));
         playerState.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Sword", 10));
-
         paused = false;
 
         //Call the InitGame function to initialize the first level 
@@ -157,7 +156,6 @@ public class GameManager : MonoBehaviour
 
         //Call the SetupScene function of the BoardManager script, pass it current level number.
         boardScript.SetupScene(level, isBoss);
-
     }
 
 

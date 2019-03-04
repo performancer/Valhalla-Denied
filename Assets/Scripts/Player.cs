@@ -21,8 +21,6 @@ public class Player : MovingObject
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
     private LoreScroll scroll;
-
-
     #endregion
 
     #region Properties
@@ -82,6 +80,13 @@ public class Player : MovingObject
         MoveDelay = TimeSpan.FromSeconds(0.3);
 
         UpdateCamera();
+
+        if(state.StartEquip == false)
+        {
+            state.Inventory.AutoEquipStartingGear();
+            state.StartEquip = true;
+        }
+        
     }
 
     private void Update()
