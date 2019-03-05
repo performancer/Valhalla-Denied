@@ -80,12 +80,6 @@ public class Player : MovingObject
         MoveDelay = TimeSpan.FromSeconds(0.3);
 
         UpdateCamera();
-
-        if(state.StartEquip == false)
-        {
-            state.Inventory.AutoEquipStartingGear();
-            state.StartEquip = true;
-        }
         
     }
 
@@ -127,7 +121,6 @@ public class Player : MovingObject
         
         if (Input.GetKeyUp(KeyCode.X)) //Gain XP button for testing purposes
             GainXP(100);
-        
 
         CheckFlip();
         CheckIfGameOver();
@@ -152,6 +145,7 @@ public class Player : MovingObject
     //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
     protected override void AttemptMove<T>(int xDir, int yDir)
     {
+
         //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
         base.AttemptMove<T>(xDir, yDir);
 
@@ -166,7 +160,7 @@ public class Player : MovingObject
         }
 
         //Since the player has moved and lost food points, check if the game has ended.
-        //CheckIfGameOver();
+        CheckIfGameOver();
     }
 
     //OnCantMove overrides the abstract function OnCantMove in MovingObject.
@@ -236,9 +230,17 @@ public class Player : MovingObject
         else if (other.tag == "Sword")
         {
             GameManager manager = FindObjectOfType<GameManager>();
-            int sworddmg = 10 + Random.Range(1, 10) + manager.GetLevel();
 
-            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Iron Sword +" + (sworddmg -8) , sworddmg)))
+            int sworddmg;
+            if(manager.CheckIfTutorial() == false)
+            {
+                sworddmg = 10 + Random.Range(1, 10) + manager.GetLevel();
+
+            } else
+            {
+                sworddmg = 5;
+            }
+            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Sword DMG: " + (sworddmg), sworddmg)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "LegendarySword")
@@ -246,15 +248,22 @@ public class Player : MovingObject
             GameManager manager = FindObjectOfType<GameManager>();
             int sworddmg = 10 + Random.Range(15, 30) + manager.GetLevel();
 
-            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.LegendaryVikingSword, "Legendary Viking Sword +" + (sworddmg - 10), sworddmg)))
+            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.LegendaryVikingSword, "Legendary Viking Sword DMG: " + (sworddmg), sworddmg)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "Armor")
         {
+            int armorvalue;
             GameManager manager = FindObjectOfType<GameManager>();
-            int armorvalue = 10 + Random.Range(1, 10) + manager.GetLevel();
-
-            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Iron Armor +" + (armorvalue - 10), armorvalue)))
+            if (manager.CheckIfTutorial() == false)
+            {
+                armorvalue = 10 + Random.Range(1, 10) + manager.GetLevel();
+            }
+            else
+            {
+                armorvalue = 5;
+            }
+            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Armor AV: " + (armorvalue), armorvalue)))
             other.gameObject.SetActive(false);
         }
         else if (other.tag == "LegendaryArmor")
@@ -262,13 +271,13 @@ public class Player : MovingObject
             GameManager manager = FindObjectOfType<GameManager>();
             int armorvalue = 10 + Random.Range(15, 30) + manager.GetLevel();
 
-            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.LegendaryVikingArmor, "Legendary Viking Armor +" + (armorvalue - 10), armorvalue)))
+            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.LegendaryVikingArmor, "Legendary Viking Armor AV: " + (armorvalue), armorvalue)))
                 other.gameObject.SetActive(false);
         }
         else if(other.tag == "Scroll")
         {
             other.gameObject.SetActive(false);
-            state.XpModifier += (float) 0.1;
+            state.XpModifier += (float)0.1;
             CreateFloatingText("+XPMOD", Color.white);
             scroll.ShowScroll();
         }

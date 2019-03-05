@@ -43,6 +43,7 @@ public class BoardManager : MonoBehaviour
     private List<Vector3> gridPositions = new List<Vector3>();  //A list of possible locations to place tiles.
 
     public bool IsBossRoom{ get; set; }
+    public bool IsTutorial { get; set; }
 
     //Clears our list gridPositions and prepares it to generate a new board.
     void InitialiseList()
@@ -208,7 +209,9 @@ public class BoardManager : MonoBehaviour
             int scrollCount;
             int scrollChance = Random.Range(1, 5);
 
-            if (scrollChance == 1)
+            GameManager manager = FindObjectOfType<GameManager>();
+
+            if ( scrollChance == 1 && manager.GetLevel() > 2)
                 scrollCount = 1;
             else
                 scrollCount = 0;
@@ -216,15 +219,26 @@ public class BoardManager : MonoBehaviour
             //Instantiate scroll tiles, at randomized positions
             LayoutObjectAtRandom(scrollTiles, scrollCount, scrollCount);
 
-            int enemyCount = (int)(Mathf.Log(level, 2f) * (area / 64f));
-
+            int enemyCount;
+            if(level == 1)
+            {
+                enemyCount = 0;
+            } else if (level == 2)
+            {
+                enemyCount = 1;
+            }
+            else
+            {
+                enemyCount = (int)(Mathf.Log(level, 2f) * (area / 64f));
+            }
+            
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             int swordCount;
             int swordChance = Random.Range(1, 10);
 
-            if (swordChance == 1)
+            if ( (swordChance == 1 && manager.CheckIfTutorial() == false) || manager.GetLevel() == 1)
                 swordCount = 1;
             else
                 swordCount = 0;
@@ -234,7 +248,7 @@ public class BoardManager : MonoBehaviour
             int armorCount;
             int armorChance = Random.Range(1, 10);
 
-            if (armorChance == 1)
+            if ( (armorChance == 1 && manager.CheckIfTutorial() == false) || manager.GetLevel() == 1)
                 armorCount = 1;
             else
                 armorCount = 0;

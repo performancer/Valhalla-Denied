@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private Text levelText;                                 //Text to display current level number.
     private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
     private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
-    private int level = 1;                                  //Current level number, expressed in game as "Day 1".
+    private int level = 1;                                  //Current level number
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
 
@@ -51,8 +51,6 @@ public class GameManager : MonoBehaviour
         spriteManager = new SpriteManager(font, block, itemSprites);
         playerState = new PlayerState();
 
-        playerState.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Armor", 10));
-        playerState.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Sword", 10));
         paused = false;
 
         //Call the InitGame function to initialize the first level 
@@ -86,7 +84,6 @@ public class GameManager : MonoBehaviour
         "To the darkest void...",
         "Is this before time?",
         "There are only monsters...",
-        "Emil osaa koodata"
     };
 
     private string[] middleThoughts = new string[]
@@ -126,7 +123,7 @@ public class GameManager : MonoBehaviour
 
         //Set the text of levelText to the string "Day" and append the current level number.
 
-        bool isBoss = Random.Range(1, 10) < 3 && level > 2; 
+        bool isBoss = Random.Range(1, 10) < 3 && CheckIfTutorial() == false; 
 
         if(isBoss)
         {
@@ -211,6 +208,18 @@ public class GameManager : MonoBehaviour
         {
             //Call the MoveEnemy function of Enemy at index i in the enemies List.
             enemies[i].MoveEnemy();
+        }
+    }
+
+    public bool CheckIfTutorial()
+    {
+        if(level < 3)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

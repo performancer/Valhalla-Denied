@@ -19,6 +19,11 @@ public class LoreScroll : MonoBehaviour
         scrollBox.SetActive(false);
         scrollActive = false;
         manager = GameManager.instance;
+
+        if (manager.CheckIfTutorial() == true)
+        {
+            ShowScroll();
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +41,19 @@ public class LoreScroll : MonoBehaviour
     {
         scrollBox.SetActive(true);
         scrollActive = true;
-        scrollText.text = loreTexts[Random.Range(0, loreTexts.Length)];
+
+        bool isTutorial;
+
+        if (manager.CheckIfTutorial() == true)
+            isTutorial = true;
+        else
+            isTutorial = false;
+
+        if (isTutorial == true)
+            TutorialScroll(manager.GetLevel());
+        else
+            scrollText.text = loreTexts[Random.Range(0, loreTexts.Length)];
+
 
         if (DetectXboxController() == true)
         {
@@ -45,8 +62,7 @@ public class LoreScroll : MonoBehaviour
         {
             scrollTextContinue.text = "Press E to Continue";
         }
-        
-        
+
         manager.paused = true;
     }
 
@@ -83,6 +99,31 @@ public class LoreScroll : MonoBehaviour
         "Now my course is tough: Death, close sister of Odin's enemy stands on the ness: with resolution and without remorse I will gladly await my own." ,
 
     };
+
+    private void TutorialScroll(int level)
+    {
+        string movementText;
+        string inventoryText;
+
+        if (DetectXboxController() == true)
+        {
+            movementText = "Joysticks and the D-pad";
+            inventoryText = "START";
+        }
+        else
+        {
+            movementText = "WASD and the arrow keys";
+            inventoryText = "I";
+        }
+
+        if (level == 1)
+        {
+            scrollText.text = "Welcome to Valhalla Denied. You can move by "+movementText+". You can destroy walls by moving on them.\n\nTake up your weapon and armor of your past life from the ground.\nPress "+inventoryText+" to access your inventory.\n\nGo down the stairs to go deeper...";
+        } else if (level == 2)
+        {
+            scrollText.text = "On this floor is your first enemy. Try not to die.\n\nHeal up by eating food. \n\nYou are on your own now.\n\nAre you able to escape Hell and go to Valhalla?";
+        }
+    }
 
     private bool DetectXboxController()
     {

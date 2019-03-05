@@ -14,7 +14,6 @@ public class PlayerState
     private int playerLevel;
     private float critchance;
     private float xpmodifier;
-    private bool startEquip;
 
     private Inventory inventory;
     private Armor armor;
@@ -67,12 +66,6 @@ public class PlayerState
         set { xpmodifier = value; }
     }
 
-    public bool StartEquip
-    {
-        get { return startEquip; }
-        set { startEquip = value; }
-    }
-
     public Inventory Inventory
     {
         get { return inventory; }
@@ -113,7 +106,6 @@ public class PlayerState
         playerLevel = 1;
         critchance = 0;
         xpmodifier = 1;
-        startEquip = false;
 
     inventory = new Inventory(this);
     }

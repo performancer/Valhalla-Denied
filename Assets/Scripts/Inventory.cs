@@ -288,13 +288,6 @@ public class Inventory
         selected = 0;
     }
 
-    public void AutoEquipStartingGear()
-    {
-        Player player = GameObject.FindObjectOfType<Player>();
-        items[0].Use(player);
-        items[1].Use(player);
-    }
-
     private bool DetectXboxController()
     {
         string[] names = Input.GetJoystickNames();
