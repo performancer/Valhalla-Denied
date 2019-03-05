@@ -227,8 +227,6 @@ public abstract class MovingObject : MonoBehaviour
         var clone = Instantiate(FloatingNumberPreFab, transform.position, Quaternion.Euler(Vector3.zero));
         clone.transform.SetParent(GameObject.Find("FloatingTextCanvas").transform);
 
-        //clone.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0, 0));
-
         clone.GetComponent<FloatingNumbers>().textToDisplay = text;
         clone.GetComponent<FloatingNumbers>().SetColor(color);
     }

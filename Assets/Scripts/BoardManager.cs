@@ -39,6 +39,7 @@ public class BoardManager : MonoBehaviour
     public GameObject[] armorTiles;
     public GameObject[] legendarySwordTiles;
     public GameObject[] legendaryArmorTiles;
+    public GameObject[] powerupTiles;
 
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List<Vector3> gridPositions = new List<Vector3>();  //A list of possible locations to place tiles.
@@ -195,7 +196,17 @@ public class BoardManager : MonoBehaviour
 
         if (isBoss)
         {
-            GameObject boss = Instantiate(enemyTiles[Random.Range(0, enemyTiles.Length)], RandomPosition(), Quaternion.identity);
+            int enemyChoice;
+            if (GameManager.instance.CheckIfTutorial() == true)
+            {
+                enemyChoice = 1;
+            }
+            else
+            {
+                enemyChoice = Random.Range(0, enemyTiles.Length);
+            }
+
+            GameObject boss = Instantiate(enemyTiles[enemyChoice], RandomPosition(), Quaternion.identity);
 
             SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
             renderer.color = new Color(0.8f, 0.45f, 0.45f, Random.Range(0,1) == 1 ? 1 : 0.8f);
@@ -256,6 +267,17 @@ public class BoardManager : MonoBehaviour
                 armorCount = 0;
 
             LayoutObjectAtRandom(armorTiles, armorCount, armorCount);
+
+            int powerupCount;
+
+            int powerupChance = Random.Range(1,1);
+            if (powerupChance == 1 && manager.CheckIfTutorial() == false)
+                powerupCount = 1;
+            else
+                powerupCount = 0;
+
+            LayoutObjectAtRandom(powerupTiles, powerupCount, powerupCount);
+            
 
             //Instantiate the exit tile in random position
             CreateRandomExit();

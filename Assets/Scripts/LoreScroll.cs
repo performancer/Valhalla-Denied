@@ -20,7 +20,7 @@ public class LoreScroll : MonoBehaviour
         scrollActive = false;
         manager = GameManager.instance;
 
-        if (manager.CheckIfTutorial() == true && manager.GetLevel() < 3)
+        if (manager.CheckIfTutorial() == true)
         {
             ShowScroll();
         }
@@ -121,7 +121,10 @@ public class LoreScroll : MonoBehaviour
             scrollText.text = "Welcome to Valhalla Denied. You can move by "+movementText+". You can destroy walls by moving on them.\n\nTake up your weapon and armor of your past life from the ground.\nPress "+inventoryText+" to access your inventory.\n\nGo down the stairs to go deeper...";
         } else if (level == 2)
         {
-            scrollText.text = "On this floor is your first enemy. Try not to die.\n\nHeal up by eating food. \n\nYou are on your own now.\n\nAre you able to escape Hell and go to Valhalla?";
+            scrollText.text = "On this floor is your first enemy.\n\nHit the enemy by moving towards it.\n\nTry not to die.\n\nHeal up by eating food.";
+        } else
+        {
+            scrollText.text = "There is a boss ahead.\n\nTake note that opening your inventory pauses the game.\n\nYou are on your own now.\n\nAre you able to escape Hell and find Valhalla?";
         }
     }
 

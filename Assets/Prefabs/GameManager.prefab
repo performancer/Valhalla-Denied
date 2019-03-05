@@ -116,3 +116,5 @@ MonoBehaviour:
   - {fileID: 7585190457129662402, guid: 4dd0fcae4c434b04bbd582045ec8f227, type: 3}
   legendaryArmorTiles:
   - {fileID: 1042578871138529068, guid: f3a6e6bdbc0270444bbd50f3695a690f, type: 3}
+  powerupTiles:
+  - {fileID: 6280833106648454648, guid: 733eaef30ab81604b8853cdf81b54d51, type: 3}

@@ -193,6 +193,7 @@ public class Player : MovingObject
             }
 
             SoundManager.instance.RandomizeSfx(9, 10);
+            CheckIfGameOver();
 
 
             if (Weapon != null)
@@ -240,7 +241,7 @@ public class Player : MovingObject
             {
                 sworddmg = 5;
             }
-            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Sword DMG: " + (sworddmg), sworddmg)))
+            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Iron Sword DMG: " + (sworddmg), sworddmg)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "LegendarySword")
@@ -263,7 +264,7 @@ public class Player : MovingObject
             {
                 armorvalue = 5;
             }
-            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Armor AV: " + (armorvalue), armorvalue)))
+            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Iron Armor AV: " + (armorvalue), armorvalue)))
             other.gameObject.SetActive(false);
         }
         else if (other.tag == "LegendaryArmor")
@@ -280,6 +281,13 @@ public class Player : MovingObject
             state.XpModifier += (float)0.1;
             CreateFloatingText("+XPMOD", Color.white);
             scroll.ShowScroll();
+        }
+        else if (other.tag == "PowerUp")
+        {
+            other.gameObject.SetActive(false);
+            CreateFloatingText("POWERUP", Color.blue);
+            //PowerUp powerup = FindObjectOfType<PowerUp>();
+            //powerup.QuadDamage();
         }
     }
 
