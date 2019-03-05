@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9187415839415553382}
   - component: {fileID: 2056883426645369969}
   - component: {fileID: 6374857085751410346}
-  - component: {fileID: 4213040868653496074}
   - component: {fileID: 2953981229804302492}
   m_Layer: 5
   m_Name: FloatingNumbers
@@ -29,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 6450766987168765088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -37,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2056883426645369969
 CanvasRenderer:
@@ -77,24 +76,10 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 99
---- !u!114 &4213040868653496074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6450766987168765088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!114 &2953981229804302492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +94,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FloatingNumberPreFab: {fileID: 6450766987168765088}
   FloatingNumberText: {fileID: 6374857085751410346}
-  TextSpeed: 150
-  numberToDisplay: 0
+  TextSpeed: 3
+  textToDisplay: 
   timeToDestroy: 5

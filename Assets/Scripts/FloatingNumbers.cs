@@ -18,10 +18,12 @@ public class FloatingNumbers : MonoBehaviour
         FloatingNumberPreFab = (GameObject)Resources.Load("FloatingNumbers");
     }
 
-    public void setColor(Color color)
+    
+    public void SetColor(Color color)
     {
         FloatingNumberText.color = color;
     }
+    
     
     // Update is called once per frame
     void Update()
