@@ -20,7 +20,7 @@ public class LoreScroll : MonoBehaviour
         scrollActive = false;
         manager = GameManager.instance;
 
-        if (manager.CheckIfTutorial() == true)
+        if (manager.CheckIfTutorial() == true && manager.GetLevel() < 3)
         {
             ShowScroll();
         }

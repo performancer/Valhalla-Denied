@@ -33,6 +33,7 @@ public class BoardManager : MonoBehaviour
     public GameObject[] foodTiles;                                  //Array of food prefabs.
     public GameObject[] enemyTiles;                                 //Array of enemy prefabs.
     public GameObject[] outerWallTiles;                             //Array of outer tile prefabs.
+    public GameObject[] obstacleWallTiles;
     public GameObject[] scrollTiles;
     public GameObject[] swordTiles;
     public GameObject[] armorTiles;
@@ -124,7 +125,8 @@ public class BoardManager : MonoBehaviour
                 else if (!isBoss && (x == verticalWall || y == horizontalWall))
                 {
                     if (y != verticalDoor && y != verticalDoorAlt && x != horizontalDoor && x != horizontalDoorAlt)
-                        toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
+                        //toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
+                        toInstantiate = obstacleWallTiles[Random.Range(0, obstacleWallTiles.Length)];
                 }
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.

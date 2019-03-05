@@ -33,6 +33,12 @@ public class Enemy : MovingObject
             experienceValue = experienceValue * 4 + manager.GetLevel() * 50;
             PoisonDamage = PoisonDamage + manager.GetLevel();
         }
+        else if (board.IsBossRoom && manager.GetLevel() == 3)
+        {
+            MaxHits = Hits = 100 + manager.GetLevel() * 20;
+            Damage = PlayerDamage + manager.GetLevel() * 2;
+            experienceValue = experienceValue * 3;
+        }
         else
         {
             Damage = PlayerDamage + manager.GetLevel();
@@ -124,6 +130,10 @@ public class Enemy : MovingObject
         if (board.IsBossRoom)
         {
             board.CreateRandomExit();
+        }
+
+        if(board.IsBossRoom && GameManager.instance.CheckIfTutorial() == false)
+        {
             board.CreateSword();
             board.CreateArmor();
         }

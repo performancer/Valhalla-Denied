@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
         //Set the text of levelText to the string "Day" and append the current level number.
 
-        bool isBoss = Random.Range(1, 10) < 3 && CheckIfTutorial() == false; 
+        bool isBoss = (Random.Range(1, 10) < 3 && CheckIfTutorial() == false) || level == 3; 
 
         if(isBoss)
         {
@@ -213,7 +213,7 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfTutorial()
     {
-        if(level < 3)
+        if(level <= 3)
         {
             return true;
         }

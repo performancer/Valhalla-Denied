@@ -87,7 +87,7 @@ MonoBehaviour:
   - {fileID: 110520, guid: 01ca47a83ebe24ca5a2f6b1d6dcd7481, type: 3}
   - {fileID: 110520, guid: 022eda2f1f0cb45e28ff6840b68928bc, type: 3}
   - {fileID: 110520, guid: e1816487b15cd4c5fbd9587521e068ca, type: 3}
-  - {fileID: 110520, guid: 5ddc2d7828b2d462286f09274199ad9a, type: 3}
+  - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
   - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
   - {fileID: 110520, guid: 741804431f4d341cdae1f15b3896aeff, type: 3}
   foodTiles:
@@ -102,6 +102,10 @@ MonoBehaviour:
   - {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}
   - {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
   - {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
+  obstacleWallTiles:
+  - {fileID: 7938560421516547927, guid: decc0324309210144acb05e849e3cb0d, type: 3}
+  - {fileID: 2856694857118551308, guid: 5b542948c56ff8246af76b377e9a7923, type: 3}
+  - {fileID: 5194961470859270854, guid: 6d1aa48eeaa0e144dacd63d2d01a3771, type: 3}
   scrollTiles:
   - {fileID: 8882578282854155092, guid: d7166c4d56c38134eaef489fafaf71aa, type: 3}
   swordTiles:
