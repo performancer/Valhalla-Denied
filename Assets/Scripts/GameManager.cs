@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         //Set levelText to display number of levels passed and game over message
-        levelText.text = "After " + level + " levels, you died.";
+        levelText.text = "After " + level + " levels, you died. \n Press Esc to quit \n Press Enter to start new game";
         Escape = true;
         paused = true;
        
