@@ -199,7 +199,7 @@ public class BoardManager : MonoBehaviour
             int enemyChoice;
             if (GameManager.instance.CheckIfTutorial() == true)
             {
-                enemyChoice = 1;
+                enemyChoice = 0;
             }
             else
             {

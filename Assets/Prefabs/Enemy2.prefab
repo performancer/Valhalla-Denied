@@ -168,9 +168,9 @@ MonoBehaviour:
   poisonDamage: 0
   moveTime: 0.1
   moveDelayVar: 0.8
-  PlayerDamage: 25
+  PlayerDamage: 20
   hpBar2: {fileID: 6373838506094864293}
-  experienceValue: 200
+  experienceValue: 250
 --- !u!114 &6373838506094864293
 MonoBehaviour:
   m_ObjectHideFlags: 0

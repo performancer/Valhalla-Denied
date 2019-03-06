@@ -26,18 +26,23 @@ public class Enemy : MovingObject
         GameManager manager = GameManager.instance;
        
 
-        if (board.IsBossRoom)
+        if (board.IsBossRoom && manager.CheckIfTutorial() == false)
         {
             MaxHits = Hits = 100 + 50 + manager.GetLevel() * 20;
             Damage = PlayerDamage + manager.GetLevel() * 3;
             experienceValue = experienceValue * 4 + manager.GetLevel() * 50;
             PoisonDamage = PoisonDamage + manager.GetLevel();
         }
-        else if (board.IsBossRoom && manager.CheckIfTutorial())
+        else if (board.IsBossRoom && manager.CheckIfTutorial() == true)
         {
-            MaxHits = Hits = 100 + manager.GetLevel() * 20;
-            Damage = PlayerDamage + manager.GetLevel();
-            experienceValue = experienceValue * 2 + manager.GetLevel() * 50;
+            MaxHits = Hits = 100 + 50;
+            Damage = PlayerDamage;
+            experienceValue = experienceValue * 2;
+        }
+        else if (manager.CheckIfTutorial() == true)
+        {
+            Damage = PlayerDamage;
+            MaxHits = Hits = 100;
         }
         else
         {

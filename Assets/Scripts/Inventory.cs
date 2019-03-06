@@ -49,7 +49,7 @@ public class Inventory
         if (manager.paused && !open)
             return;
 
-        if (Input.GetKeyUp(KeyCode.KeypadEnter) || Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.JoystickButton7))
         {
             if (!manager.paused)
                 Open();

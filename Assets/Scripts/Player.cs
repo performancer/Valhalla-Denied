@@ -381,10 +381,16 @@ public class Player : MovingObject
         state.MaxXp = 100 * state.PlayerLevel * Mathf.Pow(state.PlayerLevel, 0.5f);
         state.MaxXp = Mathf.Floor(state.MaxXp);
         state.CurrentXp = Mathf.Floor(0 + state.OverflowXp);
+
+        if(state.PlayerLevel % 3 == 0)
+        {
+            scroll.ShowLevelUpScroll();
+        }
         
         Damage += 5;
-        MaxHits += 10;
-        Hits = MaxHits;
+        state.MaxHits += 10;
+        Hits = state.MaxHits;
+        state.Hits = state.MaxHits;
         state.CritChance += (float)1.5;
 
         UpdateHpBar();
@@ -394,8 +400,8 @@ public class Player : MovingObject
 
     public override void UpdateHpBar()
     {
-        playerHpBar.fillAmount = state.Hits / (float)MaxHits; //Reduces the green "fill" on the red HpBackground
-        foodText.text = Hits + "/" + MaxHits;
+        playerHpBar.fillAmount = state.Hits / (float)state.MaxHits; //Reduces the green "fill" on the red HpBackground
+        foodText.text = state.Hits + "/" + state.MaxHits;
     }
 
 

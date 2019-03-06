@@ -7,6 +7,7 @@ public class PlayerState
 {
     private int hits;
     private int gold;
+    private int maxhits;
 
     private float currentxp;
     private float maxxp;
@@ -23,6 +24,11 @@ public class PlayerState
     {
         get { return hits; }
         set { hits = value; }
+    }
+    public int MaxHits
+    {
+        get { return maxhits; }
+        set { maxhits = value; }
     }
     public int Gold
     {
@@ -100,6 +106,7 @@ public class PlayerState
     public PlayerState()
     {
         hits = 100;
+        maxhits = 100;
         gold = 0;
 
         maxxp = 100;

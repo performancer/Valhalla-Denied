@@ -11,6 +11,7 @@ public class LoreScroll : MonoBehaviour
     public Text scrollTextContinue;
 
     private bool scrollActive;
+    private bool levelUpActive;
     private GameManager manager;
 
     // Start is called before the first frame update
@@ -29,10 +30,23 @@ public class LoreScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(scrollActive == true && manager.paused == true && (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.JoystickButton0)))
+        if(scrollActive == true && manager.paused == true && levelUpActive == false && (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0)))
         {
             scrollBox.SetActive(false);
             scrollActive = false;
+            manager.paused = false;
+        } else if (levelUpActive == true && (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.JoystickButton2) || Input.GetKeyUp(KeyCode.Alpha2) || Input.GetKeyUp(KeyCode.JoystickButton3) || Input.GetKeyUp(KeyCode.Alpha3) || Input.GetKeyUp(KeyCode.JoystickButton1)))
+        {
+            if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.JoystickButton2))
+                ExtraCritical();
+            else if (Input.GetKeyUp(KeyCode.Alpha2) || Input.GetKeyUp(KeyCode.JoystickButton3))
+                ExtraHp();
+            else if (Input.GetKeyUp(KeyCode.Alpha3) || Input.GetKeyUp(KeyCode.JoystickButton1))
+                ExtraXpGain();
+
+            scrollBox.SetActive(false);
+            scrollActive = false;
+            levelUpActive = false;
             manager.paused = false;
         }
     }
@@ -60,7 +74,7 @@ public class LoreScroll : MonoBehaviour
             scrollTextContinue.text = "Press A to Continue";
         } else
         {
-            scrollTextContinue.text = "Press E to Continue";
+            scrollTextContinue.text = "Press E or SPACE to Continue";
         }
 
         manager.paused = true;
@@ -113,19 +127,78 @@ public class LoreScroll : MonoBehaviour
         else
         {
             movementText = "WASD and the arrow keys";
-            inventoryText = "I";
+            inventoryText = "I or SPACE";
         }
 
         if (level == 1)
         {
-            scrollText.text = "Welcome to Valhalla Denied. You can move by "+movementText+". You can destroy walls by moving on them.\n\nTake up your weapon and armor of your past life from the ground.\nPress "+inventoryText+" to access your inventory.\n\nGo down the stairs to go deeper...";
+            scrollText.text = "Welcome to Valhalla Denied. You can move by "+movementText+". You can destroy walls by moving on them.\n\nTake up your weapon and armor of your past life from the ground.\n\nGo down the stairs to go deeper...";
         } else if (level == 2)
         {
-            scrollText.text = "On this floor is your first enemy.\n\nHit the enemy by moving towards it.\n\nTry not to die.\n\nHeal up by eating food.";
+            scrollText.text = "On this floor is your first enemy.You should arm yourself.\n\nPress " + inventoryText + " to access your inventory.\n\nHit the enemy automatically by moving towards it.\n\nHeal up by eating food.";
         } else
         {
             scrollText.text = "There is a boss ahead.\n\nTake note that opening your inventory pauses the game.\n\nYou are on your own now.\n\nAre you able to escape Hell and find Valhalla?";
         }
+    }
+
+    public void ShowLevelUpScroll()
+    {
+        scrollBox.SetActive(true);
+        scrollActive = true;
+        levelUpActive = true;
+
+        string critButtonText;
+        string hpButtonText;
+        string xpButtonText;
+
+        if (DetectXboxController() == true)
+        {
+            critButtonText = "X";
+            hpButtonText = "Y";
+            xpButtonText = "B";
+        }
+        else
+        {
+            critButtonText = "Press 1";
+            hpButtonText = "Press 2";
+            xpButtonText = "Press 3";
+        }
+
+        scrollText.text = "Choose a bonus!\n\nExtra Crit Chance ("+ critButtonText + ")\n\nExtra Hitpoints (" + hpButtonText + ")\n\nExtra Experience Gain (" + xpButtonText + ")\n\n";
+        manager.paused = true;
+        scrollTextContinue.text = "";
+    }
+
+    private void ExtraCritical()
+    {
+        Debug.Log("Extra Crit Chance");
+        manager.PlayerState.CritChance += (float)2.5;
+
+        Player player = FindObjectOfType<Player>();
+        player.CreateFloatingText("+CRITMOD", Color.blue);
+    }
+
+    private void ExtraHp()
+    {
+        Debug.Log("Extra HP");
+        Player player = FindObjectOfType<Player>();
+        manager.PlayerState.MaxHits += 20;
+        player.Hits = manager.PlayerState.MaxHits;
+        manager.PlayerState.Hits = manager.PlayerState.MaxHits;
+
+        player.UpdateHpBar();
+        player.CreateFloatingText("+20 MAXHP", Color.blue);
+    }
+
+    private void ExtraXpGain()
+    {
+        Debug.Log("Extra XP GAIN");
+        manager.PlayerState.XpModifier += (float)0.1;
+
+        Player player = FindObjectOfType<Player>();
+        player.CreateFloatingText("+XPMOD", Color.blue);
+
     }
 
     private bool DetectXboxController()
