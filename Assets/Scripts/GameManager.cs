@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     private int level = 1;                                  //Current level number
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
+    private bool Escape = false;
 
     public SpriteManager SpriteManager { get { return spriteManager; } }
     public PlayerState PlayerState { get { return playerState; } }
@@ -169,6 +170,15 @@ public class GameManager : MonoBehaviour
     //Update is called every frame.
     void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
+            StartCoroutine("EscapeIkkuna");
+        if (Escape && Input.GetKeyUp(KeyCode.Escape)) //While player has entered exit window, Enter quits application.
+            Application.Quit();
+        if (Escape && Input.GetKeyUp(KeyCode.Return))
+        {
+            Escape = false;
+            SceneManager.LoadScene(0);
+        }
         if (doingSetup || paused)
             return;
 
@@ -185,12 +195,30 @@ public class GameManager : MonoBehaviour
         enemies.Remove(script);
     }
 
+    //ExitIkkuna is called when player press Esc. 
+    public IEnumerator EscapeIkkuna()
+    {
+        levelText.text = "After " + level + " levels, you got bored... \n Press Esc to quit \n Press Enter to Start new game";
+
+        yield return new WaitForSeconds(1);
+        Escape = true;
+        paused = true;
+
+        levelImage.SetActive(true);
+      
+        
+
+
+    }
+   
     //GameOver is called when the player reaches 0 food points
     public void GameOver()
     {
         //Set levelText to display number of levels passed and game over message
         levelText.text = "After " + level + " levels, you died.";
+        Escape = true;
         paused = true;
+       
 
         //Enable black background image gameObject.
         levelImage.SetActive(true);
