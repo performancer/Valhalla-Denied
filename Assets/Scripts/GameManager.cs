@@ -172,13 +172,23 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
             StartCoroutine("EscapeIkkuna");
+
         if (Escape && Input.GetKeyUp(KeyCode.Escape)) //While player has entered exit window, Enter quits application.
             Application.Quit();
-        if (Escape && Input.GetKeyUp(KeyCode.Return))
+
+        if (Escape && Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
         {
             Escape = false;
             SceneManager.LoadScene(0);
         }
+
+        if (Escape && Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
+        {
+            paused = false;
+            Escape = false;
+            HideLevelImage();
+        }
+
         if (doingSetup || paused)
             return;
 
@@ -198,7 +208,7 @@ public class GameManager : MonoBehaviour
     //ExitIkkuna is called when player press Esc. 
     public IEnumerator EscapeIkkuna()
     {
-        levelText.text = "After " + level + " levels, you got bored... \n Press Esc to quit \n Press Enter to Start new game";
+        levelText.text = "Want to quit?\n Press Space to continue game \n Press Esc to quit \n Press Enter to Start new game";
 
         yield return new WaitForSeconds(1);
         Escape = true;
