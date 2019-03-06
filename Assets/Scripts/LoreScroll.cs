@@ -172,8 +172,8 @@ public class LoreScroll : MonoBehaviour
 
     private void ExtraCritical()
     {
-        Debug.Log("Extra Crit Chance");
         manager.PlayerState.CritChance += (float)2.5;
+        Debug.Log("Extra Crit Chance: " + manager.PlayerState.CritChance);
 
         Player player = FindObjectOfType<Player>();
         player.CreateFloatingText("+CRITMOD", Color.blue);
@@ -181,20 +181,61 @@ public class LoreScroll : MonoBehaviour
 
     private void ExtraHp()
     {
-        Debug.Log("Extra HP");
         Player player = FindObjectOfType<Player>();
+
         manager.PlayerState.MaxHits += 20;
-        player.Hits = manager.PlayerState.MaxHits;
-        manager.PlayerState.Hits = manager.PlayerState.MaxHits;
+        player.MaxHits = manager.PlayerState.MaxHits;
+        player.Hits = player.MaxHits;
+        //player.Hits = manager.PlayerState.MaxHits;
+        //player.MaxHits = manager.PlayerState.MaxHits;
+        //player.Hits = manager.PlayerState.MaxHits;
+
+
+        /*
+         *public override int Hits
+{
+    get { return state.Hits; }
+    set
+    {
+        state.Hits = value;
+
+        if (state.Hits > MaxHits)
+            state.Hits = MaxHits;
+
+        foodText.text = Hits + "/" + MaxHits;
+    }
+}
+         * 
+         * /
+
+
+    //manager.PlayerState.MaxHits += 20;
+    //player.MaxHits += 20;
+
+    //player.Hits += 20;
+    //manager.PlayerState.Hits += 20;
+
+    /*
+    manager.PlayerState.MaxHits += 20;
+    player.Hits += 20;
+    manager.PlayerState.Hits = manager.PlayerState.MaxHits;
+    */
+        /*
+        state.MaxHits += 10;
+        Hits = state.MaxHits;
+        state.Hits = state.MaxHits;
+        */
 
         player.UpdateHpBar();
+        Debug.Log(player.Hits + " vs " + manager.PlayerState.Hits);
         player.CreateFloatingText("+20 MAXHP", Color.blue);
     }
 
     private void ExtraXpGain()
     {
-        Debug.Log("Extra XP GAIN");
         manager.PlayerState.XpModifier += (float)0.1;
+
+        Debug.Log("Extra XP GAIN: " + manager.PlayerState.XpModifier);
 
         Player player = FindObjectOfType<Player>();
         player.CreateFloatingText("+XPMOD", Color.blue);

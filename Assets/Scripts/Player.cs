@@ -31,8 +31,8 @@ public class Player : MovingObject
         {
             state.Hits = value;
 
-            if (state.Hits > MaxHits)
-                state.Hits = MaxHits;
+            if (state.Hits > state.MaxHits)
+                state.Hits = state.MaxHits;
 
             foodText.text = Hits + "/" + MaxHits;
         }
@@ -369,6 +369,10 @@ public class Player : MovingObject
         else
         {
             LevelUp();
+            if (state.PlayerLevel % 3 == 0)
+            {
+                scroll.ShowLevelUpScroll();
+            }
         }
         UpdatePlayerManaBar();
     }
@@ -382,17 +386,17 @@ public class Player : MovingObject
         state.MaxXp = Mathf.Floor(state.MaxXp);
         state.CurrentXp = Mathf.Floor(0 + state.OverflowXp);
 
-        if(state.PlayerLevel % 3 == 0)
-        {
-            scroll.ShowLevelUpScroll();
-        }
-        
         Damage += 5;
+        state.CritChance += (float)1.5;
+        state.MaxHits += 10;
+        MaxHits = state.MaxHits;
+        Hits = MaxHits;
+
+        /*
         state.MaxHits += 10;
         Hits = state.MaxHits;
         state.Hits = state.MaxHits;
-        state.CritChance += (float)1.5;
-
+        */
         UpdateHpBar();
         UpdatePlayerLevel();
         UpdatePlayerManaBar();

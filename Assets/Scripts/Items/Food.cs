@@ -14,7 +14,6 @@ public class Food : Item
 
     public override void Use(MovingObject from)
     {
-        
         if (from.Hits >= from.MaxHits)
             return;
 
