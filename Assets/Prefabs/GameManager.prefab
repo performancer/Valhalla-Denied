@@ -48,10 +48,10 @@ MonoBehaviour:
   font: {fileID: 12800000, guid: b284a6525342f44599e9ce79e37c2d61, type: 3}
   block: {fileID: 21300000, guid: 1c1851099fd6ef545b259903da9dfeab, type: 3}
   itemSprites:
-  - {fileID: 21300038, guid: fbe1e7b94bb1a4a099d5bcb15a00141c, type: 3}
-  - {fileID: 21300036, guid: fbe1e7b94bb1a4a099d5bcb15a00141c, type: 3}
-  - {fileID: 21300044, guid: 7ab84343185e5714090d25b5ab7c9d36, type: 3}
-  - {fileID: 21300046, guid: 7ab84343185e5714090d25b5ab7c9d36, type: 3}
+  - {fileID: 21300016, guid: b0ae906328272794e86dc3542dd377f6, type: 3}
+  - {fileID: 21300018, guid: b0ae906328272794e86dc3542dd377f6, type: 3}
+  - {fileID: 21300044, guid: c552ad9995ea18646a06ea28d240a8e8, type: 3}
+  - {fileID: 21300046, guid: c552ad9995ea18646a06ea28d240a8e8, type: 3}
   - {fileID: 21300082, guid: c552ad9995ea18646a06ea28d240a8e8, type: 3}
   - {fileID: 21300084, guid: c552ad9995ea18646a06ea28d240a8e8, type: 3}
   - {fileID: 0}
