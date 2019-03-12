@@ -18,7 +18,7 @@ public class HpBar : MonoBehaviour
     {
         board = GameManager.instance.BoardManager;
 
-            HpBarBackground = Instantiate(HpBarPreFab, GameObject.Find("TheCanvas").transform).GetComponent<Image>();
+            HpBarBackground = Instantiate(HpBarPreFab, GameObject.Find("EnemyHpBarCanvas").transform).GetComponent<Image>();
             HpBarFilled = new List<Image>(HpBarBackground.GetComponentsInChildren<Image>()).Find(img => img != HpBarBackground);
 
         if (board.IsBossRoom)

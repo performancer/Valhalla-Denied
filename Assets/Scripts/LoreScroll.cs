@@ -180,7 +180,7 @@ public class LoreScroll : MonoBehaviour
         Debug.Log("Extra Crit Chance: " + manager.PlayerState.CriticalHitChance);
 
         Player player = FindObjectOfType<Player>();
-        player.CreateFloatingText("+" + critgain + " CRIT MOD", Color.blue);
+        player.CreateFloatingText("+" + critgain + "% CRIT MOD", Color.blue);
     }
 
     private void ExtraHp()
@@ -242,7 +242,7 @@ public class LoreScroll : MonoBehaviour
         Debug.Log("Extra XP GAIN: " + manager.PlayerState.ExperienceGainModifier);
 
         Player player = FindObjectOfType<Player>();
-        player.CreateFloatingText("+" + xpgain + " XP MOD", Color.blue);
+        player.CreateFloatingText("+" + xpgain + "% XP MOD", Color.blue);
 
     }
 

@@ -95,6 +95,7 @@ public class Inventory
                 {
                     items[selected].Use(player);
                     RefreshText();
+                    UpdateItemCountText();
                 }
             }
             else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton3))
@@ -151,6 +152,7 @@ public class Inventory
             AddBlock();
             //Refreshes the text for selected item
             RefreshText();
+            UpdateItemCountText();
             return true;
         }
 
@@ -289,6 +291,11 @@ public class Inventory
         UI.transform.DestroyChildren();
 
         selected = 0;
+    }
+
+    private void UpdateItemCountText()
+    {
+        inventoryText.text = "INVENTORY " + items.Count + "/" + capacity;
     }
 
     private bool DetectXboxController()
