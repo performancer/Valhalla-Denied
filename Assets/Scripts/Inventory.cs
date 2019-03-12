@@ -43,7 +43,8 @@ public class Inventory
 
         manager = GameManager.instance;
 
-        UI.SetActive(false);
+        if(UI != null)
+            UI.SetActive(false);
     }
 
     public void Update(Player player)

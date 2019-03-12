@@ -156,6 +156,23 @@ public class BoardManager : MonoBehaviour
         return randomPosition;
     }
 
+    Vector3 CenterPosition()
+    {
+        for (int radius = 0; radius < 5; radius++)
+        {
+            for (int x = rows / 2 - radius; x <= rows / 2 + radius; x++)
+            {
+                for (int y = columns / 2 - radius; y <= columns / 2 + radius; y++)
+                {
+                    if (gridPositions.Contains(new Vector3(x, y)))
+                        return new Vector3(x, y);
+                }
+            }
+        }
+
+        return RandomPosition();
+    }
+
     //LayoutObjectAtRandom accepts an array of game objects to choose from along with a minimum and maximum range for the number of objects to create.
     void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
     {
@@ -206,7 +223,7 @@ public class BoardManager : MonoBehaviour
                 enemyChoice = Random.Range(0, enemyTiles.Length);
             }
 
-            GameObject boss = Instantiate(enemyTiles[enemyChoice], RandomPosition(), Quaternion.identity);
+            GameObject boss = Instantiate(enemyTiles[enemyChoice], CenterPosition(), Quaternion.identity);
 
             SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
             renderer.color = new Color(0.8f, 0.45f, 0.45f, Random.Range(0,1) == 1 ? 1 : 0.8f);

@@ -180,11 +180,10 @@ public class GameManager : MonoBehaviour
     }
 
     //ExitIkkuna is called when player press Esc. 
-    public IEnumerator EscapeIkkuna()
+    public void EscapeIkkuna()
     {
         levelText.text = "Want to quit?\n Press Space to continue game \n Press Esc to quit \n Press Enter to Start new game";
 
-        yield return new WaitForSeconds(1);
         escape = true;
         paused = true;
 

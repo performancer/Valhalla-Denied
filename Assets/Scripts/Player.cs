@@ -92,7 +92,7 @@ public class Player : MovingObject
     private void Update()
     {
         if (!Manager.paused && Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
-            StartCoroutine("EscapeIkkuna");
+            Manager.EscapeIkkuna();
 
         if (Manager.Escape)
         {
