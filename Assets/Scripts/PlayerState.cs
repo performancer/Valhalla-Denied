@@ -8,13 +8,13 @@ public class PlayerState
     private int hits;
     private int gold;
     private int maxhits;
+    private int damage;
 
     private float currentExperience;
-    private float maxxp;
-    private float overflowxp;
+    private float maximumExperience;
     private int playerLevel;
-    private float critchance;
-    private float xpmodifier;
+    private float criticalHitChance;
+    private float experienceGainModifier;
 
     private Inventory inventory;
     private Armor armor;
@@ -36,28 +36,29 @@ public class PlayerState
         set { gold = value; }
     }
 
-    public float CurrentXp
+    public int Damage
+    {
+        get { return damage; }
+        set { damage = value; }
+    }
+
+    public float CurrentExperience
     {
         get { return currentExperience; }
         set { currentExperience = value; }
     }
 
-    public float MaxXp
+    public float MaximumExperience
     {
-        get { return maxxp; }
-        set { maxxp = value; }
+        get { return maximumExperience; }
+        set { maximumExperience = value; }
     }
 
-    public float OverflowXp
-    {
-        get { return overflowxp; }
-        set { overflowxp = value; }
-    }
 
-    public float CritChance
+    public float CriticalHitChance
     {
-        get { return critchance; }
-        set { critchance = value; }
+        get { return criticalHitChance; }
+        set { criticalHitChance = value; }
     }
 
     public int PlayerLevel
@@ -66,10 +67,10 @@ public class PlayerState
         set { playerLevel = value; }
     }
 
-    public float XpModifier
+    public float ExperienceGainModifier
     {
-        get { return xpmodifier; }
-        set { xpmodifier = value; }
+        get { return experienceGainModifier; }
+        set { experienceGainModifier = value; }
     }
 
     public Inventory Inventory
@@ -108,11 +109,12 @@ public class PlayerState
         hits = 100;
         maxhits = 100;
         gold = 0;
+        damage = 10;
 
-        maxxp = 100;
+        maximumExperience = 100;
         playerLevel = 1;
-        critchance = 0;
-        xpmodifier = 1;
+        criticalHitChance = 0;
+        experienceGainModifier = 1;
 
     inventory = new Inventory(this);
     }

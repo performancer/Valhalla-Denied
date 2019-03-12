@@ -71,7 +71,7 @@ public class Player : MovingObject
         state.Refresh();
 
         MaxHits = 100 + (state.PlayerLevel -1) * 10;
-        Damage = 10 + (state.PlayerLevel -1) * 5;
+        Damage = 10 + (state.PlayerLevel - 1) * 5;
 
         UpdateHpBar();
         UpdatePlayerManaBar();
@@ -211,7 +211,7 @@ public class Player : MovingObject
             int critDmgModifier = 1;
             bool isCritical = false;
 
-            if(crit <= state.CritChance)
+            if(crit <= state.CriticalHitChance)
             {
                 isCritical = true;
                 critDmgModifier = 2;
@@ -303,7 +303,7 @@ public class Player : MovingObject
         else if(other.tag == "Scroll")
         {
             other.gameObject.SetActive(false);
-            state.XpModifier += (float)0.1;
+            state.ExperienceGainModifier += (float)0.1;
             CreateFloatingText("+XPMOD", Color.white);
             scroll.ShowScroll();
         }
@@ -370,8 +370,8 @@ public class Player : MovingObject
     
     public void UpdatePlayerManaBar()
     {
-        playerManaBar.fillAmount = state.CurrentXp / (float)state.MaxXp; //Increases the blue "fill"
-        manaText.text = state.CurrentXp + "/" + state.MaxXp;
+        playerManaBar.fillAmount = state.CurrentExperience / (float)state.MaximumExperience; //Increases the blue "fill"
+        manaText.text = state.CurrentExperience + "/" + state.MaximumExperience;
     }
     
 
@@ -385,11 +385,11 @@ public class Player : MovingObject
     {
         Debug.Log("MAXHITS:" + MaxHits + "State MaxHITS:" + state.MaxHits);
 
-        xp = xp * state.XpModifier;
+        xp = xp * state.ExperienceGainModifier;
 
-        state.CurrentXp += Mathf.Floor(xp);
+        state.CurrentExperience += Mathf.Floor(xp);
 
-        if (state.CurrentXp < state.MaxXp)
+        if (state.CurrentExperience < state.MaximumExperience)
         {
             CreateFloatingText(Convert.ToString(xp), Color.white);
         }
@@ -403,15 +403,18 @@ public class Player : MovingObject
 
     public void LevelUp()
     {
-        state.OverflowXp = state.CurrentXp - state.MaxXp;
+        float overflowxp;
+        overflowxp = state.CurrentExperience - state.MaximumExperience;
         state.PlayerLevel++;
         CreateFloatingText("LVL UP!", Color.blue);
-        state.MaxXp = 100 * state.PlayerLevel * Mathf.Pow(state.PlayerLevel, 0.5f);
-        state.MaxXp = Mathf.Floor(state.MaxXp);
-        state.CurrentXp = Mathf.Floor(0 + state.OverflowXp);
+        state.MaximumExperience = 100 * state.PlayerLevel * Mathf.Pow(state.PlayerLevel, 0.5f);
+        state.MaximumExperience = Mathf.Floor(state.MaximumExperience);
+        state.CurrentExperience = Mathf.Floor(0 + overflowxp);
 
-        Damage += 5;
-        state.CritChance += (float)1.0;
+        state.Damage += 5;
+        Damage = state.Damage;
+
+        state.CriticalHitChance += (float)1.0;
         state.MaxHits += 5;
         MaxHits = state.MaxHits;
         Hits = MaxHits;
