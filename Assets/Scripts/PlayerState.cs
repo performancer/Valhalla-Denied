@@ -9,7 +9,7 @@ public class PlayerState
     private int gold;
     private int maxhits;
 
-    private float currentxp;
+    private float currentExperience;
     private float maxxp;
     private float overflowxp;
     private int playerLevel;
@@ -38,8 +38,8 @@ public class PlayerState
 
     public float CurrentXp
     {
-        get { return currentxp; }
-        set { currentxp = value; }
+        get { return currentExperience; }
+        set { currentExperience = value; }
     }
 
     public float MaxXp

@@ -56,6 +56,11 @@ public class Player : MovingObject
         get { return state.Weapon; }
         set { state.Weapon = value; }
     }
+
+    public GameManager Manager
+    {
+        get { return GameManager.instance; }
+    }
     
     #endregion
 
@@ -86,6 +91,25 @@ public class Player : MovingObject
 
     private void Update()
     {
+        if (!Manager.paused && Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
+            StartCoroutine("EscapeIkkuna");
+
+        if (Manager.Escape)
+        {
+            if (Input.GetKeyUp(KeyCode.Escape)) //While player has entered exit window, Enter quits application.
+                Application.Quit();
+            else if (Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
+            {
+                Manager.RestartGame();
+            }
+            else if (Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
+            {
+                Manager.paused = false;
+                Manager.Escape = false;
+                Manager.HideLevelImage();
+            }
+        }
+
         if (LastMove + MoveDelay > DateTime.Now)
             return;
 

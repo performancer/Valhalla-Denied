@@ -27,11 +27,12 @@ public class GameManager : MonoBehaviour
     private int level = 1;                                  //Current level number
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
-    private bool Escape = false;
+    private bool escape = false;
 
     public SpriteManager SpriteManager { get { return spriteManager; } }
     public PlayerState PlayerState { get { return playerState; } }
     public BoardManager BoardManager { get { return boardScript; } }
+    public bool Escape { get { return escape; } set { escape = value; } }
 
     //Awake is always called before any Start functions
     void Awake()
@@ -124,24 +125,16 @@ public class GameManager : MonoBehaviour
 
         //Set the text of levelText to the string "Day" and append the current level number.
 
-        bool isBoss = (Random.Range(1, 10) < 3 && CheckIfTutorial() == false) || level == 3; 
+        bool isBoss = level % 5 == 0 || level == 3; 
 
         if(isBoss)
-        {
             levelText.text = "What is that menacing noise?";
-        }
         else if(level <= 10)
-        {
             levelText.text = beginningThoughts[Random.Range(0, beginningThoughts.Length)];
-        }
         else if (level > 10 && level < 20)
-        {
             levelText.text = middleThoughts[Random.Range(0, middleThoughts.Length)];
-        }
         else
-        {
             levelText.text = endThoughts[Random.Range(0, endThoughts.Length)];
-        }
 
         //Set levelImage to active blocking player's view of the game board during setup.
         levelImage.SetActive(true);
@@ -158,7 +151,7 @@ public class GameManager : MonoBehaviour
 
 
     //Hides black image used between levels
-    void HideLevelImage()
+    public void HideLevelImage()
     {
         //Disable the levelImage gameObject.
         levelImage.SetActive(false);
@@ -170,25 +163,6 @@ public class GameManager : MonoBehaviour
     //Update is called every frame.
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
-            StartCoroutine("EscapeIkkuna");
-
-        if (Escape && Input.GetKeyUp(KeyCode.Escape)) //While player has entered exit window, Enter quits application.
-            Application.Quit();
-
-        if (Escape && Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
-        {
-            Escape = false;
-            SceneManager.LoadScene(0);
-        }
-
-        if (Escape && Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
-        {
-            paused = false;
-            Escape = false;
-            HideLevelImage();
-        }
-
         if (doingSetup || paused)
             return;
 
@@ -211,14 +185,10 @@ public class GameManager : MonoBehaviour
         levelText.text = "Want to quit?\n Press Space to continue game \n Press Esc to quit \n Press Enter to Start new game";
 
         yield return new WaitForSeconds(1);
-        Escape = true;
+        escape = true;
         paused = true;
 
         levelImage.SetActive(true);
-      
-        
-
-
     }
    
     //GameOver is called when the player reaches 0 food points
@@ -226,7 +196,7 @@ public class GameManager : MonoBehaviour
     {
         //Set levelText to display number of levels passed and game over message
         levelText.text = "After " + level + " levels, you died. \n Press Esc to quit \n Press Enter to start new game";
-        Escape = true;
+        escape = true;
         paused = true;
        
 
@@ -264,6 +234,14 @@ public class GameManager : MonoBehaviour
     public int GetLevel()
     {
         return level;
+    }
+
+    public void RestartGame()
+    {
+        level = 0;
+        playerState = new PlayerState();
+        escape = false;
+        SceneManager.LoadScene(0);
     }
 }
 

@@ -209,6 +209,9 @@ public abstract class MovingObject : MonoBehaviour
         {
             yield return new WaitForSeconds(poisonInterval);
 
+            if (GameManager.instance.paused)
+                continue;
+
             Hits -= pDmg;
             CreateFloatingText(pDmg.ToString(), Color.magenta);
 

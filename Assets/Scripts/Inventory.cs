@@ -23,6 +23,8 @@ public class Inventory
     private bool controllerDown = false;
     #endregion
 
+    public bool IsOpen { get { return open; } }
+
     public GameObject UI
     {
         get
