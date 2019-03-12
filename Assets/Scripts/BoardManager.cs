@@ -44,7 +44,7 @@ public class BoardManager : MonoBehaviour
     private Transform boardHolder;                                  //A variable to store a reference to the transform of our Board object.
     private List<Vector3> gridPositions = new List<Vector3>();  //A list of possible locations to place tiles.
 
-    public bool IsBossRoom{ get; set; }
+    public bool IsBossRoom { get; set; }
     public bool IsTutorial { get; set; }
 
     //Clears our list gridPositions and prepares it to generate a new board.
@@ -67,6 +67,8 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+
+    private List<Vector3> doorPositions;
 
     //Sets up the outer walls and floor (background) of the game board.
     void BoardSetup(bool isBoss)
@@ -103,7 +105,9 @@ public class BoardManager : MonoBehaviour
             verticalDoorAlt = -1;
         }
 
-        if(!isBoss)
+        doorPositions = new List<Vector3>();
+
+        if (!isBoss)
             gridPositions.RemoveAll(item => item.y == horizontalWall || item.x == verticalWall);
 
         //Instantiate Board and set boardHolder to its transform.
@@ -128,6 +132,8 @@ public class BoardManager : MonoBehaviour
                     if (y != verticalDoor && y != verticalDoorAlt && x != horizontalDoor && x != horizontalDoorAlt)
                         //toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
                         toInstantiate = obstacleWallTiles[Random.Range(0, obstacleWallTiles.Length)];
+                    else
+                        doorPositions.Add(new Vector3(x, y));
                 }
 
                 //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
@@ -226,10 +232,10 @@ public class BoardManager : MonoBehaviour
             GameObject boss = Instantiate(enemyTiles[enemyChoice], CenterPosition(), Quaternion.identity);
 
             SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
-            renderer.color = new Color(0.8f, 0.45f, 0.45f, Random.Range(0,1) == 1 ? 1 : 0.8f);
+            renderer.color = new Color(0.8f, 0.45f, 0.45f, Random.Range(0, 1) == 1 ? 1 : 0.8f);
             Transform tran = boss.GetComponent<Transform>();
             tran.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-            
+
         }
         else
         {
@@ -241,7 +247,7 @@ public class BoardManager : MonoBehaviour
 
             GameManager manager = FindObjectOfType<GameManager>();
 
-            if ( scrollChance == 1 && manager.GetLevel() > 2)
+            if (scrollChance == 1 && manager.GetLevel() > 2)
                 scrollCount = 1;
             else
                 scrollCount = 0;
@@ -250,10 +256,11 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(scrollTiles, scrollCount, scrollCount);
 
             int enemyCount;
-            if(level == 1)
+            if (level == 1)
             {
                 enemyCount = 0;
-            } else if (level == 2)
+            }
+            else if (level == 2)
             {
                 enemyCount = 1;
             }
@@ -261,14 +268,14 @@ public class BoardManager : MonoBehaviour
             {
                 enemyCount = (int)(Mathf.Log(level, 2f) * (area / 64f));
             }
-            
+
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             int swordCount;
             int swordChance = Random.Range(1, 10);
 
-            if ( (swordChance == 1 && manager.CheckIfTutorial() == false) || manager.GetLevel() == 1)
+            if ((swordChance == 1 && manager.CheckIfTutorial() == false) || manager.GetLevel() == 1)
                 swordCount = 1;
             else
                 swordCount = 0;
@@ -278,7 +285,7 @@ public class BoardManager : MonoBehaviour
             int armorCount;
             int armorChance = Random.Range(1, 10);
 
-            if ( (armorChance == 1 && manager.CheckIfTutorial() == false) || manager.GetLevel() == 1)
+            if ((armorChance == 1 && manager.CheckIfTutorial() == false) || manager.GetLevel() == 1)
                 armorCount = 1;
             else
                 armorCount = 0;
@@ -287,14 +294,14 @@ public class BoardManager : MonoBehaviour
 
             int powerupCount;
 
-            int powerupChance = Random.Range(1,1);
+            int powerupChance = Random.Range(1, 1);
             if (powerupChance == 1 && manager.CheckIfTutorial() == false)
                 powerupCount = 1;
             else
                 powerupCount = 0;
 
             LayoutObjectAtRandom(powerupTiles, powerupCount, powerupCount);
-            
+
 
             //Instantiate the exit tile in random position
             CreateRandomExit();
@@ -303,6 +310,26 @@ public class BoardManager : MonoBehaviour
 
     public void CreateRandomExit()
     {
+        Vector3 position;
+
+        while (true)
+        {
+            bool retry = false;
+            position = RandomPosition();
+
+            for (int i = 0; i < doorPositions.Count; i++)
+            {
+                if (Vector3.Distance(position, doorPositions[i]) <= 1)
+                {
+                    retry = true;
+                    break;
+                }
+            }
+
+            if (!retry)
+                break;
+        }
+
         Instantiate(exit, RandomPosition(), Quaternion.identity);
     }
 
