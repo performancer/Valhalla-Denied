@@ -342,6 +342,14 @@ PrefabInstance:
       propertyPath: hpText
       value: 
       objectReference: {fileID: 93537621}
+    - target: {fileID: 6146652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
 --- !u!1 &640480130

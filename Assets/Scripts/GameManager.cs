@@ -28,11 +28,13 @@ public class GameManager : MonoBehaviour
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
     private bool escape = false;
+   
 
     public SpriteManager SpriteManager { get { return spriteManager; } }
     public PlayerState PlayerState { get { return playerState; } }
     public BoardManager BoardManager { get { return boardScript; } }
     public bool Escape { get { return escape; } set { escape = value; } }
+ 
 
     //Awake is always called before any Start functions
     void Awake()
@@ -124,7 +126,7 @@ public class GameManager : MonoBehaviour
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
         //Set the text of levelText to the string "Day" and append the current level number.
-        VDIMG.SetActive(false);
+        VDIMG.SetActive(false); // This hides the Valhalla Denied logo after first level. 
         bool isBoss = level % 5 == 0 || level == 3;
 
         if (isBoss)
@@ -203,6 +205,8 @@ public class GameManager : MonoBehaviour
         levelText.text = "After " + level + " levels, you died. \n Press Esc to quit \n Press Enter to start new game";
         escape = true;
         paused = true;
+      
+        
        
 
         //Enable black background image gameObject.
@@ -211,6 +215,14 @@ public class GameManager : MonoBehaviour
         //Disable this GameManager.
         enabled = false;
 
+    }
+    public IEnumerator Lopetus()
+    {
+        yield return new WaitForSeconds(2);
+        if (paused && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     //Coroutine to move enemies in sequence.

@@ -18,9 +18,11 @@ public class Player : MovingObject
 
     #region Private Fields
     private bool facingRight = true;             //Getting the player animations starting turn.
+    private bool gameover = false;
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
     private LoreScroll scroll;
+    
     #endregion
 
     #region Properties
@@ -93,16 +95,16 @@ public class Player : MovingObject
     {
         if (!Manager.paused && Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
             Manager.EscapeIkkuna();
+        Manager.StartCoroutine("Lopetus");
 
         if (Manager.Escape)
         {
-            if (Input.GetKeyUp(KeyCode.Escape)) //While player has entered exit window, Enter quits application.
-                Application.Quit();
-            else if (Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
+           
+             if (Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
             {
                 Manager.RestartGame();
             }
-            else if (Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
+            else if (gameover==false && Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
             {
                 Manager.paused = false;
                 Manager.Escape = false;
@@ -186,7 +188,7 @@ public class Player : MovingObject
 
         CheckIfGameOver();
     }
-
+    
     //OnCantMove overrides the abstract function OnCantMove in MovingObject.
     //It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
     protected override void OnCantMove<T>(T component)
@@ -349,6 +351,7 @@ public class Player : MovingObject
             SoundManager.instance.PlaySingle(6);
             SoundManager.instance.musicSource.Stop();
             GameManager.instance.GameOver();
+            gameover = true;
         }
     }
 
