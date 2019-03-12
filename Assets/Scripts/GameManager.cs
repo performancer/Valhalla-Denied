@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private PlayerState playerState;
 
     private Text levelText;                                 //Text to display current level number.
-    private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
+    private GameObject levelImage, VDIMG;                          //Image to block out level as levels are being set up, background for levelText.
     private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
     private int level = 1;                                  //Current level number
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     {
         //While doingSetup is true the player can't move, prevent player from moving while title card is up.
         doingSetup = true;
-
+        VDIMG = GameObject.Find("VDIMG");
         //Get a reference to our image LevelImage by finding it by name.
         levelImage = GameObject.Find("LevelImage");
 
@@ -124,23 +124,29 @@ public class GameManager : MonoBehaviour
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
         //Set the text of levelText to the string "Day" and append the current level number.
+        VDIMG.SetActive(false);
+        bool isBoss = level % 5 == 0 || level == 3;
 
-        bool isBoss = level % 5 == 0 || level == 3; 
-
-        if(isBoss)
+        if (isBoss)
             levelText.text = "What is that menacing noise?";
-        else if(level <= 10)
+        else if (level == 1 || level == 0)
+        {
+            VDIMG.SetActive(true);
+            levelText.text = " ";
+        }
+        else if (level >= 0 && level <= 10 && level != 1)
             levelText.text = beginningThoughts[Random.Range(0, beginningThoughts.Length)];
         else if (level > 10 && level < 20)
             levelText.text = middleThoughts[Random.Range(0, middleThoughts.Length)];
         else
             levelText.text = endThoughts[Random.Range(0, endThoughts.Length)];
 
+
         //Set levelImage to active blocking player's view of the game board during setup.
         levelImage.SetActive(true);
 
-        //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-        Invoke("HideLevelImage", levelStartDelay);
+            //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
+            Invoke("HideLevelImage", levelStartDelay);
 
         //Clear any Enemy objects in our List to prepare for next level.
         enemies.Clear();
@@ -155,11 +161,11 @@ public class GameManager : MonoBehaviour
     {
         //Disable the levelImage gameObject.
         levelImage.SetActive(false);
-
+        VDIMG.SetActive(false);
         //Set doingSetup to false allowing player to move again.
         doingSetup = false;
     }
-
+   
     //Update is called every frame.
     void Update()
     {
