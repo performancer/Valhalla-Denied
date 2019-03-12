@@ -7,8 +7,8 @@ using UnityEditor;
 
 public enum ItemSprite
 {
-    Apple = 0,
-    Soda = 1,
+    Salmon = 0,
+    Mead = 1,
     IronArmor = 2,
     IronSword = 3,
     LegendaryVikingSword = 4,

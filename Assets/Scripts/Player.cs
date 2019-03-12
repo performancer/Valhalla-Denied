@@ -220,12 +220,12 @@ public class Player : MovingObject
         }
         else if (other.tag == "Food")
         {
-            if (state.Inventory.AddItem(this, new Food((int)ItemSprite.Apple, "Apple", 10)))
+            if (state.Inventory.AddItem(this, new Food((int)ItemSprite.Salmon, "Salmon", 10)))
                 other.gameObject.SetActive(false);
         }
-        else if (other.tag == "Soda")
+        else if (other.tag == "Mead")
         {
-            if(state.Inventory.AddItem(this, new Food((int)ItemSprite.Soda, "Soda", 20)))
+            if(state.Inventory.AddItem(this, new Food((int)ItemSprite.Mead, "Mead", 20)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "Sword")
@@ -369,10 +369,13 @@ public class Player : MovingObject
         else
         {
             LevelUp();
+            scroll.ShowLevelUpScroll();
+            /*
             if (state.PlayerLevel % 3 == 0)
             {
                 scroll.ShowLevelUpScroll();
             }
+            */
         }
         UpdatePlayerManaBar();
     }
@@ -387,8 +390,8 @@ public class Player : MovingObject
         state.CurrentXp = Mathf.Floor(0 + state.OverflowXp);
 
         Damage += 5;
-        state.CritChance += (float)1.5;
-        state.MaxHits += 10;
+        state.CritChance += (float)1.0;
+        state.MaxHits += 5;
         MaxHits = state.MaxHits;
         Hits = MaxHits;
 

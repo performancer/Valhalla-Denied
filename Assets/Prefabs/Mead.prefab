@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 21210520}
   - component: {fileID: 6133920}
   m_Layer: 0
-  m_Name: Soda
-  m_TagString: Soda
+  m_Name: Mead
+  m_TagString: Mead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

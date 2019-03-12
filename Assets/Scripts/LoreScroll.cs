@@ -14,6 +14,10 @@ public class LoreScroll : MonoBehaviour
     private bool levelUpActive;
     private GameManager manager;
 
+    float critgain = (float)1.5;
+    int hpgain = 10;
+    float xpgain = (float)0.1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -165,25 +169,25 @@ public class LoreScroll : MonoBehaviour
             xpButtonText = "Press 3";
         }
 
-        scrollText.text = "Choose a bonus!\n\nExtra Crit Chance ("+ critButtonText + ")\n\nExtra Hitpoints (" + hpButtonText + ")\n\nExtra Experience Gain (" + xpButtonText + ")\n\n";
+        scrollText.text = "Choose a bonus!\n\n +"+critgain+"% Extra Crit Chance (" + critButtonText + ")\n\n +" + hpgain + " Extra Hitpoints (" + hpButtonText + ")\n\n +" + xpgain + "% Extra Experience Gain (" + xpButtonText + ")\n\n";
         manager.paused = true;
         scrollTextContinue.text = "";
     }
 
     private void ExtraCritical()
     {
-        manager.PlayerState.CritChance += (float)2.5;
+        manager.PlayerState.CritChance += critgain;
         Debug.Log("Extra Crit Chance: " + manager.PlayerState.CritChance);
 
         Player player = FindObjectOfType<Player>();
-        player.CreateFloatingText("+CRITMOD", Color.blue);
+        player.CreateFloatingText("+" + critgain + " CRIT MOD", Color.blue);
     }
 
     private void ExtraHp()
     {
         Player player = FindObjectOfType<Player>();
 
-        manager.PlayerState.MaxHits += 20;
+        manager.PlayerState.MaxHits += hpgain;
         player.MaxHits = manager.PlayerState.MaxHits;
         player.Hits = player.MaxHits;
         //player.Hits = manager.PlayerState.MaxHits;
@@ -228,17 +232,17 @@ public class LoreScroll : MonoBehaviour
 
         player.UpdateHpBar();
         Debug.Log(player.Hits + " vs " + manager.PlayerState.Hits);
-        player.CreateFloatingText("+20 MAXHP", Color.blue);
+        player.CreateFloatingText("+"+hpgain+" MAXHP", Color.blue);
     }
 
     private void ExtraXpGain()
     {
-        manager.PlayerState.XpModifier += (float)0.1;
+        manager.PlayerState.XpModifier += xpgain;
 
         Debug.Log("Extra XP GAIN: " + manager.PlayerState.XpModifier);
 
         Player player = FindObjectOfType<Player>();
-        player.CreateFloatingText("+XPMOD", Color.blue);
+        player.CreateFloatingText("+" + xpgain + " XP MOD", Color.blue);
 
     }
 

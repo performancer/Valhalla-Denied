@@ -15,6 +15,7 @@ TagManager:
   - LegendaryArmor
   - LegendarySword
   - PowerUp
+  - Mead
   layers:
   - Default
   - TransparentFX
