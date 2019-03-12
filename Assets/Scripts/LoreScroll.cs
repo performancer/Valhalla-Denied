@@ -14,7 +14,7 @@ public class LoreScroll : MonoBehaviour
     private bool levelUpActive;
     private GameManager manager;
 
-    float critgain = (float)1.5;
+    float critgain = (float)2.0;
     int hpgain = 10;
     float xpgain = (float)0.1;
 

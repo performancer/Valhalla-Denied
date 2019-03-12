@@ -33,6 +33,7 @@ public class Player : MovingObject
 
             if (state.Hits > state.MaxHits)
                 state.Hits = state.MaxHits;
+                MaxHits = state.MaxHits;
 
             foodText.text = Hits + "/" + MaxHits;
         }
@@ -241,7 +242,7 @@ public class Player : MovingObject
             {
                 sworddmg = 5;
             }
-            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.IronSword, "Iron Sword DMG: " + (sworddmg), sworddmg)))
+            if (state.Inventory.AddItem(this, new Weapon((int)ItemSprite.IronSword, "Iron Sword DMG: " + (sworddmg), sworddmg)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "LegendarySword")
@@ -249,7 +250,7 @@ public class Player : MovingObject
             GameManager manager = FindObjectOfType<GameManager>();
             int sworddmg = 10 + Random.Range(15, 30) + manager.GetLevel();
 
-            if (state.Inventory.AddItem(null, new Weapon((int)ItemSprite.LegendaryVikingSword, "Legendary Viking Sword DMG: " + (sworddmg), sworddmg)))
+            if (state.Inventory.AddItem(this, new Weapon((int)ItemSprite.LegendaryVikingSword, "Legendary Viking Sword DMG: " + (sworddmg), sworddmg)))
                 other.gameObject.SetActive(false);
         }
         else if (other.tag == "Armor")
@@ -264,7 +265,7 @@ public class Player : MovingObject
             {
                 armorvalue = 5;
             }
-            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.IronArmor, "Iron Armor AV: " + (armorvalue), armorvalue)))
+            if (state.Inventory.AddItem(this, new Armor((int)ItemSprite.IronArmor, "Iron Armor AV: " + (armorvalue), armorvalue)))
             other.gameObject.SetActive(false);
         }
         else if (other.tag == "LegendaryArmor")
@@ -272,7 +273,7 @@ public class Player : MovingObject
             GameManager manager = FindObjectOfType<GameManager>();
             int armorvalue = 10 + Random.Range(15, 30) + manager.GetLevel();
 
-            if (state.Inventory.AddItem(null, new Armor((int)ItemSprite.LegendaryVikingArmor, "Legendary Viking Armor AV: " + (armorvalue), armorvalue)))
+            if (state.Inventory.AddItem(this, new Armor((int)ItemSprite.LegendaryVikingArmor, "Legendary Viking Armor AV: " + (armorvalue), armorvalue)))
                 other.gameObject.SetActive(false);
         }
         else if(other.tag == "Scroll")
@@ -358,6 +359,8 @@ public class Player : MovingObject
 
     public void GainXP(float xp)
     {
+        Debug.Log("MAXHITS:" + MaxHits + "State MaxHITS:" + state.MaxHits);
+
         xp = xp * state.XpModifier;
 
         state.CurrentXp += Mathf.Floor(xp);
@@ -370,12 +373,6 @@ public class Player : MovingObject
         {
             LevelUp();
             scroll.ShowLevelUpScroll();
-            /*
-            if (state.PlayerLevel % 3 == 0)
-            {
-                scroll.ShowLevelUpScroll();
-            }
-            */
         }
         UpdatePlayerManaBar();
     }
@@ -395,11 +392,6 @@ public class Player : MovingObject
         MaxHits = state.MaxHits;
         Hits = MaxHits;
 
-        /*
-        state.MaxHits += 10;
-        Hits = state.MaxHits;
-        state.Hits = state.MaxHits;
-        */
         UpdateHpBar();
         UpdatePlayerLevel();
         UpdatePlayerManaBar();
