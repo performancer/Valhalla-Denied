@@ -164,12 +164,13 @@ MonoBehaviour:
   isPoison: 0
   poisonInterval: 2
   poisonCount: 3
-  poisonDamage: 20
+  poisonDamage: 0
   moveTime: 0.1
+  moveDelayVar: 0
   restartLevelDelay: 1
   wallDamage: 1
   foodText: {fileID: 0}
   playerHpBar: {fileID: 0}
-  playerManaBar: {fileID: 0}
-  manaText: {fileID: 0}
+  playerXpBar: {fileID: 0}
+  xpText: {fileID: 0}
   playerLevelText: {fileID: 0}

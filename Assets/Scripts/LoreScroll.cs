@@ -14,9 +14,9 @@ public class LoreScroll : MonoBehaviour
     private bool levelUpActive;
     private GameManager manager;
 
-    float critgain = (float)2.0;
-    int hpgain = 10;
-    float xpgain = (float)0.1;
+    float critGain = (float)2.0;
+    int hpGain = 10;
+    float xpGain = (float)0.1;
 
     // Start is called before the first frame update
     void Start()
@@ -169,80 +169,41 @@ public class LoreScroll : MonoBehaviour
             xpButtonText = "Press 3";
         }
 
-        scrollText.text = "Choose a bonus!\n\n +"+critgain+"% Extra Crit Chance (" + critButtonText + ")\n\n +" + hpgain + " Extra Hitpoints (" + hpButtonText + ")\n\n +" + xpgain + "% Extra Experience Gain (" + xpButtonText + ")\n\n";
+        scrollText.text = "Choose a bonus!\n\n +"+critGain+"% Extra Critical Hit Chance (" + critButtonText + ")\n\n +" + hpGain + " Extra Hitpoints (" + hpButtonText + ")\n\n +" + xpGain * 100 + "% Extra Experience Gain (" + xpButtonText + ")\n\n";
         manager.paused = true;
         scrollTextContinue.text = "";
     }
 
     private void ExtraCritical()
     {
-        manager.PlayerState.CriticalHitChance += critgain;
+        manager.PlayerState.CriticalHitChance += critGain;
         Debug.Log("Extra Crit Chance: " + manager.PlayerState.CriticalHitChance);
 
         Player player = FindObjectOfType<Player>();
-        player.CreateFloatingText("+" + critgain + "% CRIT MOD", Color.blue);
+        player.CreateFloatingText("+" + critGain + "% CRIT MOD", Color.blue);
     }
 
     private void ExtraHp()
     {
         Player player = FindObjectOfType<Player>();
 
-        manager.PlayerState.MaxHits += hpgain;
+        manager.PlayerState.MaxHits += hpGain;
         player.MaxHits = manager.PlayerState.MaxHits;
         player.Hits = player.MaxHits;
-        //player.Hits = manager.PlayerState.MaxHits;
-        //player.MaxHits = manager.PlayerState.MaxHits;
-        //player.Hits = manager.PlayerState.MaxHits;
-
-
-        /*
-         *public override int Hits
-{
-    get { return state.Hits; }
-    set
-    {
-        state.Hits = value;
-
-        if (state.Hits > MaxHits)
-            state.Hits = MaxHits;
-
-        foodText.text = Hits + "/" + MaxHits;
-    }
-}
-         * 
-         * /
-
-
-    //manager.PlayerState.MaxHits += 20;
-    //player.MaxHits += 20;
-
-    //player.Hits += 20;
-    //manager.PlayerState.Hits += 20;
-
-    /*
-    manager.PlayerState.MaxHits += 20;
-    player.Hits += 20;
-    manager.PlayerState.Hits = manager.PlayerState.MaxHits;
-    */
-        /*
-        state.MaxHits += 10;
-        Hits = state.MaxHits;
-        state.Hits = state.MaxHits;
-        */
-
+  
         player.UpdateHpBar();
         Debug.Log(player.Hits + " vs " + manager.PlayerState.Hits);
-        player.CreateFloatingText("+"+hpgain+" MAXHP", Color.blue);
+        player.CreateFloatingText("+"+hpGain+" MAXHP", Color.blue);
     }
 
     private void ExtraXpGain()
     {
-        manager.PlayerState.ExperienceGainModifier += xpgain;
+        manager.PlayerState.ExperienceGainModifier += xpGain;
 
         Debug.Log("Extra XP GAIN: " + manager.PlayerState.ExperienceGainModifier);
 
         Player player = FindObjectOfType<Player>();
-        player.CreateFloatingText("+" + xpgain + "% XP MOD", Color.blue);
+        player.CreateFloatingText("+" + xpGain * 100 + "% XP MOD", Color.blue);
 
     }
 

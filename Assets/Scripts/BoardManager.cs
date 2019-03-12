@@ -243,7 +243,7 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             int scrollCount;
-            int scrollChance = Random.Range(1, 5);
+            int scrollChance = Random.Range(1, 3);
 
             GameManager manager = FindObjectOfType<GameManager>();
 

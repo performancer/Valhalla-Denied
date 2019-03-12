@@ -94,6 +94,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FloatingNumberPreFab: {fileID: 6450766987168765088}
   FloatingNumberText: {fileID: 6374857085751410346}
-  TextSpeed: 3
+  TextSpeed: 2
   textToDisplay: 
   timeToDestroy: 5

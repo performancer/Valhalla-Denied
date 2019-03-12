@@ -9,11 +9,11 @@ public class Player : MovingObject
 {
     public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
     public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
-    public Text foodText;                       //UI Text to display current player food total.
+    public Text hpText;                       //UI Text to display current player hitpoint total.
 
     public Image playerHpBar; //Player green health bar
-    public Image playerManaBar;
-    public Text manaText;
+    public Image playerXpBar;
+    public Text xpText;
     public Text playerLevelText;
 
     #region Private Fields
@@ -35,7 +35,7 @@ public class Player : MovingObject
                 state.Hits = state.MaxHits;
                 MaxHits = state.MaxHits;
 
-            foodText.text = Hits + "/" + MaxHits;
+            hpText.text = Hits + "/" + MaxHits;
         }
     }
 
@@ -74,7 +74,7 @@ public class Player : MovingObject
         Damage = 10 + (state.PlayerLevel - 1) * 5;
 
         UpdateHpBar();
-        UpdatePlayerManaBar();
+        UpdatePlayerXpBar();
         UpdatePlayerLevel();
 
         animator = GetComponent<Animator>();
@@ -184,7 +184,6 @@ public class Player : MovingObject
             SoundManager.instance.RandomizeSfx(0, 1);
         }
 
-        //Since the player has moved and lost food points, check if the game has ended.
         CheckIfGameOver();
     }
 
@@ -302,9 +301,10 @@ public class Player : MovingObject
         }
         else if(other.tag == "Scroll")
         {
+            float experiencePointModifierGain = (float)0.1;
             other.gameObject.SetActive(false);
-            state.ExperienceGainModifier += (float)0.1;
-            CreateFloatingText("+XPMOD", Color.white);
+            state.ExperienceGainModifier += experiencePointModifierGain;
+            CreateFloatingText("+" + experiencePointModifierGain * 100+ "% XPMOD", Color.white);
             scroll.ShowScroll();
         }
         else if (other.tag == "PowerUp")
@@ -368,10 +368,10 @@ public class Player : MovingObject
 
 
     
-    public void UpdatePlayerManaBar()
+    public void UpdatePlayerXpBar()
     {
-        playerManaBar.fillAmount = state.CurrentExperience / (float)state.MaximumExperience; //Increases the blue "fill"
-        manaText.text = state.CurrentExperience + "/" + state.MaximumExperience;
+        playerXpBar.fillAmount = state.CurrentExperience / (float)state.MaximumExperience; //Increases the blue "fill"
+        xpText.text = state.CurrentExperience + "/" + state.MaximumExperience;
     }
     
 
@@ -380,14 +380,13 @@ public class Player : MovingObject
         playerLevelText.text = "LVL:" + state.PlayerLevel;
     }
 
-
     public void GainXP(float xp)
     {
         Debug.Log("MAXHITS:" + MaxHits + "State MaxHITS:" + state.MaxHits);
 
-        xp = xp * state.ExperienceGainModifier;
+        xp = Mathf.Floor(xp * state.ExperienceGainModifier);
 
-        state.CurrentExperience += Mathf.Floor(xp);
+        state.CurrentExperience += xp;
 
         if (state.CurrentExperience < state.MaximumExperience)
         {
@@ -398,7 +397,7 @@ public class Player : MovingObject
             LevelUp();
             scroll.ShowLevelUpScroll();
         }
-        UpdatePlayerManaBar();
+        UpdatePlayerXpBar();
     }
 
     public void LevelUp()
@@ -421,13 +420,13 @@ public class Player : MovingObject
 
         UpdateHpBar();
         UpdatePlayerLevel();
-        UpdatePlayerManaBar();
+        UpdatePlayerXpBar();
     }
 
     public override void UpdateHpBar()
     {
         playerHpBar.fillAmount = state.Hits / (float)state.MaxHits; //Reduces the green "fill" on the red HpBackground
-        foodText.text = state.Hits + "/" + state.MaxHits;
+        hpText.text = state.Hits + "/" + state.MaxHits;
     }
 
 
