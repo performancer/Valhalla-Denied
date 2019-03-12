@@ -239,6 +239,9 @@ public class GameManager : MonoBehaviour
     {
         level = 0;
         playerState = new PlayerState();
+
+        SoundManager.instance.musicSource.Play();
+        enabled = true;
         escape = false;
         SceneManager.LoadScene(0);
     }
