@@ -96,4 +96,4 @@ MonoBehaviour:
   FloatingNumberText: {fileID: 6374857085751410346}
   TextSpeed: 3
   textToDisplay: 
-  timeToDestroy: 2
+  timeToDestroy: 1

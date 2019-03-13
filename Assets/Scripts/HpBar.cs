@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class HpBar : MonoBehaviour
 {
     public GameObject HpBarPreFab;
-    public Image HpBarBackground; //Private?
-    public Image HpBarFilled; //Private?
+    public Image HpBarBackground;
+    public Image HpBarFilled;
 
     BoardManager board;
 

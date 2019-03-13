@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerState
 {
     private int hits;
-    private int gold;
     private int maxhits;
     private int damage;
 
@@ -30,11 +29,7 @@ public class PlayerState
         get { return maxhits; }
         set { maxhits = value; }
     }
-    public int Gold
-    {
-        get { return gold; }
-        set { gold = value; }
-    }
+
 
     public int Damage
     {
@@ -108,7 +103,6 @@ public class PlayerState
     {
         hits = 100;
         maxhits = 100;
-        gold = 0;
         damage = 10;
 
         maximumExperience = 100;

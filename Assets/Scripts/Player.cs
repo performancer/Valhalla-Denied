@@ -21,7 +21,7 @@ public class Player : MovingObject
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
     private LoreScroll scroll;
-    
+    private PowerUp powerup;
     #endregion
 
     #region Properties
@@ -40,12 +40,6 @@ public class Player : MovingObject
         }
     }
 
-    public int Gold
-    {
-        get { return state.Gold; }
-        set { state.Gold = value; }
-    }
-
     public Armor Armor
     {
         get { return state.Armor; }
@@ -62,6 +56,7 @@ public class Player : MovingObject
     {
         get { return GameManager.instance; }
     }
+
     
     #endregion
 
@@ -74,6 +69,8 @@ public class Player : MovingObject
         MaxHits = 100 + (state.PlayerLevel -1) * 10;
         Damage = 10 + (state.PlayerLevel - 1) * 5;
 
+        CritBuff = 0;
+
         UpdateHpBar();
         UpdatePlayerXpBar();
         UpdatePlayerLevel();
@@ -81,6 +78,8 @@ public class Player : MovingObject
         animator = GetComponent<Animator>();
 
         scroll = FindObjectOfType<LoreScroll>();
+
+        powerup = FindObjectOfType<PowerUp>();
 
         base.Start();
 
@@ -152,10 +151,6 @@ public class Player : MovingObject
         if (dpadhorizontal != 0 || dpadvertical != 0)
             AttemptMove<MonoBehaviour>(dpadhorizontal, dpadvertical);
 
-        
-        if (Input.GetKeyUp(KeyCode.X)) //Gain XP button for testing purposes
-            GainXP(100);
-
         CheckIfGameOver();
     }
 
@@ -208,12 +203,15 @@ public class Player : MovingObject
         {
             Enemy enemy = component as Enemy;
 
+            
+
             int crit = Random.Range(1, 100);
             int critDmgModifier = 1;
-            bool isCritical = false;
+            bool isCritical = false;           
 
-            if(crit <= state.CriticalHitChance)
+            if(crit <= state.CriticalHitChance + CritBuff)
             {
+                
                 isCritical = true;
                 critDmgModifier = 2;
             }
@@ -232,7 +230,6 @@ public class Player : MovingObject
             }
 
             animator.SetTrigger("playerChop");
-
         }
     }
 
@@ -311,10 +308,7 @@ public class Player : MovingObject
         }
         else if (other.tag == "PowerUp")
         {
-            other.gameObject.SetActive(false);
-            CreateFloatingText("POWERUP", Color.blue);
-            //PowerUp powerup = FindObjectOfType<PowerUp>();
-            //powerup.QuadDamage();
+            CreateFloatingText("RAGE", Color.red);
         }
     }
 
@@ -385,7 +379,6 @@ public class Player : MovingObject
 
     public void GainXP(float xp)
     {
-        Debug.Log("MAXHITS:" + MaxHits + "State MaxHITS:" + state.MaxHits);
 
         xp = Mathf.Floor(xp * state.ExperienceGainModifier);
 

@@ -243,7 +243,7 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             int scrollCount;
-            int scrollChance = Random.Range(1, 3);
+            int scrollChance = Random.Range(1, 4);
 
             GameManager manager = FindObjectOfType<GameManager>();
 
@@ -293,9 +293,11 @@ public class BoardManager : MonoBehaviour
             LayoutObjectAtRandom(armorTiles, armorCount, armorCount);
 
             int powerupCount;
+            int powerupChance;
+            
+                powerupChance = Random.Range(1, 3);
 
-            int powerupChance = Random.Range(1, 1);
-            if (powerupChance == 1 && manager.CheckIfTutorial() == false)
+            if (powerupChance == 1 && manager.CheckIfTutorial() == false || manager.GetLevel() == 2)
                 powerupCount = 1;
             else
                 powerupCount = 0;
@@ -339,8 +341,10 @@ public class BoardManager : MonoBehaviour
         if (IsBossRoom)
         {
             GameManager manager = FindObjectOfType<GameManager>();
+
             int legendaryChance = Random.Range(1, 100);
-            if (legendaryChance <= 5 + manager.GetLevel())
+
+            if (manager.GetLevel() >= 10 && legendaryChance <= 5 + manager.GetLevel())
             {
                 Instantiate(legendarySwordTiles[0], RandomPosition(), Quaternion.identity);
             }
@@ -362,7 +366,7 @@ public class BoardManager : MonoBehaviour
         {
             GameManager manager = FindObjectOfType<GameManager>();
             int legendaryChance = Random.Range(1, 100);
-            if (legendaryChance <= 5 + manager.GetLevel())
+            if (manager.GetLevel() >= 10 && legendaryChance <= 5 + manager.GetLevel())
             {
                 Instantiate(legendaryArmorTiles[0], RandomPosition(), Quaternion.identity);
             }

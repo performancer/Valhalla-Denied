@@ -98,7 +98,7 @@ public class Inventory
                     UpdateItemCountText();
                 }
             }
-            else if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.JoystickButton3))
+            else if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.JoystickButton3))
             {
                 if (selected < items.Count)
                     items[selected].Remove();
@@ -249,7 +249,7 @@ public class Inventory
         }
         else
         {
-            uitext = "Press E to Use\nPress D to Drop\nPress Backspace to close";
+            uitext = "Press E to Use\nPress X to Drop\nPress Backspace to close";
 
         }
         SpriteManager.CreateText(UI.transform, 14, new Vector3(300, -250, 0), false).text = uitext;

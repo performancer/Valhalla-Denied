@@ -4,78 +4,85 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    PlayerState state;
-    Player player;
+    private GameObject pickupEffect;
+    private float powerupDuration = 10.0f;
 
     private bool isPowerup; //set isPoison from prefab
-    private float powerupInterval = 2;
-    private float powerupCount = 3;
-    private bool isPoweredup = false;
+    private bool isPoweredUp = false;
     private Color color;
+
+    Player player;
+    PlayerState state;
 
     public bool IsPoweredup
     {
-        get { return isPoweredup; }
+        get { return isPoweredUp; }
         set
         {
-            isPoweredup = value;
+            isPoweredUp = value;
 
-            SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+            SpriteRenderer renderer = player.GetComponent<SpriteRenderer>();
 
-            if (isPoweredup)
+            if (isPoweredUp)
             {
                 color = renderer.color;
-                renderer.color = new Color(0f, 1f, 0f, 1f);
+                renderer.color = new Color(1f, 0f, 0f, 1f);
             }
-            else
+            else if (player.IsPoisoned)
             {
                 renderer.color = color;
             }
+            else
+            {
+                renderer.color = player.OriginalColor;
+            }
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        state = GameManager.instance.PlayerState;
         player = FindObjectOfType<Player>();
+        state = GameManager.instance.PlayerState;
     }
 
-    public void QuadDamage()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("QUAD DAMAGE!");
+        if (other.CompareTag("Player"))
+        {
+            StartCoroutine(Pickup());
+        }
     }
 
-    public void Speed()
+    IEnumerator Pickup()
     {
-        
-    }
-
-    public void Protection()
-    {
-
-    }
-
-    public IEnumerator Powerup(int pDmg)
-    {
-        float powerupCounter = 0;
-
+       //Player color change
         IsPoweredup = true;
 
-        while (powerupCounter < powerupCount && IsPoweredup)
+
+        //Remove graphics and collider
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+
+        //Stat change
+        player.CritBuff = 50;
+
+        while (isPoweredUp == true)
         {
-            yield return new WaitForSeconds(powerupInterval);
 
-            state.Hits += pDmg;
-            //player.CreateFloatingText(pDmg.ToString(), Color.magenta);
+            yield return new WaitForSeconds(powerupDuration);
 
-            //player.UpdateHpBar();
+            if (GameManager.instance.paused)
+                continue;
+            IsPoweredup = false;
 
-            powerupCounter++;
+            player.CritBuff = 0;
         }
 
-        yield return new WaitForSeconds(powerupInterval);
-
-        IsPoweredup = false;
+        Destroy(gameObject);
     }
 }
+
+
+
+

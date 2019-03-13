@@ -29,10 +29,14 @@ public abstract class MovingObject : MonoBehaviour
 
     private bool isCritical;
 
+    private int critBuff;
+
     private GameObject FloatingNumberPreFab;
 
     private bool isPoisoned = false;
     private Color color;
+    private Color originalColor;
+
 
     #endregion
 
@@ -92,17 +96,43 @@ public abstract class MovingObject : MonoBehaviour
                 color = renderer.color;
                 renderer.color = new Color(0f, 1f, 0f, 1f);
             }
+            else if (PowerUpCheck())
+            {
+                color = renderer.color;
+                renderer.color = new Color(1f, 0f, 0f, 1f);
+            }
             else
             {
-                renderer.color = color;
+                renderer.color = OriginalColor;
+
             }
+
+
+
         }
+    }
+
+    public int CritBuff
+    {
+        get { return critBuff; }
+        set { critBuff = value; }
+    }
+
+    public Color OriginalColor
+    {
+        get { return originalColor; }
+        set { originalColor = value; }
     }
     #endregion
 
     protected virtual void Start()
     {
         FloatingNumberPreFab = (GameObject)Resources.Load("FloatingNumbers");
+
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+
+        originalColor = renderer.color;
 
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -240,6 +270,7 @@ public abstract class MovingObject : MonoBehaviour
         yield return new WaitForSeconds(poisonInterval);
 
         IsPoisoned = false;
+
     }
 
     public void CreateFloatingText(string text, Color color)
@@ -249,6 +280,20 @@ public abstract class MovingObject : MonoBehaviour
 
         clone.GetComponent<FloatingNumbers>().textToDisplay = text;
         clone.GetComponent<FloatingNumbers>().SetColor(color);
+    }
+
+    public bool PowerUpCheck()
+    {
+        bool powerupCheck;
+
+        if(CritBuff == 50)
+        {
+            powerupCheck = true;
+        } else
+        {
+            powerupCheck = false;
+        }
+        return powerupCheck;
     }
 
     public abstract void UpdateHpBar();

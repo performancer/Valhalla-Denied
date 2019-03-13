@@ -139,7 +139,7 @@ public class LoreScroll : MonoBehaviour
             scrollText.text = "Welcome to Valhalla Denied. You can move by "+movementText+". You can destroy walls by moving on them.\n\nTake up your weapon and armor of your past life from the ground.\n\nGo down the stairs to go deeper...";
         } else if (level == 2)
         {
-            scrollText.text = "On this floor is your first enemy.You should arm yourself.\n\nPress " + inventoryText + " to access your inventory.\n\nHit the enemy automatically by moving towards it.\n\nHeal up by eating food.";
+            scrollText.text = "On this floor is your first enemy.You should arm yourself.\n\nPress " + inventoryText + " to access your inventory.\n\nHit the enemy automatically by moving towards it.\n\nHeal up by eating food.\n\nYou can find a rage potion to even to odds";
         } else
         {
             scrollText.text = "There is a boss ahead.\n\nTake note that opening your inventory pauses the game.\n\nYou are on your own now.\n\nAre you able to escape Hell and find Valhalla?";
@@ -177,7 +177,6 @@ public class LoreScroll : MonoBehaviour
     private void ExtraCritical()
     {
         manager.PlayerState.CriticalHitChance += critGain;
-        Debug.Log("Extra Crit Chance: " + manager.PlayerState.CriticalHitChance);
 
         Player player = FindObjectOfType<Player>();
         player.CreateFloatingText("+" + critGain + "% CRIT MOD", Color.blue);
@@ -192,16 +191,12 @@ public class LoreScroll : MonoBehaviour
         player.Hits = player.MaxHits;
   
         player.UpdateHpBar();
-        Debug.Log(player.Hits + " vs " + manager.PlayerState.Hits);
         player.CreateFloatingText("+"+hpGain+" MAXHP", Color.blue);
     }
 
     private void ExtraXpGain()
     {
         manager.PlayerState.ExperienceGainModifier += xpGain;
-
-        Debug.Log("Extra XP GAIN: " + manager.PlayerState.ExperienceGainModifier);
-
         Player player = FindObjectOfType<Player>();
         player.CreateFloatingText("+" + xpGain * 100 + "% XP MOD", Color.blue);
 
