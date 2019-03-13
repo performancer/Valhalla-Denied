@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip AttackSound2;
     public AudioClip ChopSound1;
     public AudioClip ChopSound2;
+    public AudioClip Dyingsound; 
 
     public AudioClip[] clips;
 
@@ -48,7 +49,8 @@ public class SoundManager : MonoBehaviour
             AttackSound1,
             AttackSound2,
             ChopSound1,
-            ChopSound2
+            ChopSound2,
+            Dyingsound,
         };
     }
 

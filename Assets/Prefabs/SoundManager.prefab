@@ -252,4 +252,5 @@ MonoBehaviour:
   AttackSound2: {fileID: 8300000, guid: 114514a3b3697484ebaa08f7fbf842d3, type: 3}
   ChopSound1: {fileID: 8300000, guid: 4c2332bc8245b474dad63074059bb755, type: 3}
   ChopSound2: {fileID: 8300000, guid: f6aaac83be9e0493493aace800b76619, type: 3}
+  Dyingsound: {fileID: 8300000, guid: b4bfcc3b5d2ec2c4fa99c9986f5a8c46, type: 3}
   clips: []

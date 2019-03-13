@@ -127,11 +127,15 @@ public class Enemy : MovingObject
         }
 
         if (Hits <= 0)
+        {
+            SoundManager.instance.PlaySingle(11);
             OnDeath();
+        }
     }
 
     public virtual void OnDeath()
     {
+        
         if (board.IsBossRoom)
         {
             board.CreateRandomExit();
