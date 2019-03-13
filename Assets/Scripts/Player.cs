@@ -17,7 +17,6 @@ public class Player : MovingObject
     public Text playerLevelText;
 
     #region Private Fields
-    private bool facingRight = true;             //Getting the player animations starting turn.
     private bool gameover = false;
     private Animator animator;                  //Used to store a reference to the Player's animator component. 
     private PlayerState state;
@@ -94,22 +93,28 @@ public class Player : MovingObject
     private void Update()
     {
         if (!Manager.paused && Input.GetKeyUp(KeyCode.Escape)) //Opens Exit window when Esc is pressed
-            Manager.EscapeIkkuna();
-        Manager.StartCoroutine("Lopetus");
-
-        if (Manager.Escape)
         {
-           
-             if (Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
+            Manager.MainMenu();
+            return;
+        }
+        else if (Manager.Escape)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+            else if (Input.GetKeyUp(KeyCode.Return)) //On GameOver and Escape window, pressing Enter starts new game.
             {
                 Manager.RestartGame();
             }
-            else if (gameover==false && Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
+            else if (gameover == false && Input.GetKeyUp(KeyCode.Space)) //Let's player to continue game after pressing Esc
             {
                 Manager.paused = false;
                 Manager.Escape = false;
                 Manager.HideLevelImage();
             }
+
+            return;
         }
 
         if (LastMove + MoveDelay > DateTime.Now)
@@ -139,6 +144,8 @@ public class Player : MovingObject
         if (dpadhorizontal != 0)
             dpadvertical = 0;
 
+        CheckFlip();
+
         if (horizontal != 0 || vertical != 0)
             AttemptMove<MonoBehaviour>(horizontal, vertical);
 
@@ -149,25 +156,18 @@ public class Player : MovingObject
         if (Input.GetKeyUp(KeyCode.X)) //Gain XP button for testing purposes
             GainXP(100);
 
-        CheckFlip();
         CheckIfGameOver();
     }
 
     void CheckFlip() //Turning the player using Flip function.
     {
         float h = Input.GetAxis("Horizontal");
-        if (h > 0 && !facingRight)
+        if (h > 0 && Flipped)
             Flip();
-        else if (h < 0 && facingRight)
+        else if (h < 0 && !Flipped)
             Flip();
     }
-    void Flip() //Mirror function for the player animation.
-    {
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
+
     //AttemptMove overrides the AttemptMove function in the base class MovingObject
     //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
     protected override void AttemptMove<T>(int xDir, int yDir)

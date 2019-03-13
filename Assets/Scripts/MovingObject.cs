@@ -10,19 +10,19 @@ public abstract class MovingObject : MonoBehaviour
     public float poisonCount = 3;
     public int poisonDamage; //set poisonDamage from prefab
 
+    public float moveTime = 0.1f; //Time it will take object to move, in seconds.
+    public float moveDelayVar;
+
     #region Private Fields
     private BoxCollider2D boxCollider;      //The BoxCollider2D component attached to this object.
     private Rigidbody2D rb2D;               //The Rigidbody2D component attached to this object.
     private LayerMask blockingLayer;
 
-    //private readonly float moveTime = 0.1f; //0.1f default //Time it will take object to move, in seconds.
-    public float moveTime = 0.1f; //Time it will take object to move, in seconds. //Set in PreFab editor
-    public float moveDelayVar; //Set in PreFab editor
-
     private float inverseMoveTime;          //Used to make movement more efficient.
 
     private DateTime lastMove;
     private TimeSpan moveDelay;             //Delay between movements
+    private bool flipped;
 
     private int maxHits, hits;
     private int damage;
@@ -47,6 +47,11 @@ public abstract class MovingObject : MonoBehaviour
     {
         get { return moveDelay; }
         set { moveDelay = value; }
+    }
+
+    public bool Flipped
+    {
+        get { return flipped; }
     }
 
     public virtual int MaxHits
@@ -147,7 +152,11 @@ public abstract class MovingObject : MonoBehaviour
             //Find a new position proportionally closer to the end, based on the moveTime
             Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
 
-            boxCollider.offset = end - newPosition;
+            if (flipped)
+                boxCollider.offset = new Vector2(newPosition.x - end.x, end.y - newPosition.y);
+            else
+                boxCollider.offset = end - newPosition;
+
             //Call MovePosition on attached Rigidbody2D and move it to the calculated position.
             rb2D.MovePosition(newPosition);
 
@@ -163,6 +172,14 @@ public abstract class MovingObject : MonoBehaviour
 
     protected virtual void OnMovement()
     {
+    }
+
+    protected void Flip()
+    {
+        flipped = !flipped;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     //The virtual keyword means AttemptMove can be overridden by inheriting classes using the override keyword.

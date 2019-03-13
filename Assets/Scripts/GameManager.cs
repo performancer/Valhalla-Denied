@@ -27,13 +27,13 @@ public class GameManager : MonoBehaviour
     private int level = 1;                                  //Current level number
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool doingSetup = true;                         //Boolean to check if we're setting up board, prevent Player from moving during setup.
-    private bool escape = false;
+    private bool menu = false;
    
 
     public SpriteManager SpriteManager { get { return spriteManager; } }
     public PlayerState PlayerState { get { return playerState; } }
     public BoardManager BoardManager { get { return boardScript; } }
-    public bool Escape { get { return escape; } set { escape = value; } }
+    public bool Escape { get { return menu; } set { menu = value; } }
  
 
     //Awake is always called before any Start functions
@@ -187,12 +187,12 @@ public class GameManager : MonoBehaviour
         enemies.Remove(script);
     }
 
-    //ExitIkkuna is called when player press Esc. 
-    public void EscapeIkkuna()
+    //MainMenu is called when player press Esc. 
+    public void MainMenu()
     {
         levelText.text = "Want to quit?\n Press Space to continue game \n Press Esc to quit \n Press Enter to Start new game";
 
-        escape = true;
+        menu = true;
         paused = true;
 
         levelImage.SetActive(true);
@@ -203,26 +203,14 @@ public class GameManager : MonoBehaviour
     {
         //Set levelText to display number of levels passed and game over message
         levelText.text = "After " + level + " levels, you died. \n Press Esc to quit \n Press Enter to start new game";
-        escape = true;
+        menu = true;
         paused = true;
-      
-        
-       
-
+     
         //Enable black background image gameObject.
         levelImage.SetActive(true);
 
         //Disable this GameManager.
         enabled = false;
-
-    }
-    public IEnumerator Lopetus()
-    {
-        yield return new WaitForSeconds(2);
-        if (paused && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
     }
 
     //Coroutine to move enemies in sequence.
@@ -260,7 +248,7 @@ public class GameManager : MonoBehaviour
 
         SoundManager.instance.musicSource.Play();
         enabled = true;
-        escape = false;
+        menu = false;
         SceneManager.LoadScene(0);
     }
 }
