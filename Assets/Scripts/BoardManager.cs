@@ -302,7 +302,6 @@ public class BoardManager : MonoBehaviour
 
             LayoutObjectAtRandom(powerupTiles, powerupCount, powerupCount);
 
-
             //Instantiate the exit tile in random position
             CreateRandomExit();
         }
@@ -312,6 +311,8 @@ public class BoardManager : MonoBehaviour
     {
         Vector3 position;
 
+        //not very reliable but it should do it's work unless there's just no space for the door anywhere, which is almost impossible with current settings
+        //this has to go since project is due tomorrow :)
         while (true)
         {
             bool retry = false;
@@ -330,7 +331,7 @@ public class BoardManager : MonoBehaviour
                 break;
         }
 
-        Instantiate(exit, RandomPosition(), Quaternion.identity);
+        Instantiate(exit, position, Quaternion.identity);
     }
 
     public void CreateSword()
